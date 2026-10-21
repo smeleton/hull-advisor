@@ -168,8 +168,9 @@ def coproduct_inputs(outlets: dict[str, Outlet]) -> dict[str, float]:
 
 
 def outlet_overrides(outlets: dict[str, Outlet]) -> dict[str, Override]:
-    st.markdown("**Outlet assumptions.** Edit *Your price*, miles, or processing cost; "
-                "anything you change is treated as 🔵 user data.")
+    st.markdown("**Outlet assumptions.** Edit *Your price*, miles, or processing cost. "
+                "Tier columns describe the default values; anything you change is treated "
+                "as 🔵 user data.")
     edited = st.data_editor(
         outlet_editor_frame(outlets),
         key="outlet_editor",
@@ -185,10 +186,15 @@ def outlet_overrides(outlets: dict[str, Outlet]) -> dict[str, Override]:
             COL_PROCESSING: st.column_config.NumberColumn(min_value=0.0, format="$%.0f"),
         },
     )
-    cp_prices = coproduct_inputs(outlets)
+    return overrides_from_rows(edited.to_dict("records"), outlets, coproduct_inputs(outlets))
 
+
+def overrides_from_rows(
+    rows: list[dict[str, Any]], outlets: dict[str, Outlet], cp_prices: dict[str, float]
+) -> dict[str, Override]:
+    """Turn edited outlet-table rows into overrides; values equal to the defaults are ignored."""
     overrides: dict[str, Override] = {}
-    for r in edited.to_dict("records"):
+    for r in rows:
         o = outlets[r["outlet_id"]]
         price = None if is_missing(r[COL_YOUR_PRICE]) else float(r[COL_YOUR_PRICE])
         miles = edited_value(r[COL_MILES], o.default_miles)

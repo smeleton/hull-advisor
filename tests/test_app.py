@@ -1,8 +1,12 @@
 """Smoke tests: the Streamlit page renders without errors and shows the key pieces."""
 
+import pytest
 from streamlit.testing.v1 import AppTest
 
+from app import outlet_editor_frame, overrides_from_rows
 from biocycle.config import PLACEHOLDER_BANNER
+from biocycle.data import load_outlets, load_sources
+from biocycle.valuation import Lot, evaluate
 
 
 def run_app() -> AppTest:
@@ -44,3 +48,43 @@ def test_sources_tab_lists_all_sources():
     text = all_text(run_app())
     for sid in ("giannini2026", "wcngg2022", "farmprogress_low", "abc_food2025", "gras2026"):
         assert sid in text
+
+
+# ---------- editor rows -> overrides (AppTest cannot drive st.data_editor) ----------
+
+
+@pytest.fixture
+def real_outlets():
+    return load_outlets(load_sources())
+
+
+def edited_rows(outlets, outlet_id, **changes):
+    rows = outlet_editor_frame(outlets).to_dict("records")
+    for r in rows:
+        if r["outlet_id"] == outlet_id:
+            r.update(changes)
+    return rows
+
+
+def test_unedited_table_gives_no_overrides(real_outlets):
+    assert overrides_from_rows(edited_rows(real_outlets, "local_dairy"), real_outlets, {}) == {}
+
+
+def test_buyer_quote_makes_food_ingredient_rankable(real_outlets):
+    rows = edited_rows(real_outlets, "food_ingredient", **{"Your price $/t": 200.0})
+    overrides = overrides_from_rows(rows, real_outlets, {})
+    assert set(overrides) == {"food_ingredient"}
+    df = evaluate(Lot(tons=1000), real_outlets, overrides).set_index("outlet_id")
+    food = df.loc["food_ingredient"]
+    assert not food.needs_quote
+    assert food.input_tiers["price"] == "user"
+    assert food.net_expected == pytest.approx(110)  # 200 - 60 - 0.30 x 100
+    assert food["rank"] < df.loc["distant_dairy", "rank"]
+
+
+def test_edited_miles_become_user_override(real_outlets):
+    rows = edited_rows(real_outlets, "local_dairy", **{"Miles (one-way)": 35.0})
+    overrides = overrides_from_rows(rows, real_outlets, {})
+    assert overrides["local_dairy"].miles == 35.0
+    df = evaluate(Lot(tons=1000), real_outlets, overrides).set_index("outlet_id")
+    assert df.loc["local_dairy"].input_tiers["miles"] == "user"
