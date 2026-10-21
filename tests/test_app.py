@@ -7,7 +7,7 @@ from streamlit.testing.v1 import AppTest
 
 from app import outlet_editor_frame, overrides_from_rows
 from biocycle.config import PLACEHOLDER_BANNER
-from biocycle.data import load_outlets, load_sources
+from biocycle.data import load_buyers, load_outlets, load_sources
 from biocycle.valuation import Lot, evaluate
 
 
@@ -146,3 +146,41 @@ def test_report_tab_shows_llm_error(fake_llm):
     at.button(key="generate_report").click().run()
     assert not at.exception
     assert any("declined" in e.value for e in at.error)
+
+
+# ---------- buyers tab ----------
+
+
+def test_buyers_tab_shows_allocation():
+    at = run_app()
+    assert not at.exception
+    metrics = {m.label: m.value for m in at.metric}
+    assert metrics["Best total value"] == "$86,575"  # 150x90 + 400x86.5 + 450x85.5
+    assert metrics["Tons allocated"] == "1,000 of 1,000"
+    assert metrics["Value of one more ton of hulls"] == "$85.50/t"
+
+
+def test_buyers_from_rows_tiers_and_validation(real_outlets):
+    from app import BUYER_COLS, buyers_from_rows
+
+    sample = load_buyers(real_outlets)
+    rows = [{c: getattr(b, c) for c in BUYER_COLS} for b in sample]
+    rows[0]["price_per_ton"] = 95.0  # edited -> user
+    rows.append({"buyer": None, "outlet_id": None, "price_per_ton": None, "max_tons": None,
+                 "miles": None, "notes": None})  # blank new row -> skipped
+    rows.append({"buyer": "My Buyer", "outlet_id": "nope", "price_per_ton": 1.0,
+                 "max_tons": 1.0, "miles": 1.0, "notes": ""})
+    rows.append({"buyer": "Neg", "outlet_id": "bioenergy", "price_per_ton": -1.0,
+                 "max_tons": 1.0, "miles": 1.0, "notes": ""})
+    buyers, tiers, errors = buyers_from_rows(rows, real_outlets, sample)
+    assert len(buyers) == 6
+    assert tiers == ["user"] + ["placeholder"] * 5
+    assert len(errors) == 2
+    assert "Row 8" in errors[0] and "Row 9 (Neg)" in errors[1]
+
+
+def test_money_rounds_halves_up():
+    from app import money
+    assert money(86.5) == "$87" and money(85.5) == "$86"
+    assert money(-0.4) == "$0" and money(-29.0, signed=True) == "−$29"
+    assert money(85.5, decimals=2) == "$85.50"

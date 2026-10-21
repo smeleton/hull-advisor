@@ -60,6 +60,21 @@ JSON payload of the computed results. It never does the math.
   (`fallbacks="default"`), so a safety-classifier decline is retried on another model; the
   cost estimate prices each model's tokens at its own rate.
 
+## Buyer allocation (Buyers tab)
+
+Splits the lot across specific buyers with a linear program
+(`scipy.optimize.linprog`, HiGHS):
+
+```
+maximize   Σ net_b × tons_b          net_b = quote − processing − haul rate × miles + coproducts
+subject to Σ tons_b ≤ lot tons,  0 ≤ tons_b ≤ buyer max tons
+```
+
+Processing and coproduct values come from the buyer's outlet (including your edits on the
+Compare tab). Buyers whose outlet fails a quality check get no tons. The tab shows tons and value
+per buyer, the best total, and from the HiGHS duals: the value of one more ton of hulls and of
+one more ton of each buyer's capacity. Sample buyers are fictional; their quotes are placeholders.
+
 ## Layout
 
 ```
@@ -69,6 +84,7 @@ biocycle/data.py       YAML/CSV loaders and validation
 biocycle/valuation.py  net value, ranges, break-even, flags, tiers
 biocycle/llm.py        Claude wrapper: retries, refusal handling, token + cost logging
 biocycle/report.py     report payload, system prompt, number guardrail
+biocycle/allocation.py buyer allocation LP and dual values
 data/                  sources.yaml, outlets.yaml, buyers_sample.csv
 tests/                 pytest suite
 ```

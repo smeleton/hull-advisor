@@ -22,7 +22,8 @@ from biocycle.config import (
     HAUL_RATE_SOURCE,
     PLACEHOLDER_BANNER,
 )
-from biocycle.data import Outlet, Source, load_outlets, load_sources
+from biocycle.allocation import Allocation, allocate
+from biocycle.data import Buyer, Outlet, Source, load_buyers, load_outlets, load_sources
 from biocycle.llm import LLMError, LLMResult
 from biocycle.report import (
     build_payload,
@@ -64,12 +65,12 @@ def md(text: str) -> str:
     return text.replace("$", "\\$")
 
 
-def money(x: float | None, signed: bool = False) -> str:
+def money(x: float | None, signed: bool = False, decimals: int = 0) -> str:
     if is_missing(x):
         return "—"
-    r = round(x)
-    sign = "−" if r < 0 else ("+" if signed and r > 0 else "")
-    return f"{sign}${abs(r):,.0f}"
+    q = round(abs(x) + 1e-9, decimals)  # round halves up, not to even
+    sign = "" if q == 0 else ("−" if x < 0 else ("+" if signed else ""))
+    return f"{sign}${q:,.{decimals}f}"
 
 
 def default_price_text(o: Outlet, outlets: dict[str, Outlet]) -> str:
@@ -415,6 +416,117 @@ def spend_summary(calls: list[LLMResult]) -> str:
             f"{len(calls)} call(s) · {tokens:,} tokens (estimated from list prices)")
 
 
+# ---------- tab 4: buyers ----------
+
+BUYER_COLS = ["buyer", "outlet_id", "price_per_ton", "max_tons", "miles", "notes"]
+
+
+@st.cache_data
+def load_sample_buyers() -> list[Buyer]:
+    return load_buyers(load_data()[1])
+
+
+def buyer_key(b: Buyer) -> tuple:
+    return (b.buyer, b.outlet_id, b.price_per_ton, b.max_tons, b.miles)
+
+
+def buyers_from_rows(
+    rows: list[dict[str, Any]], outlets: dict[str, Outlet], sample: list[Buyer]
+) -> tuple[list[Buyer], list[str], list[str]]:
+    """(buyers, tiers, errors) from edited table rows. Unchanged sample rows stay placeholder."""
+    sample_keys = {buyer_key(b) for b in sample}
+    buyers, tiers, errors = [], [], []
+    for i, r in enumerate(rows, start=1):
+        values = [r.get(c) for c in BUYER_COLS[:5]]
+        if all(is_missing(v) or v == "" for v in values):
+            continue  # blank row added in the editor
+        name = str(r.get("buyer") or "").strip()
+        nums = [r.get(c) for c in ("price_per_ton", "max_tons", "miles")]
+        if not name or r.get("outlet_id") not in outlets or any(is_missing(v) for v in nums):
+            errors.append(f"Row {i}: needs a buyer name, an outlet, a price, max tons and miles.")
+            continue
+        price, max_tons, miles = (float(v) for v in nums)
+        if min(price, max_tons, miles) < 0:
+            errors.append(f"Row {i} ({name}): price, max tons and miles can't be negative.")
+            continue
+        b = Buyer(name, r["outlet_id"], price, max_tons, miles, str(r.get("notes") or ""))
+        buyers.append(b)
+        tiers.append("placeholder" if buyer_key(b) in sample_keys else "user")
+    return buyers, tiers, errors
+
+
+def allocation_table(alloc: Allocation) -> pd.DataFrame:
+    t = alloc.table
+    return pd.DataFrame({
+        "Buyer": t["buyer"],
+        "Outlet": t["outlet"],
+        "Quote $/t": t["price_per_ton"].map(money),
+        "Net $/t": t["margin_per_ton"].map(lambda x: money(x, decimals=2)),
+        "Capacity (t)": t["max_tons"].map(lambda x: f"{x:,.0f}"),
+        "Tons allocated": t["tons"].map(lambda x: f"{x:,.0f}"),
+        "Value": t["value"].map(money),
+        "+1 t capacity worth": t["capacity_marginal"].map(lambda x: money(x, decimals=2)),
+        "Data": t["buyer_tier"].map(TIER_BADGE),
+        "Note": ["ineligible (quality)" if not ok else "" for ok in t["eligible"]],
+    })
+
+
+def buyers_tab(lot: Lot, results: pd.DataFrame, outlets: dict[str, Outlet]) -> Allocation | None:
+    st.markdown(
+        "Split this lot across specific buyers to earn the most in total. Sample buyers are "
+        "**fictional** and their quotes are 🟠 placeholders. Edit, add or delete rows; changed "
+        "rows count as 🔵 user data."
+    )
+    sample = load_sample_buyers()
+    edited = st.data_editor(
+        pd.DataFrame([{c: getattr(b, c) for c in BUYER_COLS} for b in sample]),
+        key="buyer_editor",
+        num_rows="dynamic",
+        hide_index=True,
+        width="stretch",
+        column_config={
+            "buyer": st.column_config.TextColumn("Buyer", required=True),
+            "outlet_id": st.column_config.SelectboxColumn(
+                "Outlet", options=list(outlets), required=True,
+                format_func=lambda oid: outlets[oid].name),
+            "price_per_ton": st.column_config.NumberColumn("Quote $/t", min_value=0.0,
+                                                           format="$%.0f"),
+            "max_tons": st.column_config.NumberColumn("Max tons", min_value=0.0, format="%.0f"),
+            "miles": st.column_config.NumberColumn("Miles (one-way)", min_value=0.0,
+                                                   format="%.0f"),
+            "notes": st.column_config.TextColumn("Notes"),
+        },
+    )
+    buyers, tiers, errors = buyers_from_rows(edited.to_dict("records"), outlets, sample)
+    for e in errors:
+        st.warning(e)
+    if not buyers:
+        st.info("Add at least one buyer to see an allocation.")
+        return None
+
+    alloc = allocate(buyers, lot, results, tiers)
+    st.divider()
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Best total value", money(alloc.total_value),
+              help=f"Data tier: {TIER_BADGE[alloc.result_tier]}")
+    c2.metric("Tons allocated", f"{alloc.tons_allocated:,.0f} of {lot.tons:,.0f}")
+    c3.metric("Value of one more ton of hulls", f"{money(alloc.hull_marginal, decimals=2)}/t")
+    local_total = results.loc[results["is_baseline"], "total_expected"].iloc[0]
+    st.caption(md(f"For comparison, selling the whole lot to the local dairy at its expected "
+                  f"price earns {money(local_total)}."))
+    if alloc.tons_unallocated > 1e-6:
+        st.info(f"{alloc.tons_unallocated:,.0f} tons are not allocated: no remaining buyer "
+                "capacity pays a positive net value.")
+    st.dataframe(allocation_table(alloc), hide_index=True, width="stretch")
+    st.caption(md(
+        "Net $/t = quote − the outlet's processing cost − hauling (haul rate × miles) + any "
+        "coproduct value. **+1 t capacity worth**: how much the best total would rise if that "
+        "buyer could take one more ton (the LP's dual value); $0 means that buyer isn't the "
+        "bottleneck. Buyers whose outlet fails a quality check get no tons."
+    ))
+    return alloc
+
+
 # ---------- tab 5: sources ----------
 
 
@@ -456,11 +568,11 @@ def main() -> None:
     with tab_report:
         report_tab(lot, results, sources)
     with tab_buyers:
-        st.info("Buyer table and allocation — coming in Phase 4.")
+        alloc = buyers_tab(lot, results, outlets)
     with tab_sources:
         sources_tab(sources, outlets)
 
-    if any_placeholder(results):
+    if any_placeholder(results) or (alloc is not None and alloc.result_tier == "placeholder"):
         banner.warning(PLACEHOLDER_BANNER, icon="⚠️")
     spend.markdown(spend_summary(st.session_state.get("llm_calls", [])))
 

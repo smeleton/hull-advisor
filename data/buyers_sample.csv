@@ -1,6 +1,6 @@
 buyer,outlet_id,price_per_ton,max_tons,miles,notes
 Example Dairy A,local_dairy,90,600,15,Fictional buyer for demo
-Example Dairy B,local_dairy,96,400,35,Fictional buyer for demo
+Example Dairy B,local_dairy,97,400,35,Fictional buyer for demo
 Example Feedlot C,distant_dairy,130,800,250,Fictional buyer for demo (long haul)
 Example Food Processor D,food_ingredient,180,150,100,Fictional buyer for demo; quote is a placeholder
 Example Compost Co. E,compost_soil,30,1000,25,Fictional buyer for demo
