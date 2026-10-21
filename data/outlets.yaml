@@ -1,0 +1,128 @@
+# Outlets for a lot of almond hulls. All prices $/ton of hulls as delivered; miles one-way.
+# Every number has a tier: sourced (see sources.yaml), user, or placeholder (made up for the demo).
+# price_from: inherit another outlet's price range (and its tier); price_premium is added on top.
+
+- id: local_dairy
+  name: Sell to local dairy
+  description: Baseline. Sell the hulls as-is into a nearby dairy ration.
+  status: established
+  market: feed
+  price_low: 76
+  price_high: 106
+  price_tier: sourced
+  processing_cost_per_ton: 0
+  processing_tier: sourced
+  default_miles: 20
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "Meets the CDFA hull feed standard: crude fiber below 15% [wcngg2022]."
+  risks:
+    - "Price volatility: from a ~$60/ton slump to $130/ton in recent years [farmprogress_low, wcngg2022]."
+    - "About 97% of hulls already go to dairy rations, so buyers have leverage [farmprogress_low]."
+  source_ids: [giannini2026, wcngg2022, farmprogress_low]
+
+- id: distant_dairy
+  name: Ship to a distant dairy market
+  description: Same feed product, shipped to a farther market that may pay more (e.g. rail to Texas).
+  status: established
+  market: feed
+  price_from: local_dairy
+  price_premium: 40          # PLACEHOLDER premium over the local price
+  premium_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: sourced
+  default_miles: 250
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "Meets the CDFA hull feed standard: crude fiber below 15% [wcngg2022]."
+    - "Access to long-haul truck or rail logistics."
+  risks:
+    - "Precedent exists for rail shipments to Texas, but the premium is not guaranteed [farmprogress_low]."
+    - "Freight cost can erase the premium."
+  source_ids: [farmprogress_low, wcngg2022]
+
+- id: clean_and_recover
+  name: Clean, recover kernels, then sell to local dairy
+  description: Clean the hull pile to recover leftover kernel, then sell the cleaned hulls to the local dairy.
+  status: emerging
+  market: feed
+  price_from: local_dairy
+  processing_cost_per_ton: 10   # PLACEHOLDER cleaning cost
+  processing_tier: placeholder
+  default_miles: 20
+  miles_tier: placeholder
+  coproducts:
+    - name: Recovered kernel
+      yield_low: 0.010
+      yield_high: 0.013
+      yield_tier: sourced
+      unit_price_per_lb: 1.00   # PLACEHOLDER; recovered kernels may grade lower
+      unit_price_tier: placeholder
+      source_ids: [abc_food2025]
+  requirements:
+    - "Cleaned hulls still meet the feed standard (crude fiber below 15%) [wcngg2022]."
+    - "Access to cleaning and kernel-recovery equipment."
+  risks:
+    - "Recovered kernels may grade lower than standard kernels."
+    - "Cleaning cost is a demo placeholder; get an equipment or toll-cleaning quote."
+  source_ids: [abc_food2025, giannini2026]
+
+- id: food_ingredient
+  name: Hull powder food ingredient
+  description: Process hulls into a powder for human food. Judged GRAS; the market is still emerging.
+  status: emerging
+  market: food
+  price_low: null
+  price_high: null
+  price_tier: placeholder
+  processing_cost_per_ton: 60   # PLACEHOLDER
+  processing_tier: placeholder
+  default_miles: 100            # PLACEHOLDER
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "Food-grade handling and processing."
+    - "Buyer quote (no public market price yet)."
+  risks:
+    - "Emerging market with no public price [gras2026]."
+  source_ids: [gras2026]
+
+- id: compost_soil
+  name: Compost or soil amendment
+  description: Sell or use hulls as a compost feedstock or soil amendment.
+  status: experimental
+  market: soil
+  price_low: 20                 # PLACEHOLDER
+  price_high: 40                # PLACEHOLDER
+  price_tier: placeholder
+  processing_cost_per_ton: 5    # PLACEHOLDER
+  processing_tier: placeholder
+  default_miles: 30             # PLACEHOLDER
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "A composter or grower willing to take the material."
+  risks:
+    - "All values are demo placeholders."
+  source_ids: []
+
+- id: bioenergy
+  name: Bioenergy feedstock
+  description: Sell hulls as fuel or feedstock for a biomass or bioenergy facility.
+  status: experimental
+  market: energy
+  price_low: 25                 # PLACEHOLDER
+  price_high: 45                # PLACEHOLDER
+  price_tier: placeholder
+  processing_cost_per_ton: 0    # PLACEHOLDER
+  processing_tier: placeholder
+  default_miles: 60             # PLACEHOLDER
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "A biomass facility within hauling range."
+  risks:
+    - "All values are demo placeholders."
+  source_ids: []
