@@ -59,6 +59,11 @@ def is_missing(x: Any) -> bool:
     return x is None or (isinstance(x, float) and math.isnan(x))
 
 
+def md(text: str) -> str:
+    """Escape $ for Streamlit markdown, which otherwise renders $...$ as LaTeX math."""
+    return text.replace("$", "\\$")
+
+
 def money(x: float | None, signed: bool = False) -> str:
     if is_missing(x):
         return "—"
@@ -90,8 +95,8 @@ def lot_inputs() -> Lot:
         "All math is deterministic; every number is tagged as 🟢 sourced, 🔵 entered by you, "
         "or 🟠 a demo placeholder."
     )
-    st.caption("Units: US short tons (2,000 lb) of hulls as delivered · prices in $/ton · "
-               "distances in one-way miles.")
+    st.caption(md("Units: US short tons (2,000 lb) of hulls as delivered · prices in $/ton · "
+                  "distances in one-way miles."))
     c1, c2 = st.columns(2)
     tons = c1.number_input("Tons of hulls in this lot", min_value=1.0, value=1000.0,
                            step=50.0, key="tons")
@@ -99,11 +104,11 @@ def lot_inputs() -> Lot:
     haul = c2.number_input(
         "Hauling rate ($ per ton-mile)", min_value=0.0, value=DEFAULT_HAUL_RATE, step=0.01,
         format="%.2f", key="haul_rate",
-        help=f"Default ${DEFAULT_HAUL_RATE:.2f}; illustrative sourced range "
-             f"${lo:.2f}–{hi:.2f} [{HAUL_RATE_SOURCE}].",
+        help=md(f"Default ${DEFAULT_HAUL_RATE:.2f}; illustrative sourced range "
+                f"${lo:.2f}–{hi:.2f} [{HAUL_RATE_SOURCE}]."),
     )
     if not lo <= haul <= hi:
-        c2.caption(f"Outside the sourced range ${lo:.2f}–{hi:.2f}/ton-mile.")
+        c2.caption(md(f"Outside the sourced range ${lo:.2f}–{hi:.2f}/ton-mile."))
 
     st.subheader("Quality (optional)")
     c3, c4, c5 = st.columns(3)
@@ -316,7 +321,7 @@ def headline(df: pd.DataFrame, tons: float) -> None:
 def quality_summary(df: pd.DataFrame) -> None:
     flags = sorted({f for fs in df["flags"] for f in fs if f != "needs quote"})
     if flags:
-        st.warning("**Quality checks for this lot**\n\n" + "\n".join(f"- {f}" for f in flags))
+        st.warning(md("**Quality checks for this lot**\n\n" + "\n".join(f"- {f}" for f in flags)))
 
 
 def outlet_details(df: pd.DataFrame, sources: dict[str, Source]) -> None:
@@ -324,23 +329,23 @@ def outlet_details(df: pd.DataFrame, sources: dict[str, Source]) -> None:
     for _, r in df.iterrows():
         with st.expander(f"{r['rank']}. {r['name']} — {TIER_BADGE[r['result_tier']]}"):
             if r["needs_quote"]:
-                st.info(f"{NO_QUOTE_TEXT} To beat selling locally, a quote must exceed "
-                        f"**{money(r['break_even_price'])}/ton**.")
+                st.info(md(f"{NO_QUOTE_TEXT} To beat selling locally, a quote must exceed "
+                           f"**{money(r['break_even_price'])}/ton**."))
             else:
-                st.markdown(
+                st.markdown(md(
                     f"Price {money(r['price_low'])}–{money(r['price_high'])} − processing "
                     f"{money(r['processing_cost'])} − hauling {money(r['haul_cost'])} "
                     f"({r['miles']:,.0f} mi) + coproducts {money(r['coproduct_low'])}–"
                     f"{money(r['coproduct_high'])} = **{money(r['net_low'])} to "
                     f"{money(r['net_high'])}/ton**. Break-even price vs. local: "
                     f"{money(r['break_even_price'])}/ton."
-                )
+                ))
             for f in r["flags"]:
                 if f != "needs quote":
-                    st.markdown(f"- {f}")
+                    st.markdown(md(f"- {f}"))
             c1, c2 = st.columns(2)
-            c1.markdown("**Requirements**\n\n" + "\n".join(f"- {x}" for x in r["requirements"]))
-            c2.markdown("**Risks**\n\n" + "\n".join(f"- {x}" for x in r["risks"]))
+            c1.markdown(md("**Requirements**\n\n" + "\n".join(f"- {x}" for x in r["requirements"])))
+            c2.markdown(md("**Risks**\n\n" + "\n".join(f"- {x}" for x in r["risks"])))
             st.markdown("**Input data tiers:** " + " · ".join(
                 f"{k} {TIER_BADGE[v]}" for k, v in r["input_tiers"].items()))
             if r["source_ids"]:
@@ -386,7 +391,7 @@ def report_tab(lot: Lot, results: pd.DataFrame, sources: dict[str, Source]) -> N
     if report.payload != build_payload(lot, results, sources):
         st.info("Inputs have changed since this report was written. Generate it again to update.")
     if report.unmatched:
-        nums = ", ".join(n.text for n in report.unmatched).replace("$", "\\$")
+        nums = md(", ".join(n.text for n in report.unmatched))
         st.warning(f"**Number check failed** for {len(report.unmatched)} number(s): {nums}. "
                    "They don't match the computed results and are highlighted in red below. "
                    "Don't rely on them.")
@@ -419,7 +424,7 @@ def sources_tab(sources: dict[str, Source], outlets: dict[str, Outlet]) -> None:
     for s in sources.values():
         cited_by = [o.name for o in outlets.values()
                     if s.id in o.source_ids or any(s.id in c.source_ids for c in o.coproducts)]
-        st.markdown(f"**[{s.title}]({s.url})** `{s.id}`  \n{s.what_it_supports}")
+        st.markdown(f"**[{md(s.title)}]({s.url})** `{s.id}`  \n{md(s.what_it_supports)}")
         if cited_by:
             st.caption("Used by: " + ", ".join(cited_by))
 

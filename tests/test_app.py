@@ -1,5 +1,7 @@
 """Smoke tests: the Streamlit page renders without errors and shows the key pieces."""
 
+import re
+
 import pytest
 from streamlit.testing.v1 import AppTest
 
@@ -42,6 +44,17 @@ def test_kernel_price_edit_changes_result():
     assert not at.exception
     # With no kernel value, cleaning costs $10/t and selling locally wins.
     assert at.metric[0].value == "Sell to local dairy"
+
+
+def test_no_unescaped_dollars_in_markdown():
+    """Streamlit renders $...$ as LaTeX, so markdown text must escape every $."""
+    at = run_app()
+    at.number_input(key="crude_fiber").set_value(16.0).run()
+    unescaped = re.compile(r"(?<!\\)\$")
+    texts = [str(e.value) for kind in ("markdown", "caption", "info", "warning", "error", "success")
+             for e in getattr(at, kind)]
+    texts += [ni.help for ni in at.number_input if ni.help]
+    assert [t[:80] for t in texts if unescaped.search(t)] == []
 
 
 def test_sources_tab_lists_all_sources():

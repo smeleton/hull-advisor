@@ -195,3 +195,21 @@ def test_cost_sums_fallback_iterations_at_each_models_rate():
     ])
     # 100 x $2/M + (200 x $4/M + 300 x $20/M)
     assert estimate_cost(usage, "claude-sonnet-5-5") == pytest.approx(0.0002 + 0.0008 + 0.006)
+
+
+def test_missing_credentials_become_llm_error(setup):
+    class NoCreds:
+        beta = SimpleNamespace(messages=SimpleNamespace(create=lambda **kw: (_ for _ in ()).throw(
+            TypeError("Could not resolve authentication method. Expected one of api_key"))))
+
+    with pytest.raises(LLMError, match="No Claude credentials"):
+        generate_report(*setup, client=NoCreds())
+
+
+def test_other_type_errors_are_not_masked(setup):
+    class Buggy:
+        beta = SimpleNamespace(messages=SimpleNamespace(create=lambda **kw: (_ for _ in ()).throw(
+            TypeError("unexpected keyword argument 'foo'"))))
+
+    with pytest.raises(TypeError, match="foo"):
+        generate_report(*setup, client=Buggy())

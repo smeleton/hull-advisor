@@ -119,7 +119,9 @@ def complete(
         raise LLMError(f"Claude API error {e.status_code}: {e.message}") from e
     except anthropic.APIConnectionError as e:
         raise LLMError("Could not reach the Claude API. Check your network.") from e
-    except TypeError as e:  # no credentials resolvable at all
+    except TypeError as e:  # the SDK raises TypeError when no credentials resolve at all
+        if "authentication" not in str(e):
+            raise
         raise LLMError("No Claude credentials found. Set ANTHROPIC_API_KEY in .env.") from e
 
     usage = response.usage
