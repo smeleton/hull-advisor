@@ -45,6 +45,21 @@ net = price − processing_cost − r × miles + coproduct value per ton
   price tells you what quote would beat selling locally.
 - If crude fiber is ≥ 15%, feed outlets are flagged ineligible and ranked below eligible ones.
 
+## AI report (Report tab)
+
+Claude (`claude-sonnet-5-5`, set in `biocycle/config.py`) writes a plain-English report from a
+JSON payload of the computed results. It never does the math.
+
+- **Number guardrail:** every number in the report is extracted and must match a payload number,
+  within the precision it is written at (`$98,000` may round 97,850; `$41,250` must be exact to
+  ±$5). Unmatched numbers are highlighted in red and listed at the top of the download.
+- **Spend:** `biocycle/llm.py` is the single Claude wrapper. It retries 429/5xx/connection errors
+  (SDK, 3 retries) and logs tokens and estimated cost to `logs/llm_usage.jsonl`. The sidebar shows
+  this session's spend.
+- **Refusal fallback:** requests opt into Anthropic's server-side fallback
+  (`fallbacks="default"`), so a safety-classifier decline is retried on another model; the
+  cost estimate prices each model's tokens at its own rate.
+
 ## Layout
 
 ```
@@ -52,6 +67,8 @@ app.py                 Streamlit page (tabs: Your lot, Compare options, Report, 
 biocycle/config.py     model name, units, defaults
 biocycle/data.py       YAML/CSV loaders and validation
 biocycle/valuation.py  net value, ranges, break-even, flags, tiers
+biocycle/llm.py        Claude wrapper: retries, refusal handling, token + cost logging
+biocycle/report.py     report payload, system prompt, number guardrail
 data/                  sources.yaml, outlets.yaml, buyers_sample.csv
 tests/                 pytest suite
 ```

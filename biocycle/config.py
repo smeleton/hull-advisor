@@ -5,8 +5,24 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
 
-# LLM (Phase 3 adds token prices after checking current pricing).
+# LLM. All calls go through biocycle.llm.
 MODEL = "claude-sonnet-5-5"
+REPORT_EFFORT = "medium"  # low | medium | high | xhigh | max
+REPORT_MAX_TOKENS = 16000
+LLM_MAX_RETRIES = 3  # SDK retries 408/409/429/5xx and connection errors with backoff
+LLM_TIMEOUT_S = 180.0
+# Server-side refusal fallback (Claude API only): routes a declined request to another model.
+LLM_FALLBACK_BETA = "server-side-fallback-2026-07-01"
+LLM_USAGE_LOG = ROOT_DIR / "logs" / "llm_usage.jsonl"
+
+# Anthropic list prices, $ per million tokens (input, output), as of 2026-10.
+# Cache writes bill at 1.25x input, cache reads at 0.1x input.
+TOKEN_PRICES_PER_MTOK: dict[str, tuple[float, float]] = {
+    "claude-sonnet-5-5": (2.00, 10.00),
+    "claude-opus-5-5": (4.00, 20.00),
+    "claude-fable-5-1": (10.00, 50.00),
+    "claude-haiku-5-5": (0.10, 0.50),
+}
 
 # Units: US short tons of hulls as delivered.
 LB_PER_TON = 2000

@@ -88,3 +88,48 @@ def test_edited_miles_become_user_override(real_outlets):
     assert overrides["local_dairy"].miles == 35.0
     df = evaluate(Lot(tons=1000), real_outlets, overrides).set_index("outlet_id")
     assert df.loc["local_dairy"].input_tiers["miles"] == "user"
+
+
+# ---------- report tab (fake LLM client, no network) ----------
+
+
+@pytest.fixture
+def fake_llm(monkeypatch, tmp_path):
+    import biocycle.llm as llm
+    from tests.test_report import GOOD_REPORT, FakeClient
+
+    monkeypatch.setattr(llm, "LLM_USAGE_LOG", tmp_path / "usage.jsonl")
+
+    def use(text=GOOD_REPORT, stop_reason="end_turn"):
+        monkeypatch.setattr(llm, "make_client", lambda: FakeClient(text, stop_reason))
+
+    return use
+
+
+def test_report_tab_generates_and_checks_numbers(fake_llm):
+    fake_llm()
+    at = run_app()
+    assert "none yet" in at.sidebar.markdown[-1].value
+    at.button(key="generate_report").click().run()
+    assert not at.exception
+    assert any("Number check passed" in s.value for s in at.success)
+    assert any("## Recommendation" in m.value for m in at.markdown)
+    assert "\\$0.0070" in at.sidebar.markdown[-1].value
+
+
+def test_report_tab_highlights_fake_number(fake_llm):
+    from tests.test_report import GOOD_REPORT
+
+    fake_llm(GOOD_REPORT + "\nYou could also earn $41,250.")
+    at = run_app()
+    at.button(key="generate_report").click().run()
+    assert any("Number check failed" in w.value for w in at.warning)
+    assert any(":red-background[\\$41,250]" in m.value for m in at.markdown)
+
+
+def test_report_tab_shows_llm_error(fake_llm):
+    fake_llm("", stop_reason="refusal")
+    at = run_app()
+    at.button(key="generate_report").click().run()
+    assert not at.exception
+    assert any("declined" in e.value for e in at.error)

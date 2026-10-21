@@ -23,6 +23,13 @@ from biocycle.config import (
     PLACEHOLDER_BANNER,
 )
 from biocycle.data import Outlet, Source, load_outlets, load_sources
+from biocycle.llm import LLMError, LLMResult
+from biocycle.report import (
+    build_payload,
+    generate_report,
+    report_download,
+    to_streamlit_markdown,
+)
 from biocycle.valuation import Lot, Override, any_placeholder, evaluate
 
 TIER_BADGE = {"sourced": "🟢 sourced", "user": "🔵 user", "placeholder": "🟠 placeholder"}
@@ -355,6 +362,54 @@ def compare_tab(lot: Lot, outlets: dict[str, Outlet], sources: dict[str, Source]
     return df
 
 
+# ---------- tab 3: report ----------
+
+
+def report_tab(lot: Lot, results: pd.DataFrame, sources: dict[str, Source]) -> None:
+    st.markdown(
+        "Claude writes a plain-English report from the computed results above. It may only use "
+        "numbers from those results; any number it can't trace back is highlighted in red."
+    )
+    if st.button("Generate report", type="primary", key="generate_report"):
+        with st.spinner("Writing the report…"):
+            try:
+                report = generate_report(lot, results, sources)
+            except LLMError as e:
+                st.error(str(e))
+            else:
+                st.session_state["report"] = report
+                st.session_state.setdefault("llm_calls", []).append(report.llm)
+
+    report = st.session_state.get("report")
+    if report is None:
+        return
+    if report.payload != build_payload(lot, results, sources):
+        st.info("Inputs have changed since this report was written. Generate it again to update.")
+    if report.unmatched:
+        nums = ", ".join(n.text for n in report.unmatched).replace("$", "\\$")
+        st.warning(f"**Number check failed** for {len(report.unmatched)} number(s): {nums}. "
+                   "They don't match the computed results and are highlighted in red below. "
+                   "Don't rely on them.")
+    else:
+        st.success("Number check passed: every number in the report matches the computed results.")
+    with st.container(border=True):
+        st.markdown(to_streamlit_markdown(report.markdown, report.unmatched))
+    st.download_button("Download as Markdown", report_download(report),
+                       file_name="hull_value_report.md", mime="text/markdown")
+    llm = report.llm
+    st.caption(f"Written by {llm.model} · {llm.input_tokens:,} input / {llm.output_tokens:,} "
+               f"output tokens · est. \\${llm.cost_usd:.4f}")
+
+
+def spend_summary(calls: list[LLMResult]) -> str:
+    if not calls:
+        return "**LLM spend this session:** none yet"
+    cost = sum(c.cost_usd for c in calls)
+    tokens = sum(c.input_tokens + c.output_tokens for c in calls)
+    return (f"**LLM spend this session:** \\${cost:.4f}  \n"
+            f"{len(calls)} call(s) · {tokens:,} tokens (estimated from list prices)")
+
+
 # ---------- tab 5: sources ----------
 
 
@@ -384,6 +439,8 @@ def main() -> None:
                     "- 🔵 **user**: entered by you\n"
                     "- 🟠 **placeholder**: made up for the demo\n\n"
                     "A result is as weak as its weakest input.")
+        st.divider()
+        spend = st.empty()
 
     tab_lot, tab_compare, tab_report, tab_buyers, tab_sources = st.tabs(
         ["Your lot", "Compare options", "Report", "Buyers", "Sources"])
@@ -392,7 +449,7 @@ def main() -> None:
     with tab_compare:
         results = compare_tab(lot, outlets, sources)
     with tab_report:
-        st.info("AI report — coming in Phase 3.")
+        report_tab(lot, results, sources)
     with tab_buyers:
         st.info("Buyer table and allocation — coming in Phase 4.")
     with tab_sources:
@@ -400,6 +457,7 @@ def main() -> None:
 
     if any_placeholder(results):
         banner.warning(PLACEHOLDER_BANNER, icon="⚠️")
+    spend.markdown(spend_summary(st.session_state.get("llm_calls", [])))
 
 
 if __name__ == "__main__":
