@@ -81,7 +81,9 @@ def buyer_margins(buyers: list[Buyer], lot: Lot, results: pd.DataFrame,
             "max_tons": b.max_tons,
             "eligible": bool(o["eligible"]),
             "buyer_tier": tier,
-            "processing_tier": o["input_tiers"]["processing_cost"],
+            # The buyer's quote and miles replace the outlet's; every other input still counts.
+            "outlet_tier": worst_tier(
+                *(t for k, t in o["input_tiers"].items() if k not in ("price", "miles"))),
         })
     return pd.DataFrame(rows)
 
@@ -102,6 +104,6 @@ def allocate(buyers: list[Buyer], lot: Lot, results: pd.DataFrame,
     df = df.sort_values("margin_per_ton", ascending=False, kind="stable").reset_index(drop=True)
 
     used = df[df["tons"] > 1e-9]
-    tier = worst_tier(lot.haul_rate_tier, *used["buyer_tier"], *used["processing_tier"])
+    tier = worst_tier(lot.haul_rate_tier, *used["buyer_tier"], *used["outlet_tier"])
     allocated = float(df["tons"].sum())
     return Allocation(df, sol.value, allocated, lot.tons - allocated, sol.hull_marginal, tier)

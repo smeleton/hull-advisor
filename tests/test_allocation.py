@@ -86,6 +86,18 @@ def test_allocate_adds_coproduct_value(outlets):
     assert alloc.table.iloc[0]["margin_per_ton"] == pytest.approx(97)
 
 
+def test_placeholder_coproduct_keeps_allocation_placeholder(outlets):
+    # User buyer and user cleaning cost, but the kernel $/lb is still a placeholder.
+    lot = Lot(tons=100)
+    results = evaluate(lot, outlets, {"clean_and_recover": Override(processing_cost=8)})
+    buyers = [Buyer("Example Cleaner G", "clean_and_recover", 90, 100, 20)]
+    alloc = allocate(buyers, lot, results, tiers=["user"])
+    assert alloc.result_tier == "placeholder"
+    priced = evaluate(lot, outlets, {"clean_and_recover": Override(
+        processing_cost=8, coproduct_prices={"Recovered kernel": 0.8})})
+    assert allocate(buyers, lot, priced, tiers=["user"]).result_tier == "user"
+
+
 def test_ineligible_outlet_gets_no_tons(outlets):
     lot = Lot(tons=500, crude_fiber_pct=16)
     alloc = allocate(load_buyers(outlets), lot, evaluate(lot, outlets))
