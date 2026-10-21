@@ -96,6 +96,13 @@ def test_user_override_sets_user_tier(outlets):
     assert (worse.net_low, worse.net_high) == pytest.approx((100, 100))  # 104 - 0 - 4
 
 
+def test_coproduct_price_override(outlets):
+    ov = {"recover": Override(coproduct_prices={"Kernel": 0.5})}
+    rec = row(evaluate(LOT, outlets, ov, baseline_id="base"), "recover")
+    assert (rec.coproduct_low, rec.coproduct_high) == pytest.approx((10, 20))  # 2000 x 1-2% x $0.5
+    assert rec.input_tiers["coproduct: Kernel"] == "user"
+
+
 def test_missing_price_needs_quote_never_best(outlets):
     # Make every priced outlet deeply negative; the needs-quote outlet must still rank last.
     far = {k: Override(miles=1_000) for k in ("base", "better", "worse", "recover")}

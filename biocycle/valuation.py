@@ -46,6 +46,7 @@ class Override:
     price: float | None = None
     miles: float | None = None
     processing_cost: float | None = None
+    coproduct_prices: dict[str, float] = field(default_factory=dict)  # name -> $/lb
 
 
 @dataclass(frozen=True)
@@ -80,10 +81,13 @@ def resolve_price(
     return PriceRange(outlet.price_low, high, outlet.price_tier, outlet.source_ids)
 
 
-def coproduct_range(outlet: Outlet) -> tuple[float, float]:
+def coproduct_range(outlet: Outlet, ov: Override = Override()) -> tuple[float, float]:
     """($/ton low, $/ton high) of all coproducts recovered from one ton of hulls."""
-    low = sum(LB_PER_TON * c.yield_low * c.unit_price_per_lb for c in outlet.coproducts)
-    high = sum(LB_PER_TON * c.yield_high * c.unit_price_per_lb for c in outlet.coproducts)
+    low = high = 0.0
+    for c in outlet.coproducts:
+        price = ov.coproduct_prices.get(c.name, c.unit_price_per_lb)
+        low += LB_PER_TON * c.yield_low * price
+        high += LB_PER_TON * c.yield_high * price
     return low, high
 
 
@@ -119,7 +123,7 @@ def _value_outlet(
         ov.processing_cost if ov.processing_cost is not None else outlet.processing_cost_per_ton
     )
     haul_cost = lot.haul_rate * miles
-    cp_low, cp_high = coproduct_range(outlet)
+    cp_low, cp_high = coproduct_range(outlet, ov)
 
     input_tiers = {
         "price": price.tier,
@@ -128,7 +132,8 @@ def _value_outlet(
         "haul_rate": lot.haul_rate_tier,
     }
     for c in outlet.coproducts:
-        input_tiers[f"coproduct: {c.name}"] = c.tier
+        price_tier = "user" if c.name in ov.coproduct_prices else c.unit_price_tier
+        input_tiers[f"coproduct: {c.name}"] = worst_tier(c.yield_tier, price_tier)
 
     flags, eligible = quality_flags(outlet, lot)
     if price.missing:
