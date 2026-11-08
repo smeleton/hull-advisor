@@ -35,7 +35,7 @@ from biocycle.config import (
     HAUL_RATE_SOURCE,
     PLACEHOLDER_BANNER,
 )
-from biocycle import feedback, sustainability
+from biocycle import directory, feedback, sustainability
 from biocycle.data import Buyer, Outlet, Source, load_buyers, load_outlets, load_sources
 from biocycle.llm import LLMError, LLMResult
 from biocycle.market import (
@@ -189,6 +189,50 @@ def payload_hash(c: Computed) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
 
 
+DIRECTORY_GROUPS = (
+    # key, title, outlet the quote request is for, outlets that point here, blurb, empty note
+    ("feed", "Dairy feed buyers and traders", "local_dairy", ("local_dairy", "clean_and_recover"),
+     "Buy or trade almond hulls for dairy and livestock rations. Cleaned hulls go to the same "
+     "buyers.", "No verified feed buyers listed yet."),
+    ("distant", "Out-of-state and export shippers", "distant_dairy", ("distant_dairy",),
+     "Move hulls beyond the local market by truck, rail or export.",
+     "No verified long-haul shippers listed yet."),
+    ("food", "Food ingredient", "food_ingredient", ("food_ingredient",),
+     "Almond hull powder was recognized as safe for food in 2026 [abc_gras2026]; the market "
+     "is still at the research stage.", "No verified food buyers listed yet."),
+    ("soil", "Compost and soil amendment", "compost_soil", ("compost_soil",),
+     "Composters and soil-amendment makers.",
+     "We couldn't find a California composter that publicly says it accepts almond hulls "
+     "(checked Nov 7, 2026). Local composters may still take them: call and ask."),
+    ("energy", "Bioenergy and biochar", "bioenergy", ("bioenergy",),
+     "Biomass and biochar plants. The ones we could verify take almond shells; ask whether "
+     "they take hulls.", "No verified bioenergy buyers listed yet."),
+)
+
+
+@lru_cache
+def load_directory_cached() -> tuple:
+    return tuple(directory.load_directory(load_data()[1]))
+
+
+def directory_groups(c: Computed) -> list[dict[str, Any]]:
+    best = str(c.results.iloc[0]["outlet_id"])
+    groups = []
+    for key, title, outlet_id, points_here, blurb, empty in DIRECTORY_GROUPS:
+        outlet = c.outlets[outlet_id]
+        items = []
+        for co in load_directory_cached():
+            if outlet_id not in co.outlets:
+                continue
+            subject, body = directory.quote_request(c.lot, co, outlet)
+            items.append({"company": co, "subject": subject, "body": body,
+                          "mailto": directory.mailto(subject, body)})
+        groups.append({"key": key, "title": title, "outlet_id": outlet_id, "blurb": blurb,
+                       "empty": empty, "companies": items, "is_best": best in points_here})
+    groups.sort(key=lambda g: not g["is_best"])
+    return groups
+
+
 def context(c: Computed, session: Session) -> dict[str, Any]:
     sources = load_data()[0]
     outlets = c.outlets
@@ -229,6 +273,7 @@ def context(c: Computed, session: Session) -> dict[str, Any]:
             if len(history) > 1 else None),
         "history_span": (history[0].report_date, history[-1].report_date) if history else None,
         "history_count": len(history),
+        "directory_groups": directory_groups(c),
         "sus": sustainability.report_data(c.lot, c.results, outlets, c.sus_outlet, sources),
         "sus_rows": list(sustainability.assess(c.lot, c.results, outlets).values()),
         "sus_alloc": (sustainability.assess_allocation(c.alloc.table, outlets)

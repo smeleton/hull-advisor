@@ -28,11 +28,19 @@ from biocycle.valuation import Lot
 FACTORS_PATH = DATA_DIR / "emission_factors.yaml"
 
 PATHWAYS: dict[str, dict[str, str]] = {
-    # market -> how the hulls are used, and which EPA treatment proxy applies (if any)
-    "feed": {"use": "Animal feed (dairy rations)", "treatment": ""},
-    "food": {"use": "Human food ingredient (upcycled)", "treatment": ""},
-    "soil": {"use": "Compost or soil amendment", "treatment": "composted"},
-    "energy": {"use": "Bioenergy (combustion)", "treatment": "combusted"},
+    # market -> how the hulls are used, the EPA treatment proxy (if any), and where the use sits
+    # on EPA's Wasted Food Scale. The scale is written for wasted food, so for a co-product like
+    # hulls it is an analogy, and the report says so.
+    "feed": {"use": "Animal feed (dairy rations)", "treatment": "",
+             "scale": "Feed animals: next after the most-preferred group (prevent, donate, "
+                      "upcycle)"},
+    "food": {"use": "Human food ingredient (upcycled)", "treatment": "",
+             "scale": "Upcycle food: in the most-preferred group"},
+    "soil": {"use": "Compost or soil amendment", "treatment": "composted",
+             "scale": "Compost: middle of the scale, below feeding animals"},
+    "energy": {"use": "Bioenergy (combustion)", "treatment": "combusted",
+               "scale": "Combustion with energy recovery: grouped with incineration, the "
+                        "least-preferred group"},
 }
 NOT_INCLUDED = (
     "Avoided emissions from the feed, fertilizer or fuel the hulls replace (no published "
@@ -141,6 +149,7 @@ def report_data(lot: Lot, results: pd.DataFrame, outlets: dict[str, Outlet], out
         "chosen": asdict(chosen),
         "baseline": asdict(base),
         "is_baseline": outlet_id == BASELINE_ID,
+        "scale_position": PATHWAYS[outlets[outlet_id].market]["scale"],
         "vs_local_kg": chosen.total_kg - base.total_kg,
         "truck_factor_kg": truck_kg_co2e_per_ton_mile(f),
         "proxy": f["treatment_proxies"],
@@ -201,6 +210,10 @@ def to_markdown(d: dict[str, Any]) -> str:
         lines.append(f"{c['use']}: {_kg(c['treatment_kg'])} CO2e, using EPA's factor for "
                      f"{d['proxy']['material'].lower()} as a stand-in (hulls are not yard "
                      "trimmings). Data: Demo value.")
+    lines += ["", f"On EPA's Wasted Food Scale: {d['scale_position']}. (The scale is written for "
+              "wasted food; hulls are a co-product, so this is a comparison, not a "
+              "classification.) Every use in this summary keeps the hulls out of landfill, in "
+              "line with the Almond Board's goal of zero waste in orchards."]
     q = d["quality"]
     lines += ["", "## Quality and safety", "",
               f"- Aflatoxin tested: {q['aflatoxin_tested']}.",

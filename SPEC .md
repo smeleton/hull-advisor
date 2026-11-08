@@ -16,7 +16,12 @@ Ignore scalability, auth, deployment, and databases.
 2. Every number carries a **tier**: `sourced` (from sources.yaml), `user` (entered in the UI), or
    `placeholder` (made up for the demo). If any placeholder affects a result, show a persistent
    banner: "Demo data — verify with real buyer quotes before acting."
-3. Never invent real company names or contacts. Sample buyers are fictional ("Example Dairy A").
+3. Never invent company names or contacts. Sample buyers in the allocation demo stay fictional
+   ("Example Dairy A"). Real companies appear only in the buyer directory
+   (`data/buyers_directory.yaml`), and only with public business information backed by a page
+   we loaded (evidence URL, quote, date checked). Never personal names, emails or phone numbers,
+   and never guessed URLs. The app never contacts anyone; quote requests are drafts the user
+   sends. (Updated for the cofounder review, Nov 2026.)
 
 ## Stack
 Python 3.11+, Streamlit, pandas, scipy (`linprog` with HiGHS), pyyaml, plotly, anthropic SDK,
@@ -162,6 +167,6 @@ total value, and the marginal value of one more ton of each buyer's capacity (fr
 ## Working agreement
 - Start in plan mode: read this spec, propose a plan for Phase 1, wait for my approval.
 - Keep code simple; type hints; small functions.
-- Never present placeholder values as real. Never add real company names or contacts.
+- Never present placeholder values as real. Real companies only per design rule 3.
 - Run tests after each phase and tell me the exact run command (`streamlit run app.py`).
 - Ask before adding dependencies not listed above. Commit after each working phase.

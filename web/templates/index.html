@@ -102,6 +102,7 @@
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button type="button" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="true">Compare options</button>
       <button type="button" role="tab" id="tab-buyers" aria-controls="panel-buyers" aria-selected="false">Split across buyers</button>
+      <button type="button" role="tab" id="tab-directory" aria-controls="panel-directory" aria-selected="false">Find buyers</button>
       <button type="button" role="tab" id="tab-report" aria-controls="panel-report" aria-selected="false">Written report</button>
       <button type="button" role="tab" id="tab-sustainability" aria-controls="panel-sustainability" aria-selected="false">Sustainability</button>
       <button type="button" role="tab" id="tab-sources" aria-controls="panel-sources" aria-selected="false">Sources</button>
@@ -177,6 +178,14 @@
       <template id="buyer-row-template">{% with r = {} %}{% include "partials/buyer_row.html" %}{% endwith %}</template>
       <p><button type="button" class="button button-quiet" id="add-buyer">+ Add buyer</button></p>
       <div id="buyer-results">{% include "partials/buyer_results.html" %}</div>
+    </section>
+
+    <!-- Directory -->
+    <section class="panel" id="panel-directory" role="tabpanel" aria-labelledby="tab-directory">
+      <div class="callout dir-intro">
+        <p><strong>Real companies that work with almond hulls in California.</strong> We list only public business information from each company's own website or news coverage, with the page we checked. BioCycle has no relationship with these companies; a listing is not an endorsement and doesn't mean they will buy your lot. Nothing is sent from this app: quote requests are drafts you send yourself.</p>
+      </div>
+      <div id="directory-results">{% include "partials/directory.html" %}</div>
     </section>
 
     <!-- Report -->

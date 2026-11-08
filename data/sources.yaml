@@ -51,3 +51,18 @@
   title: "U.S. EPA, \"GHG Emission Factors Hub\" (2025)"
   url: https://www.epa.gov/system/files/other-files/2025-01/ghg-emission-factors-hub-2025.xlsx
   what_it_supports: "Table 8: medium- and heavy-duty truck freight 0.186 kg CO2, 0.0016 g CH4, 0.0054 g N2O per short ton-mile. Table 9: yard-trimmings composting (0.14) and combustion (0.05) t CO2e per short ton, used as stand-ins for hulls."
+
+- id: epa_wasted_food_scale
+  title: "U.S. EPA, \"Wasted Food Scale\" (updates the Food Recovery Hierarchy)"
+  url: https://www.epa.gov/sustainable-management-food/wasted-food-scale
+  what_it_supports: "Order of preferred pathways: prevent, donate and upcycle food first; then feed animals; then anaerobic digestion with beneficial use and composting; landfilling and incineration (including combustion with energy recovery) last."
+
+- id: abc_orchard2025
+  title: "Almond Board of California, \"California Almond Community Commits to New Goals\" (2019)"
+  url: https://www.almonds.org/about-us/press-room/focused-growing-good-california-almond-community-commits-new-goals
+  what_it_supports: "Almond Orchard 2025 goal: zero waste in orchards by putting everything grown to optimal use."
+
+- id: abc_gras2026
+  title: "Almond Board of California, \"Almond Hulls Get GRAS Status: What It Means\" (2026)"
+  url: https://www.almonds.org/almond-industry/industry-news/almond-hulls-get-gras-status-whats-mean
+  what_it_supports: "Most hulls end up in livestock rations; almond hulls now recognized as safe for human food."

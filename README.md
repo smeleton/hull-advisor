@@ -55,6 +55,36 @@ flat rate. The Sources tab shows the latest quotes and the weekly price history.
 `python -m evals.run market` compares demo and market results and replays the recommendation
 over every week of real prices.
 
+## Sustainability summary (Sustainability tab)
+
+For dairies, food companies and lenders asking about Scope 3 and circularity. Deterministic,
+no LLM (`biocycle/sustainability.py`, factors in `data/emission_factors.yaml`):
+
+- **Kept in productive use:** every option is a use, not disposal.
+- **Hauling emissions:** tons × one-way miles × 0.1875 kg CO2e per short ton-mile (EPA GHG
+  Emission Factors Hub 2025, Table 8, medium/heavy-duty truck; AR5 GWPs).
+- **End-of-use emissions** only where EPA has a factor: composting (0.14) and combustion (0.05)
+  t CO2e per short ton, using EPA's yard-trimmings rows as labelled stand-ins (tagged *Demo value*).
+- **Position on EPA's Wasted Food Scale**, stated as a comparison (the scale is for wasted food).
+- **Not included**, listed in every report: avoided emissions, processing energy, emissions after
+  delivery, orchard operations. No avoided-emissions claims are made.
+- Per option or per buyer (from the allocation); PDF (fpdf2) and Markdown downloads carry the
+  demo-data banner and data tiers.
+
+## Buyer directory (Find buyers tab)
+
+Real California companies that buy, trade or work with almond hulls (`data/buyers_directory.yaml`),
+grouped by kind of buyer, with the group matching your best option first. Each entry has only
+public business information: what the company does with hulls, location, website and contact
+page, plus the evidence page, a short quote and the date checked. The loader rejects anything that
+looks like an email address or phone number. Categories we couldn't verify (e.g. composters that
+publicly accept hulls) say so instead of guessing.
+
+Each company has a **quote-request draft** built from your lot (tons, aflatoxin, fiber,
+moisture) to copy or open in your own email app, and **Add to my buyer list**, which puts the
+company in the allocation table so you can enter its quote (counted as *Your entry*). The app
+never contacts anyone. Re-check entries before relying on them; companies change.
+
 ## Evaluation
 
 See [EVALUATION.md](EVALUATION.md). In short:
@@ -130,7 +160,8 @@ report history and AI spend, held in memory (restarting the server clears it).
 ## Layout
 
 ```
-web/app.py             FastAPI routes: /, /calculate, /report, /report/{id}.md
+web/app.py             FastAPI routes: /, /calculate, /report, /report/{id}.md, /feedback,
+                       /sustainability.{pdf,md}
 web/templates/         page and partial templates
 web/static/            style.css, app.js, favicon
 biocycle/config.py     model name, units, defaults

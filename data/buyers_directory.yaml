@@ -1,0 +1,138 @@
+# Real companies that buy, trade or work with almond hulls (or, for energy, almond shells).
+# Rules: public business information only, each entry backed by a page we loaded, with a
+# short quote and the date it was checked. No personal names, emails or phone numbers, and no
+# guessed URLs. Listing is not an endorsement and does not mean the company will buy a lot.
+# Outlet ids match data/outlets.yaml. Status: active | listed (named by a trade group) |
+# research (R&D stage) | planned (not yet operating).
+
+- id: penny_newman
+  name: Penny Newman Grain Co.
+  outlets: [local_dairy, distant_dairy]
+  what: Merchandises almond hulls and shells as feed by-products; Stockton rail terminal with BNSF and UP access; ships hulls to a Levelland, Texas site.
+  location: Fresno (HQ); Hanford, Stockton and Elk Grove, CA; Levelland, TX
+  website: https://penny-newman.com
+  contact_url: https://penny-newman.com/contact/
+  status: active
+  evidence:
+    - url: https://penny-newman.com/by-products/
+      quote: "List of by-products merchandized by Penny Newman include but are not limited to: … Almond Hulls, Almond Shell"
+    - url: https://penny-newman.com/stockton-transloading/
+      quote: "reciprocal access to both the BNSF and UP Railroads"
+    - url: https://www.kcbd.com/2023/12/27/closer-look-economic-development-deal-that-brought-penny-newman-levelland
+      quote: "drought conditions forced the grain company to change its focus from cotton seed to almond hulls."
+  checked: 2026-11-07
+  notes: The by-products list on its site is an image.
+
+- id: seley
+  name: Seley & Co.
+  outlets: [local_dairy, distant_dairy]
+  what: Commodity trader supplying almond hulls and shells to dairies in the San Joaquin Valley and the Pacific Northwest.
+  location: South Pasadena (HQ); sources from Bakersfield to Chico, CA
+  website: https://seleyco.com/
+  contact_url: https://seleyco.com/#contact
+  status: active
+  evidence:
+    - url: https://seleyco.com/
+      quote: "Almond Hulls / Shells. The outer covering of the almond kernel and shell. ⤳ Bakersfield to Chico, CA."
+  checked: 2026-11-07
+  notes: ""
+
+- id: cal_byproducts
+  name: Cal By-Products
+  outlets: [local_dairy]
+  what: Supplies almond hulls and other feed ingredients to dairies.
+  location: Fresno, CA
+  website: https://calbyproducts.com/
+  contact_url: https://calbyproducts.com/
+  status: active
+  evidence:
+    - url: https://calbyproducts.com/
+      quote: "Cal By-Products - Almond Hulls, Dairy Feed Ingredients, Millrun"
+  checked: 2026-11-07
+  notes: Small one-page site; contact details are on the home page.
+
+- id: norcal_feed
+  name: NorCal Feed
+  outlets: [local_dairy]
+  what: Feed maker building livestock rations around almond hulls and other California co-products (mainly beef and livestock rather than dairy).
+  location: Woodland, CA
+  website: https://www.norcalfeedco.com/
+  contact_url: https://www.norcalfeedco.com/
+  status: active
+  evidence:
+    - url: https://www.norcalfeedco.com/
+      quote: "builds rations around nutritious California commodities such as almond hulls, rice bran, and other agricultural co-products."
+  checked: 2026-11-07
+  notes: No separate contact page; the address is on the home page.
+
+- id: western_milling
+  name: Western Milling
+  outlets: [local_dairy, distant_dairy]
+  what: Feed company listed by the Almond Alliance as an almond hull supplier and exporter.
+  location: Goshen (HQ); Hanford and Famoso, CA; Buckeye, AZ
+  website: https://www.westernmilling.com/
+  contact_url: https://www.westernmilling.com/contact/
+  status: listed
+  evidence:
+    - url: https://almondalliance.org/almond-hulls/
+      quote: "Almond Hull Suppliers/Exporters … Western Milling"
+  checked: 2026-11-07
+  notes: Its own site does not mention hulls; the Almond Alliance export table was last updated May 2022.
+
+- id: jd_heiskell
+  name: J.D. Heiskell & Co.
+  outlets: [local_dairy, distant_dairy]
+  what: Feed and commodity company listed by the Almond Alliance as an almond hull supplier and exporter.
+  location: Omaha, NE (HQ); Tulare, Pixley and Hanford, CA
+  website: https://www.jdhco.com/
+  contact_url: https://www.jdhco.com/contact-us/
+  status: listed
+  evidence:
+    - url: https://almondalliance.org/almond-hulls/
+      quote: "Almond Hull Suppliers/Exporters … JDH"
+  checked: 2026-11-07
+  notes: Its own site does not mention hulls; the Almond Alliance export table was last updated May 2022.
+
+- id: upcycled_foods
+  name: Upcycled Foods, Inc.
+  outlets: [food_ingredient]
+  what: Developing almond-hull food ingredient prototypes with the Almond Board under a state circular-economy grant.
+  location: Berkeley, CA
+  website: null
+  contact_url: null
+  status: research
+  evidence:
+    - url: https://www.foodingredientsfirst.com/news/upcycled-foods-almond-hull-innovation.html
+      quote: "The project will develop ingredient prototypes from almond hulls."
+  checked: 2026-11-07
+  notes: Research stage, not an established buyer. Its website could not be loaded when checked, so no link is given.
+
+- id: sitos
+  name: Sitos Group
+  outlets: [bioenergy]
+  what: Runs an almond-shell biochar plant and invites feedstock partners.
+  location: Delano, CA
+  website: https://www.sitos.earth/
+  contact_url: https://www.sitos.earth/get-involved
+  status: active
+  evidence:
+    - url: https://www.sitos.earth/feedstock-partner
+      quote: "Become a Feedstock Partner"
+    - url: https://www.morningagclips.com/sitos-treehouse-plant-announces-first-release-of-almond-shell-biochar-from-10-million-dollar-state-of-the-art-slow-pyrolysis-facility/
+      quote: "first release of almond shell biochar"
+  checked: 2026-11-07
+  notes: Uses almond SHELLS, not hulls. Ask whether hulls are accepted before offering a lot.
+
+- id: san_joaquin_renewables
+  name: San Joaquin Renewables
+  outlets: [bioenergy]
+  what: Proposed gasification plant making renewable natural gas and biochar from orchard wood and nut shells.
+  location: McFarland, CA
+  website: https://sjrgas.com/
+  contact_url: https://sjrgas.com/contact/
+  status: planned
+  evidence:
+    - url: https://sjrgas.com/the-project/
+      quote: "Feedstock used in the plant will consist of agricultural wood waste, pistachio shells, and almond shells."
+  checked: 2026-11-07
+  notes: Not yet built. Uses shells, not hulls.

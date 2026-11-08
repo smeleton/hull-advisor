@@ -30,6 +30,7 @@
 </section>
 
 <p class="calc-line">Hauling: {{ tons(c.tons) }} tons × {{ tons(c.miles) }} miles = {{ "{:,.0f}".format(c.ton_miles) }} ton-miles × {{ "%.4f"|format(sus.truck_factor_kg) }} kg CO2e per ton-mile (EPA truck freight) = <strong>{{ kg(c.transport_kg) }} CO2e</strong> {{ tier(c.transport_tier) }}.
+On EPA's Wasted Food Scale [epa_wasted_food_scale]: {{ sus.scale_position }} (a comparison: the scale is written for wasted food, and hulls are a co-product).
 {% if c.treatment_kg is not none %}End use: <strong>{{ kg(c.treatment_kg) }} CO2e</strong> using EPA's {{ sus.proxy.material|lower }} factor as a stand-in {{ tier(c.treatment_tier) }}.{% else %}End use: EPA has no emission factor for {{ c.use|lower }}, so none is estimated.{% endif %}</p>
 
 <div class="table-wrap">
