@@ -103,6 +103,7 @@
       <button type="button" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="true">Compare options</button>
       <button type="button" role="tab" id="tab-buyers" aria-controls="panel-buyers" aria-selected="false">Split across buyers</button>
       <button type="button" role="tab" id="tab-report" aria-controls="panel-report" aria-selected="false">Written report</button>
+      <button type="button" role="tab" id="tab-sustainability" aria-controls="panel-sustainability" aria-selected="false">Sustainability</button>
       <button type="button" role="tab" id="tab-sources" aria-controls="panel-sources" aria-selected="false">Sources</button>
       <span class="status" id="status" aria-live="polite"></span>
     </nav>
@@ -183,6 +184,24 @@
       <p class="block-sub">Claude writes a plain-English summary of the results on the Compare tab. It may only use numbers from those results; any number it can't trace back is highlighted.</p>
       <p><button type="button" class="button" id="generate-report">Write the report</button></p>
       <div id="report-output"></div>
+    </section>
+
+    <!-- Sustainability -->
+    <section class="panel" id="panel-sustainability" role="tabpanel" aria-labelledby="tab-sustainability">
+      <p class="block-sub">A summary you can hand to a dairy, food company or lender asking about Scope 3 and circularity. Every factor is cited; anything we can't support with a published number is left out and listed below.</p>
+      <div class="sus-controls">
+        <label class="field field-inline">
+          <span class="field-label">Summarize</span>
+          <select class="cell fb-select" name="sus_outlet" aria-label="Option to summarize">
+            {% for r in results %}<option value="{{ r.outlet_id }}" {{ "selected" if r.outlet_id == sus_outlet }}>{{ r.name }}{{ " (best priced)" if loop.first }}</option>{% endfor %}
+          </select>
+        </label>
+        <span class="sus-downloads">
+          <button type="submit" class="button" formaction="/sustainability.pdf" formmethod="post" formtarget="_blank">Download PDF</button>
+          <button type="submit" class="button button-quiet" formaction="/sustainability.md" formmethod="post">Markdown</button>
+        </span>
+      </div>
+      <div id="sustainability-results">{% include "partials/sustainability.html" %}</div>
     </section>
 
     <!-- Sources -->

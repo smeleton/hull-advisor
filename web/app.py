@@ -35,7 +35,7 @@ from biocycle.config import (
     HAUL_RATE_SOURCE,
     PLACEHOLDER_BANNER,
 )
-from biocycle import feedback
+from biocycle import feedback, sustainability
 from biocycle.data import Buyer, Outlet, Source, load_buyers, load_outlets, load_sources
 from biocycle.llm import LLMError, LLMResult
 from biocycle.market import (
@@ -124,6 +124,7 @@ class Computed:
     mode: str  # "market" (USDA data) or "demo" (outlets.yaml values)
     haul_mode: str  # "usda" (rates by distance) or "flat"
     outlets: dict[str, Outlet]
+    sus_outlet: str  # option shown on the Sustainability tab
 
     @property
     def show_banner(self) -> bool:
@@ -178,7 +179,9 @@ def compute(form: Any | None, mode: str | None = None, haul_mode: str | None = N
     rows = p.buyer_rows_from_form(form) if hasattr(form, "getlist") else sample_buyer_rows()
     buyers, tiers, errors = p.buyers_from_rows(rows, outlets, list(sample))
     alloc = allocate(buyers, lot, results, tiers) if buyers else None
-    return Computed(lot, results, rows, alloc, errors, mode, haul_mode, outlets)
+    sus = str(form.get("sus_outlet") or "")
+    sus = sus if sus in outlets else str(results.iloc[0]["outlet_id"])
+    return Computed(lot, results, rows, alloc, errors, mode, haul_mode, outlets, sus)
 
 
 def payload_hash(c: Computed) -> str:
@@ -226,6 +229,11 @@ def context(c: Computed, session: Session) -> dict[str, Any]:
             if len(history) > 1 else None),
         "history_span": (history[0].report_date, history[-1].report_date) if history else None,
         "history_count": len(history),
+        "sus": sustainability.report_data(c.lot, c.results, outlets, c.sus_outlet, sources),
+        "sus_rows": list(sustainability.assess(c.lot, c.results, outlets).values()),
+        "sus_alloc": (sustainability.assess_allocation(c.alloc.table, outlets)
+                      if c.alloc is not None else []),
+        "sus_outlet": c.sus_outlet,
         "cited_by": {
             s: [o.name for o in outlets.values()
                 if s in o.source_ids or any(s in cp.source_ids for cp in o.coproducts)]
@@ -311,6 +319,21 @@ async def send_feedback(request: Request) -> Response:
     else:
         resp = HTMLResponse('<span class="fb-ok">Thanks — your feedback was saved.</span>')
     return with_cookie(resp, sid)
+
+
+@app.post("/sustainability.{fmt}")
+async def sustainability_download(fmt: str, request: Request) -> Response:
+    """The Sustainability tab as a PDF or Markdown file, for the option chosen there."""
+    if fmt not in ("pdf", "md"):
+        return PlainTextResponse("Unknown format.", status_code=404)
+    c = compute(await request.form())
+    data = sustainability.report_data(c.lot, c.results, c.outlets, c.sus_outlet, load_data()[0])
+    name = f"hull_sustainability_{c.sus_outlet}.{fmt}"
+    if fmt == "pdf":
+        return Response(sustainability.to_pdf(data), media_type="application/pdf",
+                        headers={"Content-Disposition": f'inline; filename="{name}"'})
+    return PlainTextResponse(sustainability.to_markdown(data), media_type="text/markdown",
+                             headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
 @app.get("/report/{rid}.md")

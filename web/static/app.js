@@ -78,7 +78,12 @@
   const isFeedback = (e) => (e.target.name || "").startsWith("fb_");
   form.addEventListener("input", (e) => { if (!isFeedback(e)) recalc(); });
   form.addEventListener("change", (e) => { if (!isFeedback(e)) recalc(); });
-  form.addEventListener("submit", (e) => { e.preventDefault(); recalc(); });
+  form.addEventListener("submit", (e) => {
+    // Download buttons post the whole form to their own URL; everything else recalculates.
+    if (e.submitter && e.submitter.hasAttribute("formaction")) return;
+    e.preventDefault();
+    recalc();
+  });
 
   // ---------- hauling mode ----------
   form.querySelectorAll('input[name="haul_mode"]').forEach((r) => r.addEventListener("change", () => {

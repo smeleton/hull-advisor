@@ -153,7 +153,8 @@ def test_ineligible_ranked_after_eligible():
 def test_real_data_loads_and_evaluates():
     sources = load_sources()
     outlets = load_outlets(sources)
-    assert len(sources) == 9 and len(outlets) == 6
+    assert {"giannini2026", "wcngg2022", "farmprogress_low", "abc_food2025", "gras2026"} <= set(sources)
+    assert len(outlets) == 6
     assert len(load_buyers(outlets)) == 6
     df = evaluate(Lot(tons=1_000), outlets)
     base = row(df, "local_dairy")

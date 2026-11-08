@@ -1,0 +1,83 @@
+{% from "macros.html" import tier %}
+{% set c = sus.chosen %}
+{% macro kg(x) -%}{% if x is none %}—{% elif x|abs >= 1000 %}{{ "{:,.1f}".format(x / 1000) }} t{% else %}{{ "{:,.0f}".format(x) }} kg{% endif %}{%- endmacro %}
+<section class="summary">
+  <p class="eyebrow">Sustainability summary for {{ tons(sus.tons) }} tons</p>
+  <h2 class="answer">{{ c.name }}</h2>
+  <dl class="figures">
+    <div>
+      <dt>Kept in productive use</dt>
+      <dd><span class="fig">{{ tons(c.tons) }}</span><span class="unit"> tons · 100%</span></dd>
+      <dd class="fig-note">{{ c.use }}; nothing to landfill or open burning</dd>
+    </div>
+    <div>
+      <dt>Estimated emissions</dt>
+      <dd><span class="fig">{{ kg(c.total_kg) }}</span><span class="unit"> CO2e</span></dd>
+      <dd class="fig-note">{{ "%.1f"|format(c.kg_per_ton) }} kg CO2e per ton · {{ tier(c.tier) }}</dd>
+    </div>
+    <div>
+      <dt>Compared with selling locally</dt>
+      {% if sus.is_baseline %}
+      <dd><span class="fig fig-small">This is the local sale</span></dd>
+      {% elif sus.vs_local_kg|abs < 0.5 %}
+      <dd><span class="fig fig-small">About the same</span></dd>
+      {% else %}
+      <dd><span class="fig {{ 'neg' if sus.vs_local_kg > 0 else 'pos' }}">{{ "+" if sus.vs_local_kg > 0 else "−" }}{{ kg(sus.vs_local_kg|abs) }}</span></dd>
+      <dd class="fig-note">CO2e {{ "more" if sus.vs_local_kg > 0 else "less" }} than the local dairy</dd>
+      {% endif %}
+    </div>
+  </dl>
+</section>
+
+<p class="calc-line">Hauling: {{ tons(c.tons) }} tons × {{ tons(c.miles) }} miles = {{ "{:,.0f}".format(c.ton_miles) }} ton-miles × {{ "%.4f"|format(sus.truck_factor_kg) }} kg CO2e per ton-mile (EPA truck freight) = <strong>{{ kg(c.transport_kg) }} CO2e</strong> {{ tier(c.transport_tier) }}.
+{% if c.treatment_kg is not none %}End use: <strong>{{ kg(c.treatment_kg) }} CO2e</strong> using EPA's {{ sus.proxy.material|lower }} factor as a stand-in {{ tier(c.treatment_tier) }}.{% else %}End use: EPA has no emission factor for {{ c.use|lower }}, so none is estimated.{% endif %}</p>
+
+<div class="table-wrap">
+<table class="data">
+  <caption class="sr-only">Estimated emissions if the whole lot went to each option</caption>
+  <thead><tr>
+    <th scope="col">Option</th><th scope="col">Use</th>
+    <th scope="col" class="num">Miles</th>
+    <th scope="col" class="num">Hauling<br><span class="th-unit">CO2e</span></th>
+    <th scope="col" class="num">End use<br><span class="th-unit">CO2e</span></th>
+    <th scope="col" class="num">Total<br><span class="th-unit">CO2e</span></th>
+    <th scope="col" class="num">Per ton<br><span class="th-unit">kg CO2e</span></th>
+    <th scope="col">Data</th>
+  </tr></thead>
+  <tbody>
+  {% for r in sus_rows %}
+    <tr class="{{ 'is-baseline' if r.outlet_id == 'local_dairy' }}">
+      <td class="opt">{{ r.name }}</td><td>{{ r.use }}</td>
+      <td class="num">{{ tons(r.miles) }}</td>
+      <td class="num">{{ kg(r.transport_kg) }}</td>
+      <td class="num">{{ kg(r.treatment_kg) if r.treatment_kg is not none else "not estimated" }}</td>
+      <td class="num strong">{{ kg(r.total_kg) }}</td>
+      <td class="num">{{ "%.1f"|format(r.kg_per_ton) }}</td>
+      <td>{{ tier(r.tier) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% if sus_alloc %}
+<h4 class="sub-h">If you split the lot across buyers as on the "Split across buyers" tab</h4>
+<div class="table-wrap">
+<table class="data">
+  <caption class="sr-only">Estimated emissions per buyer in the allocation</caption>
+  <thead><tr><th scope="col">Buyer</th><th scope="col">Use</th><th scope="col" class="num">Tons</th><th scope="col" class="num">Miles</th>
+    <th scope="col" class="num">Total<br><span class="th-unit">CO2e</span></th><th scope="col">Data</th></tr></thead>
+  <tbody>
+  {% for r in sus_alloc %}
+    <tr><td class="opt">{{ r.name }}</td><td>{{ r.use }}</td><td class="num">{{ tons(r.tons) }}</td><td class="num">{{ tons(r.miles) }}</td>
+      <td class="num strong">{{ kg(r.total_kg) }}</td><td>{{ tier(r.tier) }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+
+<div class="callout">
+  <h3>Not included</h3>
+  <ul>{% for x in sus.not_included %}<li>{{ x }}</li>{% endfor %}</ul>
+</div>

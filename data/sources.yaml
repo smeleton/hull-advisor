@@ -44,3 +44,10 @@
   title: "USDA NASS, \"Noncitrus Fruits and Nuts Annual Summary\" (May 2026)"
   url: https://esmis.nal.usda.gov/sites/default/release-files/795891/ncit0526.txt
   what_it_supports: "California shelled almond price per pound, all grades, by year; a ceiling for recovered-kernel value."
+
+# ---- Sustainability report ----
+
+- id: epa_ghg_hub2025
+  title: "U.S. EPA, \"GHG Emission Factors Hub\" (2025)"
+  url: https://www.epa.gov/system/files/other-files/2025-01/ghg-emission-factors-hub-2025.xlsx
+  what_it_supports: "Table 8: medium- and heavy-duty truck freight 0.186 kg CO2, 0.0016 g CH4, 0.0054 g N2O per short ton-mile. Table 9: yard-trimmings composting (0.14) and combustion (0.05) t CO2e per short ton, used as stand-ins for hulls."

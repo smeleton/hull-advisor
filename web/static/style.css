@@ -271,6 +271,14 @@ select.cell { width: 100%; min-width: 170px; text-align: left; font-weight: 500;
 .chart.history .dot { fill: var(--bar); stroke: var(--card); stroke-width: 1.5; }
 .chart.history .dot:hover { r: 5; }
 
+/* ---------- sustainability ---------- */
+.sus-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.sus-controls .field-inline { margin: 0; }
+.sus-downloads { display: flex; gap: 8px; }
+.calc-line { font-size: 14px; color: var(--ink-2); max-width: 90ch; margin: 0 0 16px; }
+.sub-h { font-size: 15px; margin: 22px 0 8px; }
+#sustainability-results .callout { margin-top: 18px; }
+
 /* ---------- feedback ---------- */
 .feedback { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px 22px; }
 .fb-grid { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: flex-end; }
