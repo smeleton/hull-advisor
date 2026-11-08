@@ -49,9 +49,15 @@ round to whole dollars and use thousands separators (e.g. $98,000).
 - Every number has a data tier: "sourced" (from a cited source), "user" (entered by the user), \
 or "placeholder" (made up for this demo). Clearly separate sourced facts from placeholder \
 assumptions; say plainly when a result depends on placeholder values.
-- An outlet with needs_quote true has no price. Do not rank or recommend it; explain the \
-break-even price a buyer quote would need to beat.
-- An outlet with eligible false fails a quality requirement; do not recommend it.
+- An outlet with needs_quote true has no price, so it is listed last and must not be \
+recommended. Say what quote it would need to match selling to the local dairy \
+(price_to_match_local_dairy_per_ton).
+- An outlet with eligible false fails a quality requirement; do not recommend it. If \
+local_dairy_eligible is false, the local dairy is only a reference point: say so, and \
+recommend the best eligible priced outlet.
+- Read the "definitions" in the payload and use the terms exactly as defined. In particular, \
+price_to_match_local_dairy_per_ton is a comparison with the local dairy, never a \
+"break-even" or "cover costs" price; when it is null, don't give one.
 - Cite sources by their id in square brackets, e.g. [giannini2026], and list their titles \
 and URLs in the last section.
 
@@ -102,7 +108,8 @@ OUTLET_FIELDS = {
     "total_high": "total_high",
     "vs_baseline_per_ton": "vs_local_dairy_per_ton",
     "vs_baseline_total": "vs_local_dairy_total",
-    "break_even_price": "break_even_price_per_ton",
+    "break_even_price": "price_to_match_local_dairy_per_ton",
+    "price_follows_baseline": "price_follows_local_dairy",
     "result_tier": "result_tier",
     "input_tiers": "input_tiers",
     "flags": "flags",
@@ -112,12 +119,29 @@ OUTLET_FIELDS = {
 }
 
 
+DEFINITIONS = {
+    "net_expected_per_ton": "Money left per ton after the outlet's processing and hauling, plus "
+                            "any coproduct value. Expected is the midpoint of low and high.",
+    "vs_local_dairy_per_ton": "This outlet's expected net minus the local dairy's expected net.",
+    "price_to_match_local_dairy_per_ton": "The price this outlet's buyer would have to pay per "
+        "ton for its expected net to equal selling to the local dairy. It is NOT the price needed "
+        "to cover costs. It is null for the local dairy itself and for outlets whose price "
+        "follows the local dairy price (price_follows_local_dairy true): a dairy price change "
+        "moves both equally, so their edge comes only from their own costs and coproducts.",
+    "rank": "Order in the comparison. Outlets that need a quote are listed last; outlets that "
+            "fail a quality check are listed after every eligible priced outlet.",
+}
+
+
 def build_payload(lot: Lot, results: pd.DataFrame, sources: dict[str, Source]) -> dict[str, Any]:
-    outlets = [
-        {out: row[col] for col, out in OUTLET_FIELDS.items()}
-        for row in results.to_dict("records")
-    ]
+    outlets = []
+    for row in results.to_dict("records"):
+        out = {name: row[col] for col, name in OUTLET_FIELDS.items()}
+        if row["is_baseline"] or row["price_follows_baseline"]:
+            out["price_to_match_local_dairy_per_ton"] = None
+        outlets.append(out)
     cited = sorted({sid for row in outlets for sid in row["source_ids"]})
+    baseline = next(o for o in outlets if o["is_baseline"])
     return _clean({
         "lot": {
             "tons": lot.tons,
@@ -128,10 +152,12 @@ def build_payload(lot: Lot, results: pd.DataFrame, sources: dict[str, Source]) -
             "aflatoxin_tested": lot.aflatoxin_tested,
         },
         "baseline_outlet_id": BASELINE_ID,
+        "local_dairy_eligible": baseline["eligible"],
         "outlet_count": len(outlets),
         "feed_standard_crude_fiber_max_pct": CRUDE_FIBER_MAX,
         "lb_per_ton": LB_PER_TON,
         "placeholder_affects_results": any_placeholder(results),
+        "definitions": DEFINITIONS,
         "outlets": outlets,
         "sources": [
             {"id": s, "title": sources[s].title, "url": sources[s].url,

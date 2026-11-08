@@ -15,6 +15,14 @@ LLM_TIMEOUT_S = 180.0
 LLM_FALLBACK_BETA = "server-side-fallback-2026-07-01"
 LLM_USAGE_LOG = ROOT_DIR / "logs" / "llm_usage.jsonl"
 
+# Evaluation. The judge grades the report model's output, so it is the stronger model.
+JUDGE_MODEL = "claude-opus-5-5"
+JUDGE_EFFORT = "medium"
+JUDGE_MAX_TOKENS = 8000
+EVAL_SPEND_CAP_USD = 2.00  # default cap for one live eval run
+EVAL_RESULTS_DIR = ROOT_DIR / "evals" / "results"
+FEEDBACK_LOG = ROOT_DIR / "logs" / "feedback.jsonl"  # user data: gitignored, never committed
+
 # Anthropic list prices, $ per million tokens (input, output), as of 2026-10.
 # Cache writes bill at 1.25x input, cache reads at 0.1x input.
 TOKEN_PRICES_PER_MTOK: dict[str, tuple[float, float]] = {

@@ -65,7 +65,7 @@
     - "Cleaned hulls still meet the feed standard (crude fiber below 15%) [wcngg2022]."
     - "Access to cleaning and kernel-recovery equipment."
   risks:
-    - "Recovered kernels may grade lower than standard kernels."
+    - "Recovered kernels may grade lower than standard kernels (a general caution, not from a cited source)."
     - "Cleaning cost is a demo placeholder; get an equipment or toll-cleaning quote."
   source_ids: [abc_food2025, giannini2026]
 

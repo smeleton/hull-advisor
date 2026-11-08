@@ -23,7 +23,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from markupsafe import Markup
+from markupsafe import Markup, escape
 
 from biocycle import present as p
 from biocycle.allocation import Allocation, allocate
@@ -35,6 +35,7 @@ from biocycle.config import (
     HAUL_RATE_SOURCE,
     PLACEHOLDER_BANNER,
 )
+from biocycle import feedback
 from biocycle.data import Buyer, Outlet, Source, load_buyers, load_outlets, load_sources
 from biocycle.llm import LLMError, LLMResult
 from biocycle.report import NumberMatch, Report, build_payload, generate_report, report_download
@@ -156,6 +157,7 @@ def context(c: Computed, session: Session) -> dict[str, Any]:
         "show_banner": c.show_banner,
         "payload_hash": payload_hash(c),
         "session": session,
+        "intent_choices": feedback.INTENT_CHOICES,
         "default_haul": DEFAULT_HAUL_RATE,
         "haul_range": HAUL_RATE_RANGE,
         "haul_source": HAUL_RATE_SOURCE,
@@ -225,6 +227,25 @@ async def report(request: Request) -> Response:
         ctx.update(report=rep, rid=rid, html=report_html(rep.markdown, rep.unmatched),
                    payload_hash=payload_hash(c))
     resp = templates.TemplateResponse(request, "partials/report.html", ctx)
+    return with_cookie(resp, sid)
+
+
+@app.post("/feedback", response_class=HTMLResponse)
+async def send_feedback(request: Request) -> Response:
+    """Store one feedback/outcome submission with a snapshot of the current prediction."""
+    sid, _ = get_session(request)
+    form = await request.form()
+    c = compute(form)
+    try:
+        entry = feedback.build_entry(form, c.lot, c.results, sid, payload_hash(c))
+        feedback.record(entry)
+    except feedback.FeedbackError as e:
+        resp = HTMLResponse(f'<span class="fb-error">{escape(str(e))}</span>', status_code=422)
+    except OSError:
+        resp = HTMLResponse('<span class="fb-error">Couldn&#39;t save your feedback. '
+                            "Please try again.</span>", status_code=500)
+    else:
+        resp = HTMLResponse('<span class="fb-ok">Thanks — your feedback was saved.</span>')
     return with_cookie(resp, sid)
 
 

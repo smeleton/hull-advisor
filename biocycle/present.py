@@ -206,6 +206,11 @@ def check_for(row: Mapping[str, Any]) -> Check:
     return Check("warn", f"{n} to check") if n else Check("ok", "OK")
 
 
+def has_break_even(row: Mapping[str, Any]) -> bool:
+    """A price-to-match-local only means something for an outlet with its own buyer price."""
+    return not (row["is_baseline"] or row.get("price_follows_baseline", False))
+
+
 def result_rows(df: pd.DataFrame) -> list[dict[str, Any]]:
     """Display-ready rows for the ranked results table."""
     rows = []
@@ -223,7 +228,8 @@ def result_rows(df: pd.DataFrame) -> list[dict[str, Any]]:
             "vs_sign": (0 if r["is_baseline"] or is_missing(r["vs_baseline_per_ton"])
                         else (1 if r["vs_baseline_per_ton"] > 0.005 else
                               (-1 if r["vs_baseline_per_ton"] < -0.005 else 0))),
-            "break_even_text": money(r["break_even_price"]),
+            "has_break_even": has_break_even(r),
+            "break_even_text": money(r["break_even_price"]) if has_break_even(r) else "—",
             "check": check_for(r),
             "detail_flags": [f for f in r["flags"] if f != "needs quote"],
         })

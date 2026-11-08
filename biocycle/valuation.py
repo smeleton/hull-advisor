@@ -172,6 +172,9 @@ def _value_outlet(
         "input_tiers": input_tiers,
         "result_tier": worst_tier(*input_tiers.values()),
         "source_ids": source_ids,
+        # Which outlet's price this one follows (None once the user enters its own price).
+        "price_from": None if ov.price is not None else outlet.price_from,
+        "price_premium": 0.0 if ov.price is not None else outlet.price_premium,
     }
 
 
@@ -194,6 +197,9 @@ def evaluate(
     base_net = base.net_expected
 
     df["is_baseline"] = df.outlet_id == baseline_id
+    # Sold at exactly the baseline's price (e.g. cleaned hulls to the same dairy): a change in
+    # that price moves both equally, so a break-even *price* says nothing useful for them.
+    df["price_follows_baseline"] = (df.price_from == baseline_id) & (df.price_premium == 0)
     df["total_low"] = df.net_low * lot.tons
     df["total_expected"] = df.net_expected * lot.tons
     df["total_high"] = df.net_high * lot.tons
