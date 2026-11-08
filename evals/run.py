@@ -3,6 +3,7 @@
     python -m evals.run math                        # free, deterministic, ~5 s
     python -m evals.run report [--no-judge] [--max-spend 2.00] [--scenario default ...]
     python -m evals.run feedback                    # summarize logs/feedback.jsonl
+    python -m evals.run market                      # demo vs. real USDA data, weekly backtest
 
 Each run prints a summary and writes evals/results/<UTC timestamp>-<kind>.{json,md}.
 `report` calls Claude (costs money): it stops before any call that could exceed --max-spend.
@@ -14,7 +15,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,7 @@ from biocycle.config import EVAL_RESULTS_DIR, EVAL_SPEND_CAP_USD, MODEL, JUDGE_M
 from biocycle.data import load_outlets, load_sources
 from biocycle.feedback import load as load_feedback
 from biocycle.llm import LLMError
+from biocycle.market import apply_snapshot, load_snapshot
 from biocycle.report import build_payload, generate_report
 from biocycle.valuation import evaluate
 from evals import math_checks
@@ -89,12 +91,21 @@ def run_report(scenarios: list[Scenario], judge: bool, max_spend: float, out_dir
             rows.append({"scenario": sc.id, "status": "skipped",
                          "reason": f"spend cap ${max_spend:.2f} reached (${spent:.4f} spent)"})
             continue
-        results = evaluate(sc.lot, outlets, sc.overrides)
-        payload = build_payload(sc.lot, results, sources)
+        lot, sc_outlets = sc.lot, outlets
+        if sc.market:
+            snap = load_snapshot()
+            if snap is None:
+                rows.append({"scenario": sc.id, "status": "skipped",
+                             "reason": "no market snapshot (run python -m biocycle.refresh)"})
+                continue
+            lot = replace(sc.lot, haul_schedule=snap.truck_rates)
+            sc_outlets = apply_snapshot(outlets, snap)
+        results = evaluate(lot, sc_outlets, sc.overrides)
+        payload = build_payload(lot, results, sources)
         row: dict[str, Any] = {"scenario": sc.id, "description": sc.description}
         cost = 0.0
         try:
-            rep = generate_report(sc.lot, results, sources, client=client)
+            rep = generate_report(lot, results, sources, client=client)
             cost += rep.llm.cost_usd
             grades = grade_report(rep.llm.text, payload)
             row.update(status="ok", report=rep.llm.text,
@@ -163,6 +174,23 @@ def report_markdown(rows: list[dict[str, Any]], judge: bool, spent: float,
     return "\n".join(lines) + "\n"
 
 
+# ---------- market ----------
+
+
+def run_market(out_dir: Path) -> bool:
+    from evals import market_check
+
+    out = market_check.run()
+    if out is None:
+        print("No market snapshot. Run `python -m biocycle.refresh` first.")
+        return False
+    data, md = out
+    base = _write("market", data, md, out_dir)
+    print(md)
+    print(f"Wrote {base}.json/.md")
+    return True
+
+
 # ---------- feedback ----------
 
 
@@ -188,6 +216,7 @@ def main(argv: list[str] | None = None) -> int:
     rp.add_argument("--scenario", action="append", choices=[s.id for s in SCENARIOS],
                     help="run only these scenarios (repeatable)")
     sub.add_parser("feedback", help="summarize in-app feedback and outcomes")
+    sub.add_parser("market", help="compare demo values with real USDA market data")
     p.add_argument("--out", type=Path, default=EVAL_RESULTS_DIR, help="results directory")
     args = p.parse_args(argv)
 
@@ -196,6 +225,8 @@ def main(argv: list[str] | None = None) -> int:
     elif args.kind == "report":
         chosen = [s for s in SCENARIOS if not args.scenario or s.id in args.scenario]
         ok = run_report(chosen, not args.no_judge, args.max_spend, args.out)
+    elif args.kind == "market":
+        ok = run_market(args.out)
     else:
         ok = run_feedback(args.out)
     return 0 if ok else 1

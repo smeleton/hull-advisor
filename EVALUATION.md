@@ -8,6 +8,7 @@ There are three layers, each answering a different question:
 | 1. Math validation | Is the arithmetic and ranking correct? | free, ~5 s | `python -m evals.run math` |
 | 2. AI report eval | Does the written report say only true things, clearly? | ~$0.10 per scenario | `python -m evals.run report` |
 | 3. Real-user feedback | Is it useful, and do real sale prices land where we predicted? | free | `python -m evals.run feedback` |
+| Real-data check | How do results change on real USDA prices, week by week? | free | `python -m evals.run market` |
 
 Every run prints a summary and writes `evals/results/<UTC time>-<kind>.json` and `.md`.
 The command exits non-zero if any check fails, so it can gate a release.
@@ -28,6 +29,11 @@ The command exits non-zero if any check fails, so it can gate a release.
 - **Backtest** (`data/price_history.yaml`): replay today's recommendation at each sourced
   historical local hull price, and report whether it still holds and by how much.
   This is a robustness check, not proof the advice was right; real outcomes (layer 3) are.
+- **Real weekly backtest** (after `python -m biocycle.refresh`): replay every week of USDA
+  almond hull prices since 2022 (local = San Joaquin Valley delivered, south = southern
+  California delivered, USDA truck rates by distance) and report how often each option wins.
+  The first run (181 weeks, Feb 2022 – Nov 2026) found that shipping to southern California beat
+  selling locally in 55 weeks, where the demo values said it always lost by about $29/ton.
 
 ## 2. AI report eval (`evals/report_graders.py`, `evals/judge.py`, `evals/scenarios.py`)
 

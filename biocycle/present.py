@@ -240,6 +240,69 @@ def quality_flags(df: pd.DataFrame) -> list[str]:
     return sorted({f for fs in df["flags"] for f in fs if f != "needs quote"})
 
 
+# ---------- price history chart ----------
+
+
+def history_chart_svg(points: list[tuple[Any, float]], title: str, width: int = 900,
+                      height: int = 260, gap_days: int = 21) -> str:
+    """One-series line chart of (date, $/ton). The line breaks where reports are missing
+    (gaps longer than `gap_days`), so missing data is never drawn as a straight line."""
+    pts = sorted(points)
+    left, right, top, bottom = 56, 70, 18, 34
+    pw, ph = width - left - right, height - top - bottom
+    d0, d1 = pts[0][0], pts[-1][0]
+    span = max((d1 - d0).days, 1)
+    vals = [v for _, v in pts]
+    step = _nice_step((max(vals) - min(vals)) or 10)
+    lo = math.floor(min(vals) / step) * step
+    hi = math.ceil(max(vals) / step) * step
+    hi = hi if hi > lo else lo + step
+
+    def x(d: Any) -> float:
+        return left + (d - d0).days / span * pw
+
+    def y(v: float) -> float:
+        return top + (hi - v) / (hi - lo) * ph
+
+    out = [f'<svg class="chart history" viewBox="0 0 {width} {height}" role="img" '
+           f'aria-label="{escape(title)}" preserveAspectRatio="xMinYMin meet">',
+           f"<title>{escape(title)}</title>"]
+    t = lo
+    while t <= hi + 1e-9:
+        out.append(f'<line class="grid" x1="{left}" x2="{left + pw}" y1="{y(t):.1f}" '
+                   f'y2="{y(t):.1f}"/><text class="tick" x="{left - 8}" y="{y(t) + 4:.1f}" '
+                   f'text-anchor="end">{escape(money(t))}</text>')
+        t += step
+    for year in range(d0.year, d1.year + 1):
+        for month in (1, 7):
+            tick = type(d0)(year, month, 1)
+            if d0 <= tick <= d1:
+                out.append(f'<text class="tick" x="{x(tick):.1f}" y="{height - 10}" '
+                           f'text-anchor="middle">{tick:%b %Y}</text>')
+    segments: list[list[tuple[Any, float]]] = [[pts[0]]]
+    for prev, cur in zip(pts, pts[1:]):
+        if (cur[0] - prev[0]).days > gap_days:
+            segments.append([])
+        segments[-1].append(cur)
+    for seg in segments:
+        if len(seg) > 1:
+            path = " ".join(f"{'M' if i == 0 else 'L'}{x(d):.1f},{y(v):.1f}"
+                            for i, (d, v) in enumerate(seg))
+            out.append(f'<path class="line" d="{path}"/>')
+    for i, (d0_, d1_) in enumerate(zip(segments, segments[1:])):
+        gx0, gx1 = x(d0_[-1][0]), x(d1_[0][0])
+        out.append(f'<text class="note" x="{(gx0 + gx1) / 2:.1f}" y="{top + 14}" '
+                   f'text-anchor="middle">no public reports</text>')
+    for d, v in pts:
+        out.append(f'<circle class="dot" cx="{x(d):.1f}" cy="{y(v):.1f}" r="3">'
+                   f'<title>{d:%b %-d, %Y}: {escape(money(v, decimals=2))}/ton</title></circle>')
+    ld, lv = pts[-1]
+    out.append(f'<text class="value" x="{x(ld) + 8:.1f}" y="{y(lv) + 4:.1f}">'
+               f'{escape(money(lv))}</text>')
+    out.append("</svg>")
+    return "".join(out)
+
+
 # ---------- chart (server-rendered SVG) ----------
 
 CHART_W = 940

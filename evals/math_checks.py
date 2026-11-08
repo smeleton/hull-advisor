@@ -251,5 +251,53 @@ def backtest(lot: Lot | None = None, path: Path = PRICE_HISTORY_PATH) -> list[Ch
         {"rows": rows, "today": today["outlet_id"]})]
 
 
+def market_backtest(tons: float = 1000) -> list[CheckResult]:
+    """Replay the recommendation every week of real USDA hull prices (data/market/).
+
+    Each week uses that week's San Joaquin Valley and southern California delivered price
+    ranges and USDA truck rates by distance. It reports how often each option came out on top
+    and, separately, how often shipping south beat selling locally. Informational: it passes
+    whenever real history is available, and the numbers go in the report.
+    """
+    from biocycle.market import (DISTANT_REGION, LOCAL_REGION, apply_snapshot, load_hull_history,
+                                 load_snapshot, pick_quote)
+
+    snap = load_snapshot()
+    history = load_hull_history()
+    if snap is None or not history:
+        return [CheckResult("backtest", "real weekly prices", True,
+                            "skipped: run `python -m biocycle.refresh` first")]
+    outlets = apply_snapshot(_outlets(), snap)
+    lot = Lot(tons=tons, haul_schedule=snap.truck_rates)
+    weeks: dict[Any, list] = {}
+    for q in history:
+        weeks.setdefault(q.report_date, []).append(q)
+    rows = []
+    for when, qs in sorted(weeks.items()):
+        local, south = pick_quote(qs, LOCAL_REGION), pick_quote(qs, DISTANT_REGION)
+        if not (local and local.delivered and south and south.delivered):
+            continue
+        ov = {BASELINE_ID: Override(price=(local.price_low + local.price_high) / 2),
+              "distant_dairy": Override(price=(south.price_low + south.price_high) / 2)}
+        df = evaluate(lot, outlets, ov).set_index("outlet_id")
+        best = df.index[0]
+        south_edge = float(df.loc["distant_dairy", "vs_baseline_per_ton"])
+        rows.append({"week": when.isoformat(), "local_mid": (local.price_low + local.price_high) / 2,
+                     "south_mid": (south.price_low + south.price_high) / 2, "best": best,
+                     "south_vs_local_per_ton": round(south_edge, 2)})
+    if not rows:
+        return [CheckResult("backtest", "real weekly prices", True, "no delivered quotes")]
+    wins: dict[str, int] = {}
+    for r in rows:
+        wins[r["best"]] = wins.get(r["best"], 0) + 1
+    south_better = sum(r["south_vs_local_per_ton"] > 0 for r in rows)
+    detail = (f"{len(rows)} weeks {rows[0]['week']} to {rows[-1]['week']}; best option: "
+              + ", ".join(f"{k} {v}" for k, v in sorted(wins.items(), key=lambda x: -x[1]))
+              + f"; shipping south beat selling locally in {south_better}/{len(rows)} weeks")
+    return [CheckResult("backtest", "real weekly prices (USDA, informational)", True, detail,
+                        {"weeks": rows, "wins": wins, "south_better_weeks": south_better})]
+
+
 def run_all() -> list[CheckResult]:
-    return golden_cases() + invariants() + lp_cross_check() + backtest()
+    return (golden_cases() + invariants() + lp_cross_check() + backtest()
+            + market_backtest())

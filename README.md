@@ -31,6 +31,30 @@ cp .env.example .env   # add ANTHROPIC_API_KEY (needed from Phase 3, the AI repo
 .venv/bin/pytest -q
 ```
 
+## Real market data
+
+```bash
+.venv/bin/python -m biocycle.refresh              # latest USDA/EIA data + hull price history
+.venv/bin/python -m biocycle.refresh --no-history # latest reports only
+```
+
+The refresh pulls public, keyless sources and writes small committed files to `data/market/`
+(the app never fetches at request time; downloads are cached in the gitignored
+`data/market/cache/`):
+
+| Data | Source | Used for |
+|---|---|---|
+| Almond hull asking prices by region, weekly (FOB and delivered) | USDA AMS report 3512 + ESMIS archive (`ams_3512`) | Local dairy price (San Joaquin Valley, delivered); southern California dairy price; price history |
+| Truck rates per loaded mile at 25/100/200 mi, quarterly | USDA Grain Truck and Ocean Rate Advisory (`usda_gtor`) | Hauling by distance: rate ÷ 27.5-ton load, interpolated by miles |
+| California diesel, weekly | EIA (`eia_ca_diesel`) | Context only |
+| Shelled almond price, annual | USDA NASS (`nass_ncit`) | Ceiling for recovered-kernel value (the kernel price stays a demo value) |
+
+In the app, **Prices from: USDA market** (the default when a snapshot exists) uses these numbers,
+tagged *Sourced*; **Demo values** uses `data/outlets.yaml`. **Hauling: USDA by distance** or a
+flat rate. The Sources tab shows the latest quotes and the weekly price history.
+`python -m evals.run market` compares demo and market results and replays the recommendation
+over every week of real prices.
+
 ## Evaluation
 
 See [EVALUATION.md](EVALUATION.md). In short:

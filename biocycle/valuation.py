@@ -37,6 +37,25 @@ class Lot:
     moisture_pct: float | None = None
     crude_fiber_pct: float | None = None
     aflatoxin_tested: str = "unknown"  # yes | no | unknown
+    # Optional distance-based rates ((miles, $/ton-mile), ...), e.g. USDA truck rates. When
+    # set, they replace the flat haul_rate: longer hauls cost less per mile.
+    haul_schedule: tuple[tuple[float, float], ...] = ()
+
+    def haul_rate_at(self, miles: float) -> float:
+        """$/ton-mile for a haul of this length: linear between schedule points, flat beyond."""
+        pts = sorted(self.haul_schedule)
+        if not pts:
+            return self.haul_rate
+        if miles <= pts[0][0]:
+            return pts[0][1]
+        for (m0, r0), (m1, r1) in zip(pts, pts[1:]):
+            if miles <= m1:
+                return r0 + (r1 - r0) * (miles - m0) / (m1 - m0)
+        return pts[-1][1]
+
+    def haul_cost(self, miles: float) -> float:
+        """$ per ton of hulls to haul them `miles` one way."""
+        return self.haul_rate_at(miles) * miles
 
 
 @dataclass(frozen=True)
@@ -122,7 +141,7 @@ def _value_outlet(
     processing = (
         ov.processing_cost if ov.processing_cost is not None else outlet.processing_cost_per_ton
     )
-    haul_cost = lot.haul_rate * miles
+    haul_cost = lot.haul_cost(miles)
     cp_low, cp_high = coproduct_range(outlet, ov)
 
     input_tiers = {

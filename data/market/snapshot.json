@@ -1,0 +1,74 @@
+{
+  "retrieved_at": "2026-11-08T03:02:32+00:00",
+  "hull_report_date": "2026-11-06",
+  "local": {
+    "report_date": "2026-11-06",
+    "region": "CA-San Joaquin Valley",
+    "sale_type": "Ask",
+    "price_low": 100.0,
+    "price_high": 145.0,
+    "average": 130.0,
+    "year_ago": 90.0,
+    "basis": "DLVD-T",
+    "source_url": "https://www.ams.usda.gov/mnreports/AMS_3512.pdf"
+  },
+  "distant": {
+    "report_date": "2026-11-06",
+    "region": "CA-South",
+    "sale_type": "Ask",
+    "price_low": 85.0,
+    "price_high": 160.0,
+    "average": 138.75,
+    "year_ago": 108.75,
+    "basis": "DLVD-T",
+    "source_url": "https://www.ams.usda.gov/mnreports/AMS_3512.pdf"
+  },
+  "truck_quarter": "2026Q1",
+  "truck_payload_short_tons": 27.5,
+  "truck_rates_per_ton_mile": [
+    [
+      25.0,
+      0.2484
+    ],
+    [
+      100.0,
+      0.1549
+    ],
+    [
+      200.0,
+      0.1069
+    ]
+  ],
+  "diesel_ca": {
+    "date": "2026-11-02",
+    "usd_per_gal": 8.076
+  },
+  "almond_price": {
+    "year": 2025,
+    "usd_per_lb": 2.6
+  },
+  "hull_quotes": [
+    {
+      "report_date": "2026-11-06",
+      "region": "CA-San Joaquin Valley",
+      "sale_type": "Ask",
+      "price_low": 100.0,
+      "price_high": 145.0,
+      "average": 130.0,
+      "year_ago": 90.0,
+      "basis": "DLVD-T",
+      "source_url": "https://www.ams.usda.gov/mnreports/AMS_3512.pdf"
+    },
+    {
+      "report_date": "2026-11-06",
+      "region": "CA-South",
+      "sale_type": "Ask",
+      "price_low": 85.0,
+      "price_high": 160.0,
+      "average": 138.75,
+      "year_ago": 108.75,
+      "basis": "DLVD-T",
+      "source_url": "https://www.ams.usda.gov/mnreports/AMS_3512.pdf"
+    }
+  ]
+}

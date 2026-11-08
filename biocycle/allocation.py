@@ -66,7 +66,7 @@ def buyer_margins(buyers: list[Buyer], lot: Lot, results: pd.DataFrame,
     rows = []
     for b, tier in zip(buyers, tiers):
         o = by_outlet.loc[b.outlet_id]
-        haul = lot.haul_rate * b.miles
+        haul = lot.haul_cost(b.miles)
         coproduct = float(o["coproduct_expected"])
         processing = float(o["processing_cost"])
         rows.append({

@@ -26,7 +26,8 @@ def client() -> TestClient:
 def default_form() -> list[tuple[str, str]]:
     """The form exactly as the page first renders it (repeated buyer fields included)."""
     outlets = load_outlets(load_sources())
-    form = [("tons", "1000"), ("haul_rate", "0.30"), ("moisture", ""), ("crude_fiber", ""),
+    form = [("data_mode", "demo"), ("haul_mode", "flat"),
+            ("tons", "1000"), ("haul_rate", "0.30"), ("moisture", ""), ("crude_fiber", ""),
             ("aflatoxin", "unknown"), ("coproduct__recovered_kernel", "1.00")]
     for o in outlets.values():
         form += [(f"price__{o.id}", ""), (f"miles__{o.id}", f"{o.default_miles:g}"),
@@ -61,7 +62,7 @@ def post(client: TestClient, path: str, form: list[tuple[str, str]]):
 
 
 def test_index_renders_with_banner_and_tabs(client):
-    r = client.get("/")
+    r = client.get("/?data=demo")
     assert r.status_code == 200
     html = r.text
     assert PLACEHOLDER_BANNER in html
@@ -73,7 +74,7 @@ def test_index_renders_with_banner_and_tabs(client):
 
 
 def test_sources_tab_lists_all_sources(client):
-    html = client.get("/").text
+    html = client.get("/?data=demo").text
     for sid in ("giannini2026", "wcngg2022", "farmprogress_low", "abc_food2025", "gras2026"):
         assert f"<code>{sid}</code>" in html
 
@@ -87,7 +88,7 @@ def test_static_assets_served(client):
 
 
 def test_default_form_matches_initial_page(client):
-    first = client.get("/").text
+    first = client.get("/?data=demo").text
     swapped = post(client, "/calculate", default_form()).text
     assert answer(first) == answer(swapped)
     hash_page = re.search(r'data-current-hash="(\w+)"', first).group(1)
@@ -174,7 +175,7 @@ def fake_llm(monkeypatch, tmp_path):
 
 def test_report_generates_checks_numbers_and_downloads(client, fake_llm):
     fake_llm()
-    assert "none yet" in client.get("/").text
+    assert "none yet" in client.get("/?data=demo").text
     html = post(client, "/report", default_form()).text
     assert "Number check passed" in html
     assert "<h2>Recommendation</h2>" in html
@@ -184,7 +185,7 @@ def test_report_generates_checks_numbers_and_downloads(client, fake_llm):
     assert md.status_code == 200
     assert "## Recommendation" in md.text and PLACEHOLDER_BANNER in md.text
     report_hash = re.search(r'data-report-hash="(\w+)"', html).group(1)
-    page_hash = re.search(r'data-current-hash="(\w+)"', client.get("/").text).group(1)
+    page_hash = re.search(r'data-current-hash="(\w+)"', client.get("/?data=demo").text).group(1)
     assert report_hash == page_hash  # unchanged inputs -> no "inputs changed" notice
 
 
@@ -212,5 +213,5 @@ def test_report_html_escapes_model_markup():
 
 
 def test_unknown_report_download_is_404(client):
-    client.get("/")
+    client.get("/?data=demo")
     assert client.get("/report/nope.md").status_code == 404

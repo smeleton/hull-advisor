@@ -255,6 +255,22 @@ select.cell { width: 100%; min-width: 170px; text-align: left; font-weight: 500;
 .tiers .label { font-weight: 600; margin-right: 6px; }
 .tier-item { margin-right: 12px; white-space: nowrap; }
 
+/* ---------- mode switch & market data ---------- */
+.segmented-links a { display: block; padding: 7px 12px; font-size: 14px; color: var(--ink); text-decoration: none; border-left: 1px solid var(--rule); }
+.segmented-links a:first-child { border-left: 0; }
+.segmented-links a.on { background: var(--green); color: #fff; font-weight: 600; }
+.segmented-links a:not(.on):hover { background: var(--green-wash); }
+.lot .segmented { display: flex; width: 100%; flex-wrap: nowrap; }
+.lot .segmented > * { flex: 1 1 0; text-align: center; white-space: nowrap; }
+.lot .segmented span, .lot .segmented-links a { padding-left: 6px; padding-right: 6px; font-size: 13.5px; }
+.market { margin-top: 0; margin-bottom: 30px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 24px; margin: 14px 0 16px; }
+.facts dt { font-size: 13px; color: var(--ink-3); }
+.facts dd { margin: 2px 0 0; font-weight: 600; }
+.chart.history .line { fill: none; stroke: var(--bar); stroke-width: 2; stroke-linejoin: round; }
+.chart.history .dot { fill: var(--bar); stroke: var(--card); stroke-width: 1.5; }
+.chart.history .dot:hover { r: 5; }
+
 /* ---------- feedback ---------- */
 .feedback { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px 22px; }
 .fb-grid { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: flex-end; }

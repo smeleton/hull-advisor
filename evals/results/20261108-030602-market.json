@@ -1,0 +1,1379 @@
+{
+  "tons": 1000,
+  "hull_report_date": "2026-11-06",
+  "truck_quarter": "2026Q1",
+  "demo_top": "clean_and_recover",
+  "market_top": "clean_and_recover",
+  "rows": [
+    {
+      "outlet_id": "clean_and_recover",
+      "name": "Clean, recover kernels, then sell to local dairy",
+      "demo_rank": 1,
+      "market_rank": 1,
+      "demo_net": 98.0,
+      "market_net": 130.53,
+      "demo_tier": "placeholder",
+      "market_tier": "placeholder",
+      "newly_sourced_inputs": [],
+      "still_demo_inputs": [
+        "coproduct: Recovered kernel",
+        "miles",
+        "processing_cost"
+      ]
+    },
+    {
+      "outlet_id": "local_dairy",
+      "name": "Sell to local dairy",
+      "demo_rank": 2,
+      "market_rank": 2,
+      "demo_net": 85.0,
+      "market_net": 117.53,
+      "demo_tier": "placeholder",
+      "market_tier": "placeholder",
+      "newly_sourced_inputs": [],
+      "still_demo_inputs": [
+        "miles"
+      ]
+    },
+    {
+      "outlet_id": "distant_dairy",
+      "name": "Ship to southern California dairies",
+      "demo_rank": 3,
+      "market_rank": 3,
+      "demo_net": 56.0,
+      "market_net": 95.78,
+      "demo_tier": "placeholder",
+      "market_tier": "placeholder",
+      "newly_sourced_inputs": [
+        "price"
+      ],
+      "still_demo_inputs": [
+        "miles"
+      ]
+    },
+    {
+      "outlet_id": "bioenergy",
+      "name": "Bioenergy feedstock",
+      "demo_rank": 4,
+      "market_rank": 4,
+      "demo_net": 17.0,
+      "market_net": 22.71,
+      "demo_tier": "placeholder",
+      "market_tier": "placeholder",
+      "newly_sourced_inputs": [],
+      "still_demo_inputs": [
+        "miles",
+        "price",
+        "processing_cost"
+      ]
+    },
+    {
+      "outlet_id": "compost_soil",
+      "name": "Compost or soil amendment",
+      "demo_rank": 5,
+      "market_rank": 5,
+      "demo_net": 16.0,
+      "market_net": 17.73,
+      "demo_tier": "placeholder",
+      "market_tier": "placeholder",
+      "newly_sourced_inputs": [],
+      "still_demo_inputs": [
+        "miles",
+        "price",
+        "processing_cost"
+      ]
+    },
+    {
+      "outlet_id": "food_ingredient",
+      "name": "Hull powder food ingredient",
+      "demo_rank": 6,
+      "market_rank": 6,
+      "demo_net": null,
+      "market_net": null,
+      "demo_tier": "placeholder",
+      "market_tier": "placeholder",
+      "newly_sourced_inputs": [],
+      "still_demo_inputs": [
+        "miles",
+        "price",
+        "processing_cost"
+      ]
+    }
+  ],
+  "backtest": {
+    "weeks": [
+      {
+        "week": "2022-02-11",
+        "local_mid": 207.5,
+        "south_mid": 225.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-02-18",
+        "local_mid": 207.5,
+        "south_mid": 225.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-02-25",
+        "local_mid": 210.0,
+        "south_mid": 227.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-03-04",
+        "local_mid": 220.0,
+        "south_mid": 232.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2022-03-11",
+        "local_mid": 222.5,
+        "south_mid": 232.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2022-03-18",
+        "local_mid": 242.5,
+        "south_mid": 267.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2022-03-25",
+        "local_mid": 245.0,
+        "south_mid": 270.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2022-04-01",
+        "local_mid": 245.0,
+        "south_mid": 270.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2022-04-08",
+        "local_mid": 252.5,
+        "south_mid": 272.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2022-04-15",
+        "local_mid": 260.0,
+        "south_mid": 282.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2022-04-22",
+        "local_mid": 270.0,
+        "south_mid": 285.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2022-04-29",
+        "local_mid": 275.0,
+        "south_mid": 285.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2022-05-06",
+        "local_mid": 287.5,
+        "south_mid": 307.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2022-05-13",
+        "local_mid": 287.5,
+        "south_mid": 307.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2022-05-20",
+        "local_mid": 292.5,
+        "south_mid": 310.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-05-27",
+        "local_mid": 337.5,
+        "south_mid": 322.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -36.76
+      },
+      {
+        "week": "2022-06-03",
+        "local_mid": 307.5,
+        "south_mid": 325.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-06-10",
+        "local_mid": 307.5,
+        "south_mid": 325.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-06-17",
+        "local_mid": 317.5,
+        "south_mid": 327.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2022-06-24",
+        "local_mid": 317.5,
+        "south_mid": 327.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2022-07-01",
+        "local_mid": 305.0,
+        "south_mid": 322.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-07-08",
+        "local_mid": 305.0,
+        "south_mid": 322.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-07-15",
+        "local_mid": 305.0,
+        "south_mid": 322.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-07-22",
+        "local_mid": 305.0,
+        "south_mid": 322.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-07-29",
+        "local_mid": 303.5,
+        "south_mid": 322.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -2.76
+      },
+      {
+        "week": "2022-08-05",
+        "local_mid": 293.5,
+        "south_mid": 315.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -0.26
+      },
+      {
+        "week": "2022-08-12",
+        "local_mid": 290.0,
+        "south_mid": 297.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -14.26
+      },
+      {
+        "week": "2022-08-19",
+        "local_mid": 285.0,
+        "south_mid": 307.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2022-08-26",
+        "local_mid": 285.0,
+        "south_mid": 300.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2022-09-02",
+        "local_mid": 280.0,
+        "south_mid": 287.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -14.26
+      },
+      {
+        "week": "2022-09-09",
+        "local_mid": 280.0,
+        "south_mid": 287.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -14.26
+      },
+      {
+        "week": "2022-09-16",
+        "local_mid": 282.5,
+        "south_mid": 292.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2022-09-23",
+        "local_mid": 282.5,
+        "south_mid": 292.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2022-09-30",
+        "local_mid": 280.0,
+        "south_mid": 295.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2022-10-07",
+        "local_mid": 282.5,
+        "south_mid": 297.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2022-10-14",
+        "local_mid": 282.5,
+        "south_mid": 297.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2022-10-21",
+        "local_mid": 282.5,
+        "south_mid": 297.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2022-10-28",
+        "local_mid": 282.5,
+        "south_mid": 302.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2022-11-04",
+        "local_mid": 282.5,
+        "south_mid": 302.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2022-11-11",
+        "local_mid": 282.5,
+        "south_mid": 295.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2022-11-18",
+        "local_mid": 282.5,
+        "south_mid": 295.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2022-11-25",
+        "local_mid": 282.5,
+        "south_mid": 295.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2022-12-02",
+        "local_mid": 282.5,
+        "south_mid": 302.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2022-12-09",
+        "local_mid": 282.5,
+        "south_mid": 302.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2022-12-16",
+        "local_mid": 282.5,
+        "south_mid": 300.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2022-12-23",
+        "local_mid": 282.5,
+        "south_mid": 300.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-01-06",
+        "local_mid": 292.5,
+        "south_mid": 305.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2023-01-13",
+        "local_mid": 292.5,
+        "south_mid": 305.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2023-01-20",
+        "local_mid": 292.5,
+        "south_mid": 302.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2023-01-27",
+        "local_mid": 292.5,
+        "south_mid": 305.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2023-02-03",
+        "local_mid": 290.0,
+        "south_mid": 305.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2023-02-10",
+        "local_mid": 292.5,
+        "south_mid": 310.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-02-17",
+        "local_mid": 292.5,
+        "south_mid": 310.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-02-24",
+        "local_mid": 280.0,
+        "south_mid": 310.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 8.24
+      },
+      {
+        "week": "2023-03-03",
+        "local_mid": 287.5,
+        "south_mid": 307.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2023-03-10",
+        "local_mid": 277.5,
+        "south_mid": 307.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 8.24
+      },
+      {
+        "week": "2023-03-17",
+        "local_mid": 272.5,
+        "south_mid": 282.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2023-03-24",
+        "local_mid": 265.0,
+        "south_mid": 287.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2023-03-31",
+        "local_mid": 245.0,
+        "south_mid": 260.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2023-04-07",
+        "local_mid": 237.5,
+        "south_mid": 252.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2023-04-14",
+        "local_mid": 237.5,
+        "south_mid": 252.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2023-04-21",
+        "local_mid": 232.5,
+        "south_mid": 252.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2023-04-28",
+        "local_mid": 217.5,
+        "south_mid": 235.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-05-05",
+        "local_mid": 215.0,
+        "south_mid": 235.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2023-05-12",
+        "local_mid": 205.0,
+        "south_mid": 230.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2023-05-19",
+        "local_mid": 200.0,
+        "south_mid": 225.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2023-05-26",
+        "local_mid": 195.0,
+        "south_mid": 205.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -11.76
+      },
+      {
+        "week": "2023-06-02",
+        "local_mid": 180.0,
+        "south_mid": 202.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2023-06-09",
+        "local_mid": 180.0,
+        "south_mid": 202.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2023-06-16",
+        "local_mid": 172.5,
+        "south_mid": 202.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 8.24
+      },
+      {
+        "week": "2023-06-23",
+        "local_mid": 170.0,
+        "south_mid": 200.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 8.24
+      },
+      {
+        "week": "2023-06-30",
+        "local_mid": 170.0,
+        "south_mid": 155.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -36.76
+      },
+      {
+        "week": "2023-07-07",
+        "local_mid": 167.5,
+        "south_mid": 160.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -29.26
+      },
+      {
+        "week": "2023-07-14",
+        "local_mid": 155.0,
+        "south_mid": 147.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -29.26
+      },
+      {
+        "week": "2023-07-21",
+        "local_mid": 157.5,
+        "south_mid": 142.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -36.76
+      },
+      {
+        "week": "2023-07-28",
+        "local_mid": 132.5,
+        "south_mid": 152.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2023-08-04",
+        "local_mid": 117.5,
+        "south_mid": 142.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2023-08-11",
+        "local_mid": 115.0,
+        "south_mid": 140.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2023-08-18",
+        "local_mid": 112.5,
+        "south_mid": 140.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 5.74
+      },
+      {
+        "week": "2023-08-25",
+        "local_mid": 130.0,
+        "south_mid": 122.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -29.26
+      },
+      {
+        "week": "2023-09-01",
+        "local_mid": 115.0,
+        "south_mid": 132.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-09-08",
+        "local_mid": 115.0,
+        "south_mid": 135.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2023-09-15",
+        "local_mid": 115.0,
+        "south_mid": 135.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2023-09-22",
+        "local_mid": 120.0,
+        "south_mid": 137.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-09-29",
+        "local_mid": 122.5,
+        "south_mid": 137.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2023-10-06",
+        "local_mid": 125.0,
+        "south_mid": 137.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2023-10-13",
+        "local_mid": 130.0,
+        "south_mid": 142.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2023-10-20",
+        "local_mid": 130.0,
+        "south_mid": 142.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2023-10-27",
+        "local_mid": 130.0,
+        "south_mid": 147.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-11-03",
+        "local_mid": 130.0,
+        "south_mid": 147.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-11-10",
+        "local_mid": 130.0,
+        "south_mid": 147.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-11-17",
+        "local_mid": 130.0,
+        "south_mid": 147.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2023-12-01",
+        "local_mid": 132.5,
+        "south_mid": 147.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2023-12-08",
+        "local_mid": 130.0,
+        "south_mid": 150.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2023-12-15",
+        "local_mid": 130.0,
+        "south_mid": 156.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 4.24
+      },
+      {
+        "week": "2023-12-22",
+        "local_mid": 130.0,
+        "south_mid": 152.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2024-01-05",
+        "local_mid": 126.5,
+        "south_mid": 157.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 9.24
+      },
+      {
+        "week": "2024-01-12",
+        "local_mid": 126.5,
+        "south_mid": 157.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 9.24
+      },
+      {
+        "week": "2024-01-19",
+        "local_mid": 127.5,
+        "south_mid": 142.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2024-01-26",
+        "local_mid": 127.5,
+        "south_mid": 141.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -8.26
+      },
+      {
+        "week": "2024-02-02",
+        "local_mid": 125.0,
+        "south_mid": 140.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2024-02-09",
+        "local_mid": 125.0,
+        "south_mid": 140.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2024-02-16",
+        "local_mid": 117.5,
+        "south_mid": 130.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-02-23",
+        "local_mid": 117.5,
+        "south_mid": 130.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-03-01",
+        "local_mid": 117.5,
+        "south_mid": 130.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-03-08",
+        "local_mid": 110.0,
+        "south_mid": 127.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2024-03-15",
+        "local_mid": 107.5,
+        "south_mid": 127.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2024-03-22",
+        "local_mid": 85.0,
+        "south_mid": 110.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2024-03-29",
+        "local_mid": 87.5,
+        "south_mid": 112.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2024-04-05",
+        "local_mid": 82.5,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 10.74
+      },
+      {
+        "week": "2024-04-12",
+        "local_mid": 80.0,
+        "south_mid": 115.0,
+        "best": "distant_dairy",
+        "south_vs_local_per_ton": 13.24
+      },
+      {
+        "week": "2024-04-19",
+        "local_mid": 85.0,
+        "south_mid": 112.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 5.74
+      },
+      {
+        "week": "2024-04-26",
+        "local_mid": 77.5,
+        "south_mid": 112.5,
+        "best": "distant_dairy",
+        "south_vs_local_per_ton": 13.24
+      },
+      {
+        "week": "2024-05-03",
+        "local_mid": 75.0,
+        "south_mid": 112.5,
+        "best": "distant_dairy",
+        "south_vs_local_per_ton": 15.74
+      },
+      {
+        "week": "2024-05-10",
+        "local_mid": 71.5,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 6.74
+      },
+      {
+        "week": "2024-05-17",
+        "local_mid": 75.0,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2024-05-24",
+        "local_mid": 70.0,
+        "south_mid": 102.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 10.74
+      },
+      {
+        "week": "2024-05-31",
+        "local_mid": 72.5,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 5.74
+      },
+      {
+        "week": "2024-06-07",
+        "local_mid": 72.5,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 5.74
+      },
+      {
+        "week": "2024-06-14",
+        "local_mid": 72.5,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 5.74
+      },
+      {
+        "week": "2024-06-21",
+        "local_mid": 77.5,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2024-06-28",
+        "local_mid": 77.5,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2024-07-12",
+        "local_mid": 77.5,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2024-07-19",
+        "local_mid": 72.5,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 5.74
+      },
+      {
+        "week": "2024-07-26",
+        "local_mid": 75.0,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2024-08-02",
+        "local_mid": 75.0,
+        "south_mid": 97.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2024-08-09",
+        "local_mid": 75.0,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2024-08-16",
+        "local_mid": 77.5,
+        "south_mid": 97.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2024-08-23",
+        "local_mid": 80.0,
+        "south_mid": 97.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2024-08-30",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-09-06",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-09-13",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-09-20",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-09-27",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-10-04",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-10-11",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-10-18",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-10-25",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-11-01",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-11-08",
+        "local_mid": 82.5,
+        "south_mid": 102.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2024-11-15",
+        "local_mid": 82.5,
+        "south_mid": 102.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2024-11-22",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-12-06",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-12-13",
+        "local_mid": 82.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2024-12-20",
+        "local_mid": 85.0,
+        "south_mid": 97.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2025-01-03",
+        "local_mid": 85.0,
+        "south_mid": 97.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -9.26
+      },
+      {
+        "week": "2025-01-10",
+        "local_mid": 87.5,
+        "south_mid": 110.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2025-01-17",
+        "local_mid": 87.5,
+        "south_mid": 110.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2025-01-24",
+        "local_mid": 87.5,
+        "south_mid": 107.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2025-01-31",
+        "local_mid": 87.5,
+        "south_mid": 107.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -1.76
+      },
+      {
+        "week": "2025-02-07",
+        "local_mid": 87.5,
+        "south_mid": 102.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2025-02-14",
+        "local_mid": 90.0,
+        "south_mid": 105.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2025-02-21",
+        "local_mid": 90.0,
+        "south_mid": 105.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2025-02-28",
+        "local_mid": 90.0,
+        "south_mid": 105.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2025-03-07",
+        "local_mid": 90.0,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.24
+      },
+      {
+        "week": "2025-03-14",
+        "local_mid": 97.5,
+        "south_mid": 120.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2025-03-28",
+        "local_mid": 96.5,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -3.26
+      },
+      {
+        "week": "2025-04-04",
+        "local_mid": 96.5,
+        "south_mid": 111.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2025-04-11",
+        "local_mid": 96.5,
+        "south_mid": 114.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2025-04-18",
+        "local_mid": 96.5,
+        "south_mid": 114.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2025-04-25",
+        "local_mid": 96.5,
+        "south_mid": 113.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -5.26
+      },
+      {
+        "week": "2025-05-02",
+        "local_mid": 94.0,
+        "south_mid": 112.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -3.76
+      },
+      {
+        "week": "2025-05-09",
+        "local_mid": 94.0,
+        "south_mid": 111.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2025-05-16",
+        "local_mid": 94.0,
+        "south_mid": 110.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -5.76
+      },
+      {
+        "week": "2025-05-23",
+        "local_mid": 92.5,
+        "south_mid": 110.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2025-05-30",
+        "local_mid": 87.5,
+        "south_mid": 110.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 0.74
+      },
+      {
+        "week": "2025-06-20",
+        "local_mid": 95.0,
+        "south_mid": 100.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -16.76
+      },
+      {
+        "week": "2025-06-27",
+        "local_mid": 80.0,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -6.76
+      },
+      {
+        "week": "2025-07-11",
+        "local_mid": 77.5,
+        "south_mid": 95.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -4.26
+      },
+      {
+        "week": "2025-07-18",
+        "local_mid": 80.0,
+        "south_mid": 107.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 5.74
+      },
+      {
+        "week": "2025-07-25",
+        "local_mid": 80.0,
+        "south_mid": 107.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 5.74
+      },
+      {
+        "week": "2025-08-01",
+        "local_mid": 72.5,
+        "south_mid": 105.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 10.74
+      },
+      {
+        "week": "2025-08-08",
+        "local_mid": 75.0,
+        "south_mid": 107.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 10.74
+      },
+      {
+        "week": "2025-08-15",
+        "local_mid": 78.5,
+        "south_mid": 107.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 7.24
+      },
+      {
+        "week": "2025-08-22",
+        "local_mid": 81.0,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 12.24
+      },
+      {
+        "week": "2025-08-29",
+        "local_mid": 82.0,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 11.24
+      },
+      {
+        "week": "2025-09-05",
+        "local_mid": 89.5,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 3.74
+      },
+      {
+        "week": "2025-09-12",
+        "local_mid": 82.0,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 11.24
+      },
+      {
+        "week": "2025-09-19",
+        "local_mid": 82.0,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 11.24
+      },
+      {
+        "week": "2025-09-26",
+        "local_mid": 92.0,
+        "south_mid": 115.0,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": 1.24
+      },
+      {
+        "week": "2026-11-06",
+        "local_mid": 122.5,
+        "south_mid": 122.5,
+        "best": "clean_and_recover",
+        "south_vs_local_per_ton": -21.76
+      }
+    ],
+    "wins": {
+      "clean_and_recover": 178,
+      "distant_dairy": 3
+    },
+    "south_better_weeks": 55
+  }
+}
