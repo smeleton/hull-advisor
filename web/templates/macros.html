@@ -1,0 +1,7 @@
+{% macro tier(t) -%}
+<span class="tier tier-{{ t }}" title="{{ TIER_HELP[t] }}">{{ TIER_LABEL[t] }}</span>
+{%- endmacro %}
+
+{% macro check(c) -%}
+<span class="check check-{{ c.kind }}">{{ c.label }}</span>
+{%- endmacro %}

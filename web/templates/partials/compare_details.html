@@ -1,0 +1,35 @@
+{% from "macros.html" import tier %}
+{% for r in results %}
+<details class="detail">
+  <summary><span class="rank">{{ r["rank"] }}.</span> {{ r.name }} {{ tier(r.result_tier) }}</summary>
+  <div class="detail-body">
+    {% if r.needs_quote %}
+    <p>{{ NO_QUOTE_TEXT }} To beat selling locally, a quote must exceed <strong>{{ r.break_even_text }}/ton</strong>.</p>
+    {% else %}
+    <p class="calc">
+      Price {{ money(r.price_low) }}{% if r.price_high != r.price_low %}–{{ money(r.price_high) }}{% endif %}
+      − processing {{ money(r.processing_cost) }}
+      − hauling {{ money(r.haul_cost) }} <span class="muted">({{ tons(r.miles) }} mi)</span>
+      {% if r.coproduct_high > 0 %}+ coproducts {{ money(r.coproduct_low) }}–{{ money(r.coproduct_high) }}{% endif %}
+      = <strong>{{ money(r.net_low) }}{% if r.net_high != r.net_low %} to {{ money(r.net_high) }}{% endif %} per ton</strong>.
+      Break-even price vs. local: {{ r.break_even_text }}/ton.
+    </p>
+    {% endif %}
+    {% if r.detail_flags %}
+    <ul class="flags">{% for f in r.detail_flags %}<li>{{ f }}</li>{% endfor %}</ul>
+    {% endif %}
+    <div class="cols">
+      <div><h4>Requirements</h4><ul>{% for x in r.requirements %}<li>{{ x }}</li>{% endfor %}</ul></div>
+      <div><h4>Risks</h4><ul>{% for x in r.risks %}<li>{{ x }}</li>{% endfor %}</ul></div>
+    </div>
+    <p class="tiers"><span class="label">Where each input comes from:</span>
+      {% for k, v in r.input_tiers.items() %}<span class="tier-item">{{ k|replace("_", " ") }} {{ tier(v) }}</span>{% endfor %}
+    </p>
+    {% if r.source_ids %}
+    <p class="tiers"><span class="label">Sources:</span>
+      {% for sid in r.source_ids %}<a href="{{ sources[sid].url }}" target="_blank" rel="noopener">{{ sid }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+    </p>
+    {% endif %}
+  </div>
+</details>
+{% endfor %}

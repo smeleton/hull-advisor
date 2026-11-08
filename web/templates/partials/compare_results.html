@@ -1,0 +1,75 @@
+{% from "macros.html" import tier, check %}
+<section class="summary" aria-labelledby="summary-h">
+  <p class="eyebrow" id="summary-h">Best priced option for {{ tons(lot.tons) }} tons</p>
+  <h2 class="answer">{{ top["name"] }}</h2>
+  {% if not top["eligible"] %}
+  <p class="alert alert-bad">No priced option passes the quality checks for this lot. Every priced outlet fails a requirement — see the checks below.</p>
+  {% endif %}
+  <dl class="figures">
+    <div>
+      <dt>Expected net</dt>
+      <dd><span class="fig">{{ money(top["net_expected"]) }}</span><span class="unit">/ton</span></dd>
+      <dd class="fig-note">{{ tier(top["result_tier"]) }}</dd>
+    </div>
+    <div>
+      <dt>Expected for the lot</dt>
+      <dd><span class="fig">{{ money(top["total_expected"]) }}</span></dd>
+      <dd class="fig-note">after processing and hauling</dd>
+    </div>
+    <div>
+      <dt>Compared with selling locally</dt>
+      {% if top["is_baseline"] %}
+      <dd><span class="fig fig-small">This is the local sale</span></dd>
+      {% else %}
+      <dd><span class="fig {{ 'pos' if top['vs_baseline_total'] > 0 else 'neg' }}">{{ money(top["vs_baseline_total"], true) }}</span></dd>
+      <dd class="fig-note">{{ money(top["vs_baseline_per_ton"], true) }} per ton</dd>
+      {% endif %}
+    </div>
+  </dl>
+</section>
+
+{% if quality_flags %}
+<div class="callout callout-warn">
+  <h3>Quality checks for this lot</h3>
+  <ul>{% for f in quality_flags %}<li>{{ f }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+<div class="table-wrap">
+<table class="data results">
+  <caption class="sr-only">All options ranked by expected net value per ton</caption>
+  <thead>
+    <tr>
+      <th scope="col" class="num">#</th>
+      <th scope="col">Option</th>
+      <th scope="col" class="num">Expected net<br><span class="th-unit">$/ton · range</span></th>
+      <th scope="col" class="num">Lot total</th>
+      <th scope="col" class="num">vs. selling locally<br><span class="th-unit">$/ton · lot</span></th>
+      <th scope="col" class="num">Break-even<br><span class="th-unit">price $/ton</span></th>
+      <th scope="col">Data</th>
+      <th scope="col">Checks</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for r in results %}
+    <tr class="{{ 'is-baseline' if r.is_baseline }} {{ 'is-muted' if r.needs_quote or not r.eligible }}">
+      <td class="num rank">{{ r["rank"] }}</td>
+      <td class="opt">{{ r.name }}
+        <div class="sub">{{ STATUS_LABEL[r.status] }}</div></td>
+      <td class="num"><span class="strong">{{ r.expected_text }}</span>{% if r.range_text %}<div class="sub">{{ r.range_text }}</div>{% endif %}</td>
+      <td class="num">{{ r.total_text }}</td>
+      <td class="num {{ 'pos' if r.vs_sign > 0 else ('neg' if r.vs_sign < 0) }}">{% if r.is_baseline %}<span class="muted">baseline</span>{% elif r.needs_quote %}—{% else %}<span class="strong">{{ r.vs_ton_text }}</span><div class="sub">{{ r.vs_lot_text }}</div>{% endif %}</td>
+      <td class="num">{{ r.break_even_text }}</td>
+      <td>{{ tier(r.result_tier) }}</td>
+      <td>{{ check(r.check) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="footnote"><strong>Break-even price</strong> is what an outlet would have to pay per ton for its expected net to equal selling to the local dairy. <strong>Expected</strong> is the midpoint of the low–high range. Net = price − processing − hauling + any coproduct value.</p>
+
+<figure class="chart-figure">
+  {{ chart }}
+  <figcaption>Bars: expected net per ton. Whiskers: low to high. Dashed line: selling to the local dairy. Grey bars fail a quality check.</figcaption>
+</figure>

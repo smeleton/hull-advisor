@@ -1,0 +1,178 @@
+{% from "macros.html" import tier %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hull Value Advisor · BioCycle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<header class="masthead">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-name">BioCycle</span>
+    <span class="brand-sep" aria-hidden="true">/</span>
+    <span class="brand-product">Hull Value Advisor</span>
+  </div>
+  <div class="spend" id="spend">{% include "partials/spend.html" %}</div>
+</header>
+<div id="banner">{% include "partials/banner.html" %}</div>
+
+<form id="advisor" class="layout" autocomplete="off" novalidate>
+  <aside class="lot" aria-labelledby="lot-h">
+    <h2 id="lot-h">Your lot</h2>
+    <p class="lede">What's the best thing to do with this lot of almond hulls, and how much more would it earn than selling to the local dairy?</p>
+
+    <label class="field">
+      <span class="field-label">Tons of hulls</span>
+      <span class="input-unit"><input type="number" name="tons" value="{{ '%g'|format(lot.tons) }}" min="1" step="any" inputmode="decimal"><span>tons</span></span>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Hauling rate</span>
+      <span class="input-unit"><span>$</span><input type="number" name="haul_rate" value="{{ '%.2f'|format(lot.haul_rate) }}" min="0" step="0.01" inputmode="decimal"><span>per ton-mile</span></span>
+      <span class="hint">Default ${{ '%.2f'|format(default_haul) }}. Published range ${{ '%.2f'|format(haul_range[0]) }}–{{ '%.2f'|format(haul_range[1]) }} [{{ haul_source }}].</span>
+    </label>
+
+    <fieldset class="group">
+      <legend>Quality <span class="muted">(optional)</span></legend>
+      <label class="field">
+        <span class="field-label">Moisture</span>
+        <span class="input-unit"><input type="number" name="moisture" min="0" max="100" step="0.5" placeholder="Not measured" inputmode="decimal"><span>%</span></span>
+      </label>
+      <label class="field">
+        <span class="field-label">Crude fiber</span>
+        <span class="input-unit"><input type="number" name="crude_fiber" min="0" max="100" step="0.5" placeholder="Not measured" inputmode="decimal"><span>%</span></span>
+        <span class="hint">Feed standard: below {{ '%g'|format(fiber_max) }}% [wcngg2022].</span>
+      </label>
+      <div class="field">
+        <span class="field-label" id="afla-l">Aflatoxin tested?</span>
+        <div class="segmented" role="radiogroup" aria-labelledby="afla-l">
+          {% for v, label in [("unknown", "Unknown"), ("yes", "Yes"), ("no", "No")] %}
+          <label><input type="radio" name="aflatoxin" value="{{ v }}" {{ "checked" if lot.aflatoxin_tested == v }}><span>{{ label }}</span></label>
+          {% endfor %}
+        </div>
+      </div>
+    </fieldset>
+
+    <p class="units">US short tons (2,000 lb) as delivered · prices in $/ton · one-way miles</p>
+    <div class="legend-box">
+      <p class="legend-title">Where numbers come from</p>
+      <ul class="legend">
+        <li>{{ tier("sourced") }} cited public source</li>
+        <li>{{ tier("user") }} entered by you</li>
+        <li>{{ tier("placeholder") }} made up for the demo</li>
+      </ul>
+      <p class="muted small">A result is only as strong as its weakest input.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button type="button" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="true">Compare options</button>
+      <button type="button" role="tab" id="tab-buyers" aria-controls="panel-buyers" aria-selected="false">Split across buyers</button>
+      <button type="button" role="tab" id="tab-report" aria-controls="panel-report" aria-selected="false">Written report</button>
+      <button type="button" role="tab" id="tab-sources" aria-controls="panel-sources" aria-selected="false">Sources</button>
+      <span class="status" id="status" aria-live="polite"></span>
+    </nav>
+
+    <!-- Compare -->
+    <section class="panel" id="panel-compare" role="tabpanel" aria-labelledby="tab-compare">
+      <div id="compare-results">{% include "partials/compare_results.html" %}</div>
+
+      <section class="block">
+        <h3 class="block-h">Adjust prices, distances and costs</h3>
+        <p class="block-sub">Type a buyer quote to replace the default price. Anything you change counts as {{ tier("user") }}.</p>
+        <div class="table-wrap">
+        <table class="data editor">
+          <thead><tr>
+            <th scope="col">Option</th>
+            <th scope="col">Default price $/ton</th>
+            <th scope="col" class="num">Your quote<br><span class="th-unit">$/ton</span></th>
+            <th scope="col" class="num">Miles<br><span class="th-unit">one-way</span></th>
+            <th scope="col" class="num">Processing<br><span class="th-unit">$/ton</span></th>
+          </tr></thead>
+          <tbody>
+          {% for o in outlets.values() %}
+            <tr>
+              <td class="opt">{{ o.name }}<div class="sub">{{ STATUS_LABEL[o.status] }}</div></td>
+              <td>{{ default_price_text(o) }} {% if o.price_low is not none or o.price_from %}{{ tier(default_price_tier(o)) }}{% endif %}</td>
+              <td class="num"><input class="cell" type="number" name="price__{{ o.id }}" min="0" step="any" placeholder="{{ 'needed' if o.price_low is none and not o.price_from else 'default' }}" aria-label="Your quote for {{ o.name }}, $ per ton"></td>
+              <td class="num"><input class="cell" type="number" name="miles__{{ o.id }}" value="{{ '%g'|format(o.default_miles) }}" min="0" step="any" aria-label="One-way miles for {{ o.name }}">
+                <div class="cell-tier">{{ tier(o.miles_tier) }}</div></td>
+              <td class="num"><input class="cell" type="number" name="processing__{{ o.id }}" value="{{ '%g'|format(o.processing_cost_per_ton) }}" min="0" step="any" aria-label="Processing cost for {{ o.name }}, $ per ton">
+                <div class="cell-tier">{{ tier(o.processing_tier) }}</div></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        </div>
+        {% for name, c in coproducts.items() %}
+        <label class="field field-inline">
+          <span class="field-label">{{ name }} price</span>
+          <span class="input-unit"><span>$</span><input type="number" name="coproduct__{{ slug(name) }}" value="{{ '%.2f'|format(c.unit_price_per_lb) }}" min="0" step="0.05" inputmode="decimal"><span>per lb</span></span>
+          {{ tier(c.unit_price_tier) }}
+          <span class="hint">Recovered kernels may grade lower than standard kernels. Yield of 1.0–1.3% of hull weight is sourced [abc_food2025].</span>
+        </label>
+        {% endfor %}
+      </section>
+
+      <section class="block">
+        <h3 class="block-h">Details, risks and sources</h3>
+        <div id="compare-details">{% include "partials/compare_details.html" %}</div>
+      </section>
+    </section>
+
+    <!-- Buyers -->
+    <section class="panel" id="panel-buyers" role="tabpanel" aria-labelledby="tab-buyers">
+      <p class="block-sub">Split this lot across specific buyers to earn the most in total. The sample buyers are <strong>fictional</strong> and their quotes are {{ tier("placeholder") }}. Edit, add or remove rows; changed rows count as {{ tier("user") }}.</p>
+      <div class="table-wrap">
+      <table class="data editor" id="buyer-table">
+        <thead><tr>
+          <th scope="col">Buyer</th><th scope="col">Outlet</th>
+          <th scope="col" class="num">Quote<br><span class="th-unit">$/ton</span></th>
+          <th scope="col" class="num">Max<br><span class="th-unit">tons</span></th>
+          <th scope="col" class="num">Miles<br><span class="th-unit">one-way</span></th>
+          <th scope="col">Notes</th><th scope="col"><span class="sr-only">Remove</span></th>
+        </tr></thead>
+        <tbody>
+        {% for r in buyer_rows %}{% include "partials/buyer_row.html" %}{% endfor %}
+        </tbody>
+      </table>
+      </div>
+      <template id="buyer-row-template">{% with r = {} %}{% include "partials/buyer_row.html" %}{% endwith %}</template>
+      <p><button type="button" class="button button-quiet" id="add-buyer">+ Add buyer</button></p>
+      <div id="buyer-results">{% include "partials/buyer_results.html" %}</div>
+    </section>
+
+    <!-- Report -->
+    <section class="panel" id="panel-report" role="tabpanel" aria-labelledby="tab-report">
+      <p class="block-sub">Claude writes a plain-English summary of the results on the Compare tab. It may only use numbers from those results; any number it can't trace back is highlighted.</p>
+      <p><button type="button" class="button" id="generate-report">Write the report</button></p>
+      <div id="report-output"></div>
+    </section>
+
+    <!-- Sources -->
+    <section class="panel" id="panel-sources" role="tabpanel" aria-labelledby="tab-sources">
+      <p class="block-sub">Every {{ tier("sourced") }} number traces to one of these. {{ tier("placeholder") }} numbers are made up for the demo; {{ tier("user") }} numbers are what you entered.</p>
+      <ol class="sources">
+      {% for s in sources.values() %}
+        <li>
+          <a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.title }}</a> <code>{{ s.id }}</code>
+          <p>{{ s.what_it_supports }}</p>
+          {% if cited_by[s.id] %}<p class="muted small">Used by: {{ cited_by[s.id]|join(", ") }}</p>{% endif %}
+        </li>
+      {% endfor %}
+      </ol>
+    </section>
+  </main>
+</form>
+<div id="current-hash" data-current-hash="{{ payload_hash }}" hidden></div>
+<script src="/static/app.js" defer></script>
+</body>
+</html>

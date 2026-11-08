@@ -1,0 +1,12 @@
+<tr class="buyer-row">
+  <td><input class="cell cell-text" type="text" name="b_buyer" value="{{ r.buyer or '' }}" aria-label="Buyer name"></td>
+  <td><select class="cell" name="b_outlet_id" aria-label="Outlet">
+    <option value="" {{ "selected" if not r.outlet_id }}>Choose…</option>
+    {% for o in outlets.values() %}<option value="{{ o.id }}" {{ "selected" if r.outlet_id == o.id }}>{{ o.name }}</option>{% endfor %}
+  </select></td>
+  <td class="num"><input class="cell" type="number" name="b_price_per_ton" value="{{ '%g'|format(r.price_per_ton) if r.price_per_ton is number else (r.price_per_ton or '') }}" min="0" step="any" aria-label="Quote, $ per ton"></td>
+  <td class="num"><input class="cell" type="number" name="b_max_tons" value="{{ '%g'|format(r.max_tons) if r.max_tons is number else (r.max_tons or '') }}" min="0" step="any" aria-label="Max tons"></td>
+  <td class="num"><input class="cell" type="number" name="b_miles" value="{{ '%g'|format(r.miles) if r.miles is number else (r.miles or '') }}" min="0" step="any" aria-label="One-way miles"></td>
+  <td><input class="cell cell-text cell-notes" type="text" name="b_notes" value="{{ r.notes or '' }}" aria-label="Notes"></td>
+  <td><button type="button" class="icon-button remove-buyer" aria-label="Remove this buyer" title="Remove">×</button></td>
+</tr>

@@ -18,7 +18,6 @@ from biocycle.report import (
     find_unmatched,
     generate_report,
     report_download,
-    to_streamlit_markdown,
 )
 from biocycle.valuation import Lot, evaluate
 
@@ -142,16 +141,6 @@ def test_guardrail_rounding_tolerance(payload):
     assert find_unmatched("about $98,000 or $98k", p) == []  # 97,850 rounded to thousands
     for fake in ("$99", "$86.5", "$41,250", "$45,000"):
         assert [n.text for n in find_unmatched(fake, p)] == [fake]
-
-
-def test_streamlit_markdown_escapes_dollars_and_highlights():
-    text = "Earn $98 not $41,250."
-    unmatched = [n for n in extract_numbers(text) if n.value == 41250]
-    md = to_streamlit_markdown(text, unmatched)
-    assert md == "Earn \\$98 not :red-background[\\$41,250]."
-
-
-# ---------- end to end with a fake LLM ----------
 
 
 def test_generate_report_with_mock_llm(setup, usage_log):
