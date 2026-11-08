@@ -92,6 +92,31 @@ def test_nass_almond_price():
         2023: 1.72, 2024: 2.34, 2025: 2.60}
 
 
+def test_merge_keeps_history_and_prefers_new_rows():
+    from dataclasses import replace
+
+    from biocycle.market import merge_quotes
+
+    old = parse_hull_quotes(read("ams3512_2023-12-01.txt"), when=date(2023, 12, 1))
+    new = parse_hull_quotes(read("ams3512_2026-11-06.txt"))
+    merged = merge_quotes(old, new)
+    assert len(merged) == len(old) + len(new)  # a latest-only refresh never drops history
+    fixed = replace(old[1], average=999.0)  # a corrected re-fetch of the same row wins
+    again = merge_quotes(merged, [fixed])
+    assert len(again) == len(merged) and fixed in again and old[1] not in again
+
+
+def test_rates_for_uses_the_weeks_quarter_or_the_nearest_earlier():
+    from biocycle.market import rates_for
+
+    hist = {"2022Q1": ((25, 0.4),), "2022Q3": ((25, 0.3),), "2026Q1": ((25, 0.25),)}
+    assert rates_for(date(2022, 2, 11), hist) == ((25, 0.4),)
+    assert rates_for(date(2022, 5, 1), hist) == ((25, 0.4),)   # 2022Q2 missing -> Q1
+    assert rates_for(date(2026, 11, 6), hist) == ((25, 0.25),)  # beyond data -> latest
+    assert rates_for(date(2020, 1, 1), hist) == ((25, 0.4),)   # before data -> earliest
+    assert rates_for(date(2022, 2, 11), {}) is None
+
+
 # ---------- snapshot ----------
 
 

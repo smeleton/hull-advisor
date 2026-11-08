@@ -354,7 +354,8 @@ async def send_feedback(request: Request) -> Response:
     form = await request.form()
     c = compute(form)
     try:
-        entry = feedback.build_entry(form, c.lot, c.results, sid, payload_hash(c))
+        entry = feedback.build_entry(form, c.lot, c.results, sid, payload_hash(c),
+                                     data_mode=c.mode, haul_mode=c.haul_mode)
         feedback.record(entry)
     except feedback.FeedbackError as e:
         resp = HTMLResponse(f'<span class="fb-error">{escape(str(e))}</span>', status_code=422)

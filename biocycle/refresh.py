@@ -28,6 +28,8 @@ from biocycle.market import (
     HullQuote,
     build_snapshot,
     esmis_last_page,
+    load_hull_history,
+    merge_quotes,
     parse_eia_weekly,
     parse_esmis_listing,
     parse_hull_quotes,
@@ -122,8 +124,8 @@ def run(history: bool, max_pages: int | None, out_dir: Path = MARKET_DIR) -> dic
         raise RuntimeError("the current AMS 3512 report has no almond hull rows")
     if history:
         quotes += history_hull_quotes(f, max_pages)
-    uniq = {(q.report_date, q.region, q.sale_type, q.basis): q for q in quotes}
-    quotes = sorted(uniq.values(), key=lambda q: (q.report_date, q.region, q.basis))
+    # Add to the saved history; never replace it (past weekly reports can't be re-fetched).
+    quotes = merge_quotes(load_hull_history(out_dir / "hull_prices.csv"), quotes)
 
     rates = parse_truck_rates(json.loads(f.get(GTOR_URL)))
     diesel = parse_eia_weekly(f.get(EIA_CA_DIESEL_URL).decode("utf-8", "replace"))

@@ -260,7 +260,7 @@ def market_backtest(tons: float = 1000) -> list[CheckResult]:
     whenever real history is available, and the numbers go in the report.
     """
     from biocycle.market import (DISTANT_REGION, LOCAL_REGION, apply_snapshot, load_hull_history,
-                                 load_snapshot, pick_quote)
+                                 load_snapshot, load_truck_rate_history, pick_quote, rates_for)
 
     snap = load_snapshot()
     history = load_hull_history()
@@ -268,7 +268,7 @@ def market_backtest(tons: float = 1000) -> list[CheckResult]:
         return [CheckResult("backtest", "real weekly prices", True,
                             "skipped: run `python -m biocycle.refresh` first")]
     outlets = apply_snapshot(_outlets(), snap)
-    lot = Lot(tons=tons, haul_schedule=snap.truck_rates)
+    truck_history = load_truck_rate_history()
     weeks: dict[Any, list] = {}
     for q in history:
         weeks.setdefault(q.report_date, []).append(q)
@@ -277,6 +277,8 @@ def market_backtest(tons: float = 1000) -> list[CheckResult]:
         local, south = pick_quote(qs, LOCAL_REGION), pick_quote(qs, DISTANT_REGION)
         if not (local and local.delivered and south and south.delivered):
             continue
+        # Each week uses that quarter's USDA truck rates (2022-2026 rates differ a lot).
+        lot = Lot(tons=tons, haul_schedule=rates_for(when, truck_history) or snap.truck_rates)
         ov = {BASELINE_ID: Override(price=(local.price_low + local.price_high) / 2),
               "distant_dairy": Override(price=(south.price_low + south.price_high) / 2)}
         df = evaluate(lot, outlets, ov).set_index("outlet_id")

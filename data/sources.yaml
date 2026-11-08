@@ -33,7 +33,7 @@
 - id: usda_gtor
   title: "USDA AMS, \"Grain Truck and Ocean Rate Advisory\" truck rates (agtransport.usda.gov)"
   url: https://agtransport.usda.gov/Truck/Grain-Truck-and-Ocean-Rate-Advisory-Truck-Rates/fxkn-2w9c
-  what_it_supports: "Quarterly truck rates per loaded mile at 25, 100 and 200 miles for a 55,000 lb (27.5 short ton) load; converted to $ per ton-mile for distance-based hauling."
+  what_it_supports: "Quarterly truck rates per loaded mile at 25, 100 and 200 miles; divided by an assumed 27.5-short-ton (55,000 lb) payload, the load size older editions state (current editions quote an 80,000 lb gross vehicle weight), to get $ per ton-mile."
 
 - id: eia_ca_diesel
   title: "U.S. EIA, \"California No 2 Diesel Retail Prices\" (weekly)"

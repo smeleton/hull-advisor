@@ -105,9 +105,11 @@ net = price − processing_cost − r × miles + coproduct value per ton
 
 - Low/high come from the price and coproduct ranges; expected is the midpoint.
 - `vs. selling locally` = expected net − local dairy expected net.
-- `Break-even price` = the price at which an outlet's expected net equals the local dairy's.
-- Outlets with no public price show "needs quote" and are always ranked last; their break-even
-  price tells you what quote would beat selling locally.
+- `Price to match local` = the price an outlet's buyer would have to pay for its expected net to
+  equal the local dairy's. It is blank for the local dairy itself and for outlets sold at the
+  local dairy's price (a price change moves both equally).
+- Outlets with no public price show "needs quote" and are always ranked last; their price to
+  match local tells you what quote would beat selling locally.
 - If crude fiber is ≥ 15%, feed outlets are flagged ineligible and ranked below eligible ones.
 
 ## AI report (Report tab)

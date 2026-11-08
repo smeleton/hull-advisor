@@ -56,7 +56,7 @@
         <label><input type="radio" name="haul_mode" value="usda" {{ "checked" if haul_mode == "usda" }}><span>USDA by distance</span></label>
         <label><input type="radio" name="haul_mode" value="flat" {{ "checked" if haul_mode == "flat" }}><span>Flat rate</span></label>
       </div>
-      <span class="hint haul-usda" {% if haul_mode != "usda" %}hidden{% endif %}>USDA {{ snap.truck_quarter }} truck rates for a {{ '%g'|format(truck_payload) }}-ton load:
+      <span class="hint haul-usda" {% if haul_mode != "usda" %}hidden{% endif %}>USDA {{ snap.truck_quarter }} truck rates, assuming a {{ '%g'|format(truck_payload) }}-ton load:
         {% for m, r in snap.truck_rates %}${{ '%.2f'|format(r) }} at {{ '%g'|format(m) }} mi{% if not loop.last %}, {% endif %}{% endfor %} per ton-mile [usda_gtor]. Longer hauls cost less per mile.</span>
       {% endif %}
       <label class="haul-flat" {% if haul_mode == "usda" %}hidden{% endif %}>
