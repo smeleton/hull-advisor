@@ -231,20 +231,6 @@ def find_unmatched(report: str, payload: dict[str, Any]) -> list[NumberMatch]:
     return [n for n in extract_numbers(report) if not number_matches(n, allowed)]
 
 
-def to_streamlit_markdown(report: str, unmatched: list[NumberMatch]) -> str:
-    """Escape $ (Streamlit renders $...$ as LaTeX) and highlight unmatched numbers in red."""
-    def esc(t: str) -> str:
-        return t.replace("$", "\\$")
-
-    out, last = [], 0
-    for n in sorted(unmatched, key=lambda n: n.start):
-        out.append(esc(report[last:n.start]))
-        out.append(f":red-background[{esc(n.text)}]")
-        last = n.end
-    out.append(esc(report[last:]))
-    return "".join(out)
-
-
 # ---------- report ----------
 
 

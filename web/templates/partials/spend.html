@@ -1,0 +1,6 @@
+{% if session.calls %}
+AI report spend this session: <strong>${{ "%.4f"|format(session.spend) }}</strong>
+<span class="muted">· {{ session.calls|length }} report{{ "s" if session.calls|length != 1 }} · {{ "{:,}".format(session.tokens) }} tokens, estimated from list prices</span>
+{% else %}
+AI report spend this session: <strong>none yet</strong>
+{% endif %}

@@ -1,0 +1,62 @@
+{% from "macros.html" import tier %}
+{% if buyer_errors %}
+<div class="callout callout-warn">
+  <h3>Some rows were skipped</h3>
+  <ul>{% for e in buyer_errors %}<li>{{ e }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+{% if not alloc %}
+<p class="callout">Add at least one buyer to see how to split the lot.</p>
+{% else %}
+<dl class="figures">
+  <div>
+    <dt>Best total value</dt>
+    <dd><span class="fig">{{ money(alloc.total_value) }}</span></dd>
+    <dd class="fig-note">{{ tier(alloc.result_tier) }}</dd>
+  </div>
+  <div>
+    <dt>Tons allocated</dt>
+    <dd><span class="fig">{{ tons(alloc.tons_allocated) }}</span><span class="unit"> of {{ tons(lot.tons) }}</span></dd>
+  </div>
+  <div>
+    <dt>Value of one more ton of hulls</dt>
+    <dd><span class="fig">{{ money(alloc.hull_marginal, decimals=2) }}</span><span class="unit">/ton</span></dd>
+  </div>
+</dl>
+<p class="footnote">For comparison, selling the whole lot to the local dairy at its expected price earns {{ money(local_total) }}.</p>
+{% if alloc.tons_unallocated > 0.000001 %}
+<p class="callout">{{ tons(alloc.tons_unallocated) }} tons are not allocated: no remaining buyer capacity pays a positive net value.</p>
+{% endif %}
+<div class="table-wrap">
+<table class="data">
+  <caption class="sr-only">Tons and value allocated to each buyer</caption>
+  <thead><tr>
+    <th scope="col">Buyer</th><th scope="col">Outlet</th>
+    <th scope="col" class="num">Quote<br><span class="th-unit">$/ton</span></th>
+    <th scope="col" class="num">Net<br><span class="th-unit">$/ton</span></th>
+    <th scope="col" class="num">Capacity<br><span class="th-unit">tons</span></th>
+    <th scope="col" class="num">Allocated<br><span class="th-unit">tons</span></th>
+    <th scope="col" class="num">Value</th>
+    <th scope="col" class="num">+1 ton capacity<br><span class="th-unit">worth</span></th>
+    <th scope="col">Data</th><th scope="col">Note</th>
+  </tr></thead>
+  <tbody>
+  {% for r in alloc_rows %}
+    <tr class="{{ 'is-muted' if r.tons < 0.000001 }}">
+      <td class="opt">{{ r.buyer }}</td>
+      <td>{{ r.outlet }}</td>
+      <td class="num">{{ money(r.price_per_ton) }}</td>
+      <td class="num">{{ money(r.margin_per_ton, decimals=2) }}</td>
+      <td class="num">{{ tons(r.max_tons) }}</td>
+      <td class="num strong">{{ tons(r.tons) }}</td>
+      <td class="num">{{ money(r.value) }}</td>
+      <td class="num">{{ money(r.capacity_marginal, decimals=2) }}</td>
+      <td>{{ tier(r.buyer_tier) }}</td>
+      <td class="muted">{{ "Fails quality check" if not r.eligible }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="footnote"><strong>Net</strong> = quote − the outlet's processing cost − hauling (haul rate × miles) + any coproduct value. <strong>+1 ton capacity worth</strong> is how much the best total would rise if that buyer could take one more ton; $0 means that buyer isn't the bottleneck. Buyers whose outlet fails a quality check get no tons.</p>
+{% endif %}
