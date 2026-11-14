@@ -144,6 +144,31 @@ net = price − processing_cost − r × miles + coproduct value per ton
   match local tells you what quote would beat selling locally.
 - If crude fiber is ≥ 15%, feed outlets are flagged ineligible and ranked below eligible ones.
 
+## Literature engine (research papers → numbers → math)
+
+Experimental pathways are backed by the research literature, not just placeholders:
+
+- `data/evidence.yaml`: one record per number taken from a paper (value, unit, the sentence or
+  table it came from, conditions, feedstock, evidence level: lab, in vitro, animal trial, feed
+  table, market report…). Almond-*shell* results are kept for context but never used in hull math.
+- `data/models.yaml`: how the numbers combine. The loader checks units multiply out
+  (`t_biooil/t_dry × GJ/tonne_biooil × tonne/t → GJ/t_dry`).
+- `biocycle/pathways.py`:
+  - **Conversion models** (hydrothermal bio-oil + char, yeast protein, ethanol + biogas): what a
+    processor could pay at break-even = Σ product yield × price − processing cost, × dry matter.
+    The details show how many times today's product value it would take to match selling locally.
+  - **Material model** (hydrochar as a material): no market price, so it answers the reverse
+    question: what hydrochar would have to sell for so a processor could pay you the local price.
+  - **Feed value check** (Petersen method [stpierre2004]): what corn + soybean meal with the same
+    NEL and crude protein would cost (USDA corn and soybean-meal prices, editable).
+- Outlets point at these with `price_model`, `material_model` and `evidence_ids`. The Compare tab
+  shows each model's breakdown and evidence; the Sources tab lists every record; the AI report
+  gets the same numbers (so the number guardrail allows them).
+
+To add a paper: add the source to `sources.yaml`, one record per number to `evidence.yaml`, then
+reference the ids from `models.yaml` or an outlet's `evidence_ids`. `pytest` catches unknown ids
+and unit mistakes.
+
 ## AI report (Report tab)
 
 Claude (`claude-sonnet-5-5`, set in `biocycle/config.py`) writes a plain-English report from a
@@ -206,7 +231,10 @@ biocycle/present.py    UI-free helpers: form parsing, formatting, table rows, SV
 biocycle/llm.py        Claude wrapper: retries, refusal handling, token + cost logging
 biocycle/report.py     report payload, system prompt, number guardrail
 biocycle/allocation.py buyer allocation LP and dual values
-data/                  sources.yaml, biomass/<id>.yaml, nutrients.yaml,
-                       emission_factors.yaml, buyers_directory.yaml, buyers_sample.csv
+biocycle/evidence.py   literature evidence + models loader, unit checks
+biocycle/pathways.py   conversion/material models and the Petersen feed value
+data/                  sources.yaml, biomass/<id>.yaml, nutrients.yaml, evidence.yaml,
+                       models.yaml, emission_factors.yaml, buyers_directory.yaml,
+                       buyers_sample.csv
 tests/                 pytest suite (web routes via FastAPI TestClient; LLM mocked)
 ```

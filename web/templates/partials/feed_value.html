@@ -1,0 +1,26 @@
+{% from "macros.html" import tier %}
+{% if feed %}
+<p class="calc">
+  At {{ money(feed.corn_price_low) }}{% if feed.corn_price_high != feed.corn_price_low %}–{{ money(feed.corn_price_high) }}{% endif %}/ton corn {{ tier(feed.corn_price_tier) }}
+  and {{ money(feed.sbm_price_low) }}{% if feed.sbm_price_high != feed.sbm_price_low %}–{{ money(feed.sbm_price_high) }}{% endif %}/ton soybean meal {{ tier(feed.sbm_price_tier) }},
+  the energy and protein in a ton of hulls would cost <strong>{{ money(feed.low) }}–{{ money(feed.high) }}</strong> to replace.
+  The local dairy price used above is {{ money(base_price[0]) }}–{{ money(base_price[1]) }}/ton.
+</p>
+<div class="table-wrap">
+<table class="data lit-table">
+  <thead><tr><th scope="col">Hull composition</th><th scope="col" class="num">NEL<br><span class="th-unit">Mcal/kg DM</span></th><th scope="col" class="num">Crude protein<br><span class="th-unit">% DM</span></th><th scope="col">Same nutrients as, per lb of hull dry matter</th><th scope="col" class="num">Value<br><span class="th-unit">$/ton as fed</span></th></tr></thead>
+  <tbody>
+  {% for sc in feed.scenarios %}
+    <tr>
+      <td>{{ sc.name }} <span class="muted small">[{{ evidence[sc.evidence_ids[0]].source_id }}]</span></td>
+      <td class="num">{{ num(sc.nel) }}</td>
+      <td class="num">{{ num(sc.cp * 100) }}</td>
+      <td>{{ '%.2f'|format(sc.corn_kg) }} lb corn {{ '+' if sc.sbm_kg >= 0 else '−' }} {{ '%.2f'|format(sc.sbm_kg|abs) }} lb soybean meal</td>
+      <td class="num strong">{{ money(sc.value_low) }}{% if sc.value_high != sc.value_low %}–{{ money(sc.value_high) }}{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="footnote">Petersen method [stpierre2004]: solve for the corn and soybean meal that match the hulls' net energy (NEL) and crude protein, and price them [nrc2001, ams_3146, wasde_nov2026]. A minus sign means the hulls carry less protein than corn for the same energy, so some soybean meal would have to be added back. It is a reference check, not a price anyone has offered: it assumes corn and soybean meal are fairly priced and ignores fiber, minerals and the feeding limits under the dairy options. Use it to judge whether a dairy's offer is low.</p>
+{% endif %}

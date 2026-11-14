@@ -28,7 +28,8 @@ def default_form() -> list[tuple[str, str]]:
     outlets = load_outlets(load_sources())
     form = [("data_mode", "demo"), ("haul_mode", "flat"),
             ("tons", "1000"), ("haul_rate", "0.30"), ("moisture", ""), ("crude_fiber", ""),
-            ("aflatoxin", "unknown"), ("coproduct__recovered_kernel", "1.00")]
+            ("aflatoxin", "unknown"), ("coproduct__recovered_kernel", "1.00"),
+            ("corn_price", ""), ("sbm_price", "")]
     for o in outlets.values():
         form += [(f"price__{o.id}", ""), (f"miles__{o.id}", f"{o.default_miles:g}"),
                  (f"processing__{o.id}", f"{o.processing_cost_per_ton:g}")]
@@ -99,7 +100,7 @@ def test_default_form_matches_initial_page(client):
 def test_high_crude_fiber_flags_feed_outlets(client):
     html = post(client, "/calculate", with_changes(default_form(), crude_fiber="16")).text
     assert "Ineligible as feed" in html
-    assert answer(html) == "Bioenergy feedstock"
+    assert answer(html) == "Bioenergy feedstock (biomass power plant)"
 
 
 def test_kernel_price_edit_changes_result(client):
@@ -215,3 +216,15 @@ def test_report_html_escapes_model_markup():
 def test_unknown_report_download_is_404(client):
     client.get("/?data=demo")
     assert client.get("/report/nope.md").status_code == 404
+
+
+def test_literature_sections_render(client):
+    page = client.get("/?data=demo").text
+    assert "Feed value check" in page and "Research evidence" in page
+    assert "Where the default price comes from" in page
+    assert "would have to sell for" in page  # hydrochar material model
+
+
+def test_feed_price_entry_changes_feed_value(client):
+    html = post(client, "/calculate", with_changes(default_form(), corn_price="300")).text
+    assert "$300/ton corn" in html

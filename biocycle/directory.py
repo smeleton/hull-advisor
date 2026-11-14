@@ -160,6 +160,13 @@ def quote_request(lot: Lot, company: Company, outlet: Outlet,
                      "and indicative pricing",
         "disposal": f"whether you accept {product}, and your gate fee per ton",
     }[outlet.market]
+    if product == "almond hulls":  # hull-specific asks for the literature pathways
+        ask = {
+            "materials": "whether you would take almond hulls as a hydrochar or biochar "
+                         "feedstock, your specifications, and indicative pricing",
+            "chemicals": "whether you are sourcing almond hulls as a fermentation feedstock, your "
+                         "specifications (moisture, sugar content), and indicative pricing",
+        }.get(outlet.market, ask)
     body = "\n".join([
         f"Hello {company.name} team,",
         "",

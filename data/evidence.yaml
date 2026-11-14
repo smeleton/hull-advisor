@@ -1,0 +1,583 @@
+# Evidence: one record per number taken from the research literature.
+#
+# This is the literature half of the decision engine. Each record says what was measured, on
+# what material, under what conditions, where in the source it appears, and how strong the
+# evidence is. data/models.yaml builds the per-ton math only from these ids, so every literature
+# number in a result traces back to a line here (and its source in sources.yaml).
+#
+# Fields
+#   value_low/value_high  the number in `unit` (equal when the source gives one value)
+#   unit                  "numerator/denominator" with *-joined tokens; the loader checks that a
+#                         model's units multiply out. tonne = metric tonne, t = US short ton;
+#                         t_dry = a short ton of hull dry matter, t_hull = hulls as delivered.
+#                         Mass fractions are stored as fractions (0.051), percentages as pct.
+#   reported              the number as the source states it, for checking by eye
+#   evidence_level        database | review | animal_trial | in_vitro | lab | thesis | extension
+#                         | market_report
+#   feedstock             what was actually tested; never borrow a shell result for hulls
+#   notes                 caveats, conflicts inside the paper, assumptions we made
+#
+# Re-check a record against its source before relying on it; add new papers the same way.
+
+# ---------------------------------------------------------------- bioenergy: hydrothermal
+
+- id: htt_biooil_yield
+  source_id: htt_almondrefinery2021
+  pathways: [bioenergy_htl]
+  parameter: Bio-oil yield at the biofuel optimum
+  value_low: 0.11
+  value_high: 0.11
+  unit: t_biooil/t_dry
+  reported: "bio-oil (11% yield, 30 MJ/kg)"
+  conditions: "256 °C, 100 bar, 5 wt% solids, 157 min"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (Spain)
+  notes: "Yields are read as a fraction of dry feed, the usual lab convention; the abstract does not state the basis. Across all conditions tested, bio-oil ranged 2–12%."
+
+- id: htt_biooil_hhv
+  source_id: htt_almondrefinery2021
+  pathways: [bioenergy_htl]
+  parameter: Bio-oil higher heating value
+  value_low: 30
+  value_high: 30
+  unit: GJ/tonne_biooil
+  reported: "30 MJ/kg"
+  conditions: "Same run as htt_biooil_yield"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (Spain)
+
+- id: htt_char_yield
+  source_id: htt_almondrefinery2021
+  pathways: [bioenergy_htl]
+  parameter: Hydro-char yield at the biofuel optimum
+  value_low: 0.32
+  value_high: 0.32
+  unit: t_char/t_dry
+  reported: "high energetic hydro-char (32% yield, 29 MJ/kg)"
+  conditions: "256 °C, 100 bar, 5 wt% solids, 157 min"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (Spain)
+  notes: "Together with bio-oil, 43% of the feed ends up as fuel products at this point."
+
+- id: htt_char_hhv
+  source_id: htt_almondrefinery2021
+  pathways: [bioenergy_htl]
+  parameter: Hydro-char higher heating value
+  value_low: 29
+  value_high: 29
+  unit: GJ/tonne_char
+  reported: "29 MJ/kg"
+  conditions: "Same run as htt_char_yield"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (Spain)
+
+- id: htt_biocrude_350c
+  source_id: remon2022_cej
+  pathways: [bioenergy_htl]
+  parameter: Biocrude yield at 350 °C (alternative operating point)
+  value_low: 0.26
+  value_high: 0.26
+  unit: t_biooil/t_dry
+  reported: "26% biocrude yield, 32 MJ/kg"
+  conditions: "350 °C, 170 bar, deionised water, 115 min, almond hulls alone"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls
+  notes: "Context only: a hotter run makes more liquid fuel. Not mixed into the model, which uses one consistent operating point."
+
+- id: htt_biocrude_300c
+  source_id: zhou2024_jclepro
+  pathways: [bioenergy_htl]
+  parameter: Biocrude yield at 300 °C (alternative operating point)
+  value_low: 0.16
+  value_high: 0.16
+  unit: t_biooil/t_dry
+  reported: "energy-dense biocrude (29 MJ/kg) but with a much lesser yield (16%)"
+  conditions: "300 °C, 112 min, seawater study, almond hulls alone"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls
+  notes: "Context only."
+
+# ---------------------------------------------------------------- bioenergy: combustion
+
+- id: hull_hhv
+  source_id: chen2010_review
+  pathways: [bioenergy]
+  parameter: Almond hull higher heating value
+  value_low: 16.2
+  value_high: 16.2
+  unit: GJ/tonne_dry
+  reported: "Hull … HHV 16.2 MJ/kg (Table 2, citing Gonzalez et al. 2006)"
+  conditions: "Proximate/ultimate analysis; moisture 11.3%, ash 3.6%"
+  locator: Table 2
+  evidence_level: review
+  feedstock: almond hulls
+  notes: "The table does not say whether HHV is dry or as received; treated as dry. Sets the energy ceiling a combustion plant is buying."
+
+- id: hull_ash_potassium
+  source_id: aktas2015
+  pathways: [bioenergy]
+  parameter: Potassium share of almond residue ash
+  value_low: 18
+  value_high: 36
+  unit: pct
+  reported: "The ash of the almond biomass is very high in K, varying between 18-36%"
+  conditions: "Residues from seven Central Valley hullers/shellers"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond processing residues (California), incl. hull fractions
+  notes: "High-K ash can cause bed agglomeration, corrosion and fouling in boilers; expect plants to limit how much hull they blend."
+
+# ---------------------------------------------------------------- fermentation: yeast protein
+
+- id: yeast_protein_yield
+  source_id: sitepu2023
+  pathways: [fermentation_yeast_protein]
+  parameter: Yeast protein produced per gram of hull
+  value_low: 0.072
+  value_high: 0.072
+  unit: t_protein/t_dry
+  reported: "yielding a process that would produce 72 mg protein/g almond hull"
+  conditions: "Pectinase-liquefied hulls, 15% solids, 50 °C, 3 days; Zygoascus hellenicus; ammonium sulfate added"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (California, Nonpareil and mixed)
+  notes: "The paper does not show how 72 mg/g is derived, and galacturonic acid (the biggest sugar pool) was not consumed. The abstract's '~30% d.b.' hull protein conflicts with Table 2 (3.0–3.2%). Treat as an early lab projection."
+
+- id: yeast_biomass_per_sugar
+  source_id: sitepu2023
+  pathways: [fermentation_yeast_protein]
+  parameter: Yeast biomass per gram of sugar consumed
+  value_low: 0.56
+  value_high: 0.56
+  unit: t_biomass/t_sugar
+  reported: "about 0.56 g biomass per g sugar consumed"
+  conditions: "Phase 1.5 culture"
+  locator: Discussion
+  evidence_level: lab
+  feedstock: almond hull hydrolysate
+  notes: "Context only. The paper compares it with 0.45–0.55 for optimised industrial processes; no derivation shown."
+
+- id: hull_protein_sitepu
+  source_id: sitepu2023
+  pathways: [fermentation_yeast_protein, animal_feed]
+  parameter: Hull protein (sum of amino acids)
+  value_low: 3.0
+  value_high: 3.2
+  unit: pct
+  reported: "Protein (sum of amino acids): 32 / 30 g/kg (Table 2)"
+  conditions: "California mixed / Nonpareil hulls"
+  locator: Table 2
+  evidence_level: lab
+  feedstock: almond hulls (California)
+  notes: "Context only; amino-acid protein runs below crude protein (N × 6.25), which is why feed tables show ~5–6%."
+
+# ---------------------------------------------------------------- fermentation: ethanol + biogas
+
+- id: hull_soluble_sugar
+  source_id: holtman2015
+  pathways: [fermentation_ethanol]
+  parameter: Water-soluble fermentable sugars in hulls
+  value_low: 0.37
+  value_high: 0.37
+  unit: t_sugar/t_dry
+  reported: "considerable proportions (37% by dry weight) of water-soluble, fermentable sugars"
+  conditions: "Sucrose, glucose and fructose"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (California)
+
+- id: sugar_recovery
+  source_id: holtman2015
+  pathways: [fermentation_ethanol]
+  parameter: Sugar recovered by countercurrent extraction
+  value_low: 0.88
+  value_high: 0.88
+  unit: t_recovered/t_sugar
+  reported: "Overall, sugar recovery efficiency was 88%"
+  conditions: "1 h steep + three wash stages, 20% solids, 0.5% pectinase; syrup 131 g/L"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (California)
+  notes: "Context only; already inside ethanol_yield."
+
+- id: ethanol_yield
+  source_id: holtman2015
+  pathways: [fermentation_ethanol]
+  parameter: Ethanol per tonne of dry hulls
+  value_low: 185
+  value_high: 185
+  unit: L_ethanol/tonne_dry
+  reported: "a minima of 49 gal (185 L) ethanol … /t hulls (dry whole hull basis)"
+  conditions: "Extracted sugar syrup fermented at 86% conversion; 7.4% v/v ethanol in broth"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (California)
+  notes: "Stated as a minimum. 't' read as metric tonne, so we convert to short tons. CONFLICT (checked 2026-11-14): the USDA ARS summary of this paper says 58 gal ethanol and 93 m3 methane per T (dry basis); the journal abstract text says 49 gal (185 L) and 75 m3. We keep the lower, journal figures until the full paper is checked."
+
+- id: stillage_methane_yield
+  source_id: holtman2015
+  pathways: [fermentation_ethanol]
+  parameter: Methane from the thin stillage per tonne of dry hulls
+  value_low: 75
+  value_high: 75
+  unit: m3_methane/tonne_dry
+  reported: "75 m3 methane/t hulls (dry whole hull basis)"
+  conditions: "Thin stillage 233 g SCOD/L digested at 90% efficiency"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (California)
+
+# ---------------------------------------------------------------- animal feed: composition
+
+- id: hull_dm_delivered
+  source_id: wcngg2022
+  pathways: [bioenergy, bioenergy_htl, fermentation_yeast_protein, fermentation_ethanol, animal_feed]
+  parameter: Dry matter of hulls as delivered
+  value_low: 0.88
+  value_high: 0.91
+  unit: t_dry/t_hull
+  reported: "delivered at 88–91% dry matter"
+  locator: Article text (as recorded in sources.yaml)
+  evidence_level: extension
+  feedstock: almond hulls (California)
+  notes: "Converts the conversion models' $ per dry ton into $ per ton as delivered."
+
+
+- id: hull_nel_depeters
+  source_id: depeters_ucanr2022
+  pathways: [animal_feed]
+  parameter: NEL of commercial (total) Nonpareil hulls
+  value_low: 1.565
+  value_high: 1.565
+  unit: Mcal/kg_dm
+  reported: "NEL, Mcal/lb 0.71 (total hulls) 0.74 (pure hulls) 0.47 (debris)"
+  conditions: "Commercial hulls from California hullers, hand-sorted"
+  locator: Slide "What is the nutrient composition of the almond hulls?"
+  evidence_level: extension
+  feedstock: almond hulls (California, Nonpareil)
+  notes: "0.71 Mcal/lb ÷ 0.4536 kg/lb = 1.565 Mcal/kg; read as dry-matter basis (the slide does not say)."
+
+- id: hull_cp_depeters
+  source_id: depeters_ucanr2022
+  pathways: [animal_feed]
+  parameter: Crude protein of commercial Nonpareil hulls
+  value_low: 0.051
+  value_high: 0.051
+  unit: t_protein/t_dry
+  reported: "CP, % 5.1 (total) 5.1 (pure) 6.9 (debris)"
+  conditions: "Same samples as hull_nel_depeters"
+  locator: Same slide
+  evidence_level: extension
+  feedstock: almond hulls (California, Nonpareil)
+
+- id: hull_dm_depeters
+  source_id: depeters_ucanr2022
+  pathways: [animal_feed]
+  parameter: Dry matter of commercial hulls
+  value_low: 0.929
+  value_high: 0.929
+  unit: t_dry/t_hull
+  reported: "DM, % 92.9 (SD 1.3, range 89.4–95.1)"
+  conditions: "General composition table"
+  locator: Slide "General Composition"
+  evidence_level: extension
+  feedstock: almond hulls (California)
+
+- id: hull_nel_nrc
+  source_id: nrc2001
+  pathways: [animal_feed]
+  parameter: NEL of almond hulls (NRC table value)
+  value_low: 1.14
+  value_high: 1.14
+  unit: Mcal/kg_dm
+  reported: "Almond hulls: TDN 58.4, NEL-3X 1.14 Mcal/kg"
+  conditions: "Table mean at 3X maintenance intake"
+  locator: Table 15-1, p. 283
+  evidence_level: database
+  feedstock: almond hulls (NRC samples)
+  notes: "NRC samples carry more fiber (NDF 36.8%) than the newer UC Davis hulls (NDF ~21%), so this is the low-energy case."
+
+- id: hull_cp_nrc
+  source_id: nrc2001
+  pathways: [animal_feed]
+  parameter: Crude protein of almond hulls (NRC)
+  value_low: 0.065
+  value_high: 0.065
+  unit: t_protein/t_dry
+  reported: "CP 6.5"
+  locator: Table 15-1, p. 283
+  evidence_level: database
+  feedstock: almond hulls (NRC samples)
+
+- id: hull_dm_nrc
+  source_id: nrc2001
+  pathways: [animal_feed]
+  parameter: Dry matter of almond hulls (NRC)
+  value_low: 0.869
+  value_high: 0.869
+  unit: t_dry/t_hull
+  reported: "DM 86.9"
+  locator: Table 15-1, p. 283
+  evidence_level: database
+  feedstock: almond hulls (NRC samples)
+
+- id: corn_nel
+  source_id: nrc2001
+  pathways: [animal_feed]
+  parameter: NEL of corn grain, ground, dry
+  value_low: 2.01
+  value_high: 2.01
+  unit: Mcal/kg_dm
+  reported: "Corn, grain, ground, dry: NEL-3X 2.01"
+  locator: Table 15-1, p. 284
+  evidence_level: database
+  feedstock: corn grain
+
+- id: corn_cp
+  source_id: nrc2001
+  pathways: [animal_feed]
+  parameter: Crude protein of corn grain
+  value_low: 0.094
+  value_high: 0.094
+  unit: t_protein/t_corndm
+  reported: "CP 9.4"
+  locator: Table 15-1, p. 284
+  evidence_level: database
+  feedstock: corn grain
+
+- id: corn_dm
+  source_id: nrc2001
+  pathways: [animal_feed]
+  parameter: Dry matter of corn grain
+  value_low: 0.881
+  value_high: 0.881
+  unit: t_corndm/t_corn
+  reported: "DM 88.1"
+  locator: Table 15-1, p. 284
+  evidence_level: database
+  feedstock: corn grain
+
+- id: sbm_nel
+  source_id: nrc2001
+  pathways: [animal_feed, fermentation_yeast_protein]
+  parameter: NEL of soybean meal, solvent, 48% CP
+  value_low: 2.21
+  value_high: 2.21
+  unit: Mcal/kg_dm
+  reported: "Soybean meal, solvent, 48% CP: NEL-3X 2.21"
+  locator: Table 15-1, p. 288
+  evidence_level: database
+  feedstock: soybean meal
+
+- id: sbm_cp
+  source_id: nrc2001
+  pathways: [animal_feed, fermentation_yeast_protein]
+  parameter: Crude protein of soybean meal 48
+  value_low: 0.538
+  value_high: 0.538
+  unit: t_protein/t_sbmdm
+  reported: "CP 53.8"
+  locator: Table 15-1, p. 288
+  evidence_level: database
+  feedstock: soybean meal
+
+- id: sbm_dm
+  source_id: nrc2001
+  pathways: [animal_feed, fermentation_yeast_protein]
+  parameter: Dry matter of soybean meal 48
+  value_low: 0.895
+  value_high: 0.895
+  unit: t_sbmdm/t_sbm
+  reported: "DM 89.5"
+  locator: Table 15-1, p. 288
+  evidence_level: database
+  feedstock: soybean meal
+
+# ---------------------------------------------------------------- animal feed: prices
+
+- id: corn_price_ca
+  source_id: ams_3146
+  pathways: [animal_feed]
+  parameter: Corn price, Central California
+  value_low: 6.245
+  value_high: 6.445
+  unit: usd/bu_corn
+  reported: "Central Bid … 6.2450 … FOB-T; Central Bid … 6.4450 … DLVD-T"
+  conditions: "US #2 yellow corn, October 22, 2026"
+  locator: Corn rows
+  evidence_level: market_report
+  feedstock: corn grain
+  notes: "Converted at 56 lb per bushel."
+
+- id: sbm_price_wasde
+  source_id: wasde_nov2026
+  pathways: [animal_feed, fermentation_yeast_protein]
+  parameter: Soybean meal price, 2026/27 forecast
+  value_low: 340
+  value_high: 340
+  unit: usd/t_sbm
+  reported: "The soybean meal price is forecast unchanged at $340 per short ton."
+  conditions: "National season-average forecast"
+  locator: Oilseeds section
+  evidence_level: market_report
+  feedstock: soybean meal
+  notes: "Not a California delivered price, which runs higher; enter a local quote if you have one."
+
+# ---------------------------------------------------------------- animal feed: feeding results
+
+- id: inclusion_ucdavis_trial
+  source_id: heguy_ucce2022
+  pathways: [animal_feed]
+  parameter: Highest hull inclusion with no change in intake or milk yield (cows)
+  value_low: 20
+  value_high: 20
+  unit: pct_diet
+  reported: "0% AH 7% AH 13% AH 20% AH … no statistical differences in feed intake and milk yield"
+  conditions: "12 lactating Holsteins; hulls + soybean meal replacing steam-flaked corn and soyhulls"
+  locator: Table 1 and text
+  evidence_level: animal_trial
+  feedstock: almond hulls (California)
+  notes: "Basis (DM or as fed) not stated in the newsletter. Peer-reviewed as Swanson et al., J. Dairy Sci. 104:8846 (2021)."
+
+- id: milk_components_ucdavis
+  source_id: depeters_ucanr_trial
+  pathways: [animal_feed]
+  parameter: Milk protein % at 0 vs 12 lb hulls/day
+  value_low: 3.33
+  value_high: 3.46
+  unit: pct
+  reported: "Fat, % 3.81a 3.78a 3.95b 3.97b; Protein, % 3.46a 3.43a 3.35b 3.33b"
+  conditions: "Same trial as inclusion_ucdavis_trial"
+  locator: Slide "Summary Production"
+  evidence_level: animal_trial
+  feedstock: almond hulls (California)
+  notes: "Milk protein % falls and milk fat % rises as hull feeding increases; matters to dairies paid on components."
+
+- id: milk_loss_replacing_alfalfa
+  source_id: williams2018
+  pathways: [animal_feed]
+  parameter: Milk yield, control vs almond-hull diet (kg/day)
+  value_low: 24.6
+  value_high: 27.4
+  unit: kg_milk/cow_day
+  reported: "control 27.4 kg/d … almond hull diet 24.6 kg/cow per day"
+  conditions: "4.0 kg DM/day hulls replacing alfalfa cubes, 28-day trial, Australia"
+  locator: Abstract
+  evidence_level: animal_trial
+  feedstock: almond hulls
+  notes: "What hulls replace matters: replacing forage (alfalfa) cost milk; replacing concentrate (UC Davis trial) did not."
+
+- id: inclusion_in_vitro_16
+  source_id: recalde2024
+  pathways: [animal_feed]
+  parameter: In vitro inclusion without lowering VFA production
+  value_low: 16
+  value_high: 16
+  unit: pct_diet
+  reported: "AH can be included up to 16% of the diet, partially substituting corn, wheat bran and sugar beet pulp"
+  conditions: "Dairy sheep diets, in vitro ruminal fermentation; fresh-matter basis"
+  locator: Abstract
+  evidence_level: in_vitro
+  feedstock: almond hulls (Spain)
+  notes: "No anti-methane effect found."
+
+- id: inclusion_robinson_20
+  source_id: robinson2017
+  pathways: [animal_feed]
+  parameter: Practical maximum hull inclusion in dairy diets
+  value_low: 20
+  value_high: 20
+  unit: pct_diet_dm
+  reported: "can be included in diets of dairy cows at levels as high as 20% of diet dry matter with little or no negative impact"
+  locator: Summary
+  evidence_level: extension
+  feedstock: almond hulls (California)
+
+- id: fiber_violation_rate
+  source_id: wcngg2022_fiber
+  pathways: [animal_feed]
+  parameter: State samples over the 15% crude-fiber limit (2014–2018)
+  value_low: 39
+  value_high: 62
+  unit: pct
+  reported: "From 2014 and 2018, the state analyzed 673 almond hull samples. Of those, between 39% and 62% exceeded the crude fiber limit."
+  locator: Article text
+  evidence_level: extension
+  feedstock: almond hulls (California)
+  notes: "Sticks and shells push fiber up; cleaner hulls pass and are worth more."
+
+- id: fermented_hull_methane
+  source_id: sechrist2022
+  pathways: [animal_feed, fermentation_yeast_protein]
+  parameter: In vitro enteric methane cut with yeast-fermented hulls
+  value_low: 96
+  value_high: 96
+  unit: pct
+  reported: "almond hulls fermented with S. cerevisiae for 14 days reduced enteric CH4 production by 96% over 72 hours digestion at a 20% inclusion rate"
+  locator: Abstract
+  evidence_level: thesis
+  feedstock: almond hulls (California)
+  notes: "Single in vitro study; not yet shown in cows. No market price for fermented hulls."
+
+# ---------------------------------------------------------------- biomaterials: hydrochar
+
+- id: hydrochar_yield_range
+  source_id: htt_almondrefinery2021
+  pathways: [biomaterial_hydrochar]
+  parameter: Hydro-char yield across all conditions tested
+  value_low: 0.17
+  value_high: 0.89
+  unit: t_char/t_dry
+  reported: "hydro-char (17-89%)"
+  conditions: "200–300 °C, 100–180 bar, 20–180 min, 5–25 wt% solids"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond hulls (Spain)
+  notes: "Context only. The high end comes from mild runs where the hulls are barely carbonised; the model uses the 32% point (htt_char_yield), the only one with a reported char quality."
+
+- id: hydrochar_low_surface_area
+  source_id: masoumi2021_hydrochar
+  pathways: [biomaterial_hydrochar]
+  parameter: Surface area of a raw hydrochar before activation
+  value_low: 4
+  value_high: 4
+  unit: m2/g
+  reported: "Hydrochar generally shows a very low specific surface area and porosity … ≥2100 m2/g compared to hydrochar with a specific surface area of 4 m2/g"
+  conditions: "Algal hydrochar, K2CO3/KOH activation at 675 °C"
+  locator: Section on activation and functionalization
+  evidence_level: review
+  feedstock: algae (not almond)
+  notes: "General lesson: raw hydrochar is a poor adsorbent; adsorbent and carbon markets need an activation step (more cost, lower yield)."
+
+- id: shell_hydrochar_surface_area
+  source_id: ledesma2018
+  pathways: [biomaterial_hydrochar]
+  parameter: Surface area of air-activated almond-shell hydrochar
+  value_low: 320
+  value_high: 320
+  unit: m2/g
+  reported: "apparent surfaces areas up to 320 m2/g"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: almond SHELLS (not hulls)
+  notes: "Analogy only, not used in any calculation. No hull-specific surface-area measurement found."
+
+- id: shell_hydrochar_adsorption
+  source_id: shell_htc_adsorption2024
+  pathways: [biomaterial_hydrochar]
+  parameter: Maximum adsorption capacity of almond-shell hydrochar
+  value_low: 85.37
+  value_high: 153.46
+  unit: mg/g
+  reported: "maximum adsorption capacity for NOR, MB, and SY using hydrochar and AC were 85.37, 153.46, 93.35, and 384.1625, 556.465, 264.93 mg/g"
+  conditions: "Hydrochar made at 200 °C, 8 h; lab dye/antibiotic tests"
+  locator: Abstract
+  evidence_level: lab
+  feedstock: wild almond SHELLS (not hulls)
+  notes: "Analogy only, not used in any calculation."

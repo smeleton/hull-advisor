@@ -1,0 +1,13 @@
+{% if ids %}
+{% if ev_heading is not defined or ev_heading %}<h4>Research behind this option</h4>{% endif %}
+<ul class="evidence">
+{% for eid in ids %}{% set e = evidence[eid] %}
+  <li>
+    <span class="ev-level ev-{{ e.evidence_level }}">{{ LEVEL_LABEL[e.evidence_level] }}</span>
+    <strong>{{ e.parameter }}:</strong> “{{ e.reported }}”
+    <span class="muted">— {{ e.feedstock }}{% if e.conditions %}; {{ e.conditions }}{% endif %}. {{ e.locator }}, <a href="{{ sources[e.source_id].url }}" target="_blank" rel="noopener">{{ e.source_id }}</a>.</span>
+    {% if e.notes %}<div class="ev-note">{{ e.notes }}</div>{% endif %}
+  </li>
+{% endfor %}
+</ul>
+{% endif %}

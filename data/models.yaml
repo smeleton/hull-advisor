@@ -1,0 +1,134 @@
+# Math models built from data/evidence.yaml. The literature gives the yields; this file says how
+# they combine into dollars. All arithmetic lives in biocycle/pathways.py.
+#
+# conversion_models: what a processor turning hulls into products could afford to pay.
+#   value per dry ton = Σ product amount × product price − conversion cost
+#   price per ton as delivered = value per dry ton × dry matter (hull_dm_delivered)
+#   - amount: evidence ids multiplied together, then `convert` unit factors. The loader checks
+#     the units multiply out to "<price unit numerator>/t_dry".
+#   - price: either a number (price_low/price_high + price_tier) or `price_from` evidence:
+#     multiply[0] / divide[0] / divide[1] ... (units checked the same way). Evidence-derived
+#     prices are tier "sourced".
+#   - This is a break-even (zero-profit) ceiling for the processor. A real buyer pays less.
+#
+# feed_value: the Petersen method [stpierre2004]: what corn grain plus soybean meal delivering the
+# same NEL and crude protein as a ton of hulls would cost. A reference check on dairy prices, not
+# a price anyone has offered.
+
+dry_matter: hull_dm_delivered
+
+conversion_models:
+  - id: htl
+    name: Hydrothermal conversion to bio-oil and hydro-char
+    summary: >-
+      Hot, pressurised water turns hulls into a liquid bio-oil and a coal-like hydro-char,
+      valued here by their energy content. Lab scale only for almond hulls.
+    products:
+      - name: Bio-oil
+        amount: [htt_biooil_yield, htt_biooil_hhv]
+        convert: [tonne_biooil/t_biooil]
+        price_low: 6.0
+        price_high: 12.0
+        price_unit: usd/GJ
+        price_tier: placeholder
+        price_note: "Demo value. Raw bio-oil needs upgrading before sale; priced below crude oil per GJ."
+      - name: Hydro-char
+        amount: [htt_char_yield, htt_char_hhv]
+        convert: [tonne_char/t_char]
+        price_low: 2.0
+        price_high: 4.0
+        price_unit: usd/GJ
+        price_tier: placeholder
+        price_note: "Demo value, in the range of solid biomass fuel per GJ."
+    conversion_cost_per_dry_ton: 150
+    conversion_cost_tier: placeholder
+    conversion_cost_note: "Demo value. No published almond-hull hydrothermal cost study; plants are pre-commercial."
+
+  - id: yeast_protein
+    name: Fermentation to high-protein yeast
+    summary: >-
+      Enzymes liquefy the hulls and yeast grows on the released sugars, making a protein-rich
+      feed ingredient. Valued here only as a substitute for soybean-meal protein.
+    products:
+      - name: Yeast protein
+        amount: [yeast_protein_yield]
+        convert: []
+        price_from:
+          multiply: [sbm_price_wasde]
+          divide: [sbm_cp, sbm_dm]
+        price_unit: usd/t_protein
+        price_note: "Soybean meal price ÷ its protein share: what the same protein costs as soybean meal. Specialty feed yeast can sell higher."
+    conversion_cost_per_dry_ton: 30
+    conversion_cost_tier: placeholder
+    conversion_cost_note: "Demo value for enzyme, nitrogen, fermentation and drying. The paper has no cost analysis."
+
+  - id: ethanol_biogas
+    name: Sugar extraction to ethanol, with biogas from the leftovers
+    summary: >-
+      Hulls are washed to pull out their sugars, the syrup is fermented to ethanol, and the
+      leftover liquid (stillage) is digested to methane.
+    products:
+      - name: Ethanol
+        amount: [ethanol_yield]
+        convert: [tonne_dry/t_dry]
+        price_low: 0.45
+        price_high: 0.60
+        price_unit: usd/L_ethanol
+        price_tier: placeholder
+        price_note: "Demo value, about $1.70–2.27 per gallon."
+      - name: Methane from stillage
+        amount: [stillage_methane_yield]
+        convert: [tonne_dry/t_dry]
+        price_low: 0.10
+        price_high: 0.25
+        price_unit: usd/m3_methane
+        price_tier: placeholder
+        price_note: "Demo value; renewable-gas credits can move this a lot."
+    conversion_cost_per_dry_ton: 70
+    conversion_cost_tier: placeholder
+    conversion_cost_note: "Demo value. The researchers judged a stand-alone hull ethanol plant hard to justify on capital cost."
+
+feed_value:
+  method_source: stpierre2004
+  reference_feeds:
+    corn:
+      name: Corn grain
+      nel: corn_nel
+      cp: corn_cp
+      dm: corn_dm
+      price: corn_price_ca
+      price_convert: [bu_corn/t_corn]
+    sbm:
+      name: Soybean meal (48% CP)
+      nel: sbm_nel
+      cp: sbm_cp
+      dm: sbm_dm
+      price: sbm_price_wasde
+      price_convert: []
+  hull_scenarios:
+    - name: Commercial Nonpareil hulls, UC Davis analysis
+      nel: hull_nel_depeters
+      cp: hull_cp_depeters
+      dm: hull_dm_depeters
+    - name: NRC 2001 table hulls (more fiber)
+      nel: hull_nel_nrc
+      cp: hull_cp_nrc
+      dm: hull_dm_nrc
+
+# material_models: products with no public market price. The literature gives the yield; the math
+# answers the reverse question: what would the product have to sell for so a processor could
+# pay you a given price per ton of hulls?
+#   product price needed = (price per ton delivered ÷ dry matter + conversion cost) ÷ yield
+material_models:
+  - id: hydrochar_material
+    name: Hydrothermal carbonisation to hydrochar (as a material)
+    summary: >-
+      Hot, pressurised water turns hulls into a carbon-rich solid. Sold as a material
+      (adsorbent precursor, soil amendment) rather than burned. Almond-hull data covers yield and
+      fuel quality only; material properties so far come from almond shells.
+    product: Hydrochar
+    amount: [htt_char_yield]
+    product_unit: t_char
+    conversion_cost_per_dry_ton: 120
+    conversion_cost_tier: placeholder
+    conversion_cost_note: "Demo value for an HTC reactor, dewatering and drying. No almond-hull cost study found."

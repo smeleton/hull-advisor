@@ -479,3 +479,117 @@
   title: Feedipedia, Almond hulls
   url: https://feedipedia.org/node/11756
   what_it_supports: CP 5.7% DM; Ca 3.2, P 1.8 (SD 3.2, noisy), K 26, Mg 1.4 g/kg DM
+
+# ---- Research literature for the bioenergy, fermentation and animal-feed pathways ----
+# Numbers taken from these live in data/evidence.yaml, one record per number, with where in the
+# paper it comes from. Read that file before relying on a number: many are lab-scale.
+
+- id: htt_almondrefinery2021
+  title: "\"Analysis and optimisation of a novel 'almond-refinery' concept: Simultaneous production of biofuels and value-added chemicals by hydrothermal treatment of almond hulls\", Science of the Total Environment 765 (2021) 142671"
+  url: https://doi.org/10.1016/j.scitotenv.2020.142671
+  what_it_supports: "Lab hydrothermal treatment of almond hulls (200–300 °C, 100–180 bar, 20–180 min, 5–25 wt% solids): gas 2–13%, bio-oil 2–12%, aqueous 4–69%, hydro-char 17–89%; biofuel optimum 256 °C, 100 bar, 5 wt%, 157 min gives bio-oil 11% (30 MJ/kg) and hydro-char 32% (29 MJ/kg)."
+
+- id: remon2022_cej
+  title: "Remón J. et al., \"A novel 'sea-thermal', synergistic co-valorisation approach for biofuels production from unavoidable food waste (almond hulls) and plastic residues (disposable face masks)\", Chemical Engineering Journal (2022)"
+  url: https://doi.org/10.1016/j.cej.2022.137810
+  what_it_supports: "Hydrothermal treatment of almond hulls alone at 350 °C, 170 bar, in deionised water for 115 min maximised biocrude at 26% yield, 32 MJ/kg."
+
+- id: zhou2024_jclepro
+  title: "Zhou Y. et al., \"An innovative 'sea-thermal' synergetic biorefinery for biofuel production: Co-valorization of lignocellulosic and algal biomasses using seawater under hydrothermal conditions\", Journal of Cleaner Production (2024)"
+  url: https://doi.org/10.1016/j.jclepro.2024.142719
+  what_it_supports: "Hydrothermal treatment of almond hulls (seawater medium) at its optimum, 300 °C and 112 min, gave 16% biocrude at 29 MJ/kg."
+
+- id: chen2010_review
+  title: "Chen P. et al., \"Utilization of almond residues\", International Journal of Agricultural and Biological Engineering 3(4):1–18 (2010)"
+  url: https://ijabe.org/index.php/ijabe/article/download/348/pdf
+  what_it_supports: "Table 2 (citing Gonzalez et al. 2006): almond hull C 43.0%, N 3.28%, ash 3.6%, moisture 11.3%, volatile matter 71.2%, HHV 16.2 MJ/kg."
+
+- id: aktas2015
+  title: "Aktas T. et al., \"Characterization of almond processing residues from the Central Valley of California for thermal conversion\", Fuel Processing Technology 140:132–147 (2015)"
+  url: https://acikerisim.nku.edu.tr/xmlui/handle/20.500.11776/9703
+  what_it_supports: "Residues from seven California hullers/shellers: ash very high in potassium (18–36% K), which can cause bed agglomeration, corrosion and fouling in boilers; N and S elevated (NOx/SOx concern)."
+
+- id: sitepu2023
+  title: "Sitepu I.R. et al., \"Production of high protein yeast using enzymatically liquefied almond hulls\", PLoS ONE 18(11):e0293085 (2023)"
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10651018/
+  what_it_supports: "Pectinase-liquefied hulls (15% solids, 50 °C, 3 days) grown with yeast; abstract: a process that would produce 72 mg protein per g almond hull; ~0.56 g biomass per g sugar; galacturonic acid not yet consumed. Table 2: hull protein 3.0–3.2% d.b."
+
+- id: holtman2015
+  title: "Holtman K.M., Offeman R.D. et al., \"Countercurrent extraction of soluble sugars from almond hulls and assessment of the bioenergy potential\", J. Agric. Food Chem. 63(9):2490–2498 (2015)"
+  url: https://doi.org/10.1021/jf5048332
+  what_it_supports: "Hulls hold ~37% (dry) water-soluble fermentable sugars; countercurrent extraction recovered 88%; syrup fermented to ethanol at 86% conversion; at least 185 L (49 gal) ethanol and 75 m3 methane per tonne of dry hulls."
+
+- id: recalde2024
+  title: "Recalde A. et al., \"Chemical composition and nutritive value of almond hulls from two almond varieties and influence of including almond hulls in the diet on in vitro ruminal fermentation and methane production\", Veterinary Sciences 11(6):242 (2024)"
+  url: https://www.mdpi.com/2306-7381/11/6/242/htm
+  what_it_supports: "Spanish Guara/Soleta hulls (Table 3): CP 6.45–10.1%, NDF 29.9–39.8%, sugars 23.1–24.9% DM. In vitro: up to 16% of the diet replacing corn, wheat bran and beet pulp without hurting VFA production; no anti-methane effect."
+
+- id: depeters_ucanr2022
+  title: "DePeters E.J. et al., \"Almond hulls\" (UC ANR extension presentation, 2022)"
+  url: https://class.ucanr.edu/sites/default/files/2022-05/368026.pdf
+  what_it_supports: "Nonpareil commercial (total) hulls: CP 5.1%, ethanol-soluble carbohydrate 32.6%, NEL 0.71 Mcal/lb (pure hulls 0.74; sticks and shells 0.47); general composition DM 92.9% (89.4–95.1%); CA milk cows fed ~5 lb hulls/day."
+
+- id: heguy_ucce2022
+  title: "Heguy J. and DePeters E., \"Utilizing almond hulls as a concentrate replacement\", UCCE Dairy Newsletter (2022)"
+  url: https://ccfruitandnuts.ucanr.edu/sites/default/files/2022-08/Dairy_Newsletter94246.pdf
+  what_it_supports: "UC Davis trial: 0, 7, 13, 20% almond hulls replacing concentrates; no statistical differences in intake or milk yield; milk fat % up, protein % down; 70% of surveyed CA nutritionists use hulls."
+
+- id: depeters_ucanr_trial
+  title: "DePeters E.J., \"Almond hulls as a byproduct feedstuff\" (UC ANR presentation, 2022)"
+  url: https://ccfruitandnuts.ucanr.edu/sites/default/files/2022-05/367100.pdf
+  what_it_supports: "Same trial, 0–12 lb hulls/cow/day: milk fat 3.81% → 3.97%, milk protein 3.46% → 3.33%, ECM 92.0 → 90.2 lb/day."
+
+- id: williams2018
+  title: "Williams S.R.O. et al., \"Influence of feeding supplements of almond hulls and ensiled citrus pulp on the milk production, milk composition, and methane emissions of dairy cows\", J. Dairy Sci. 101(3):2072–2083 (2018)"
+  url: https://doi.org/10.3168/jds.2017-13440
+  what_it_supports: "Replacing 4.0 kg DM/day of alfalfa cubes with almond hulls lowered milk yield (27.4 → 24.6 kg/day) and milk protein yield; no change in enteric methane."
+
+- id: robinson2017
+  title: "Robinson P.H., \"Almond hulls\" (UC Davis Animal Science dairy extension note, 2017)"
+  url: https://animalscience.ucdavis.edu/sites/g/files/dgvnsk446/files/inline-files/web201708.pdf
+  what_it_supports: "Almond hulls have overall nutritional value about equal to mid-grade alfalfa hay and can be fed at up to 20% of diet dry matter with little or no negative impact."
+
+- id: wcngg2022_fiber
+  title: "WCNGG, \"Got almond hulls? Researchers delve into hull use, nutritional suitability as dairy cow feed\" (2022)"
+  url: https://www.wcngg.com/2022/11/06/got-almond-hulls-researchers-delve-into-hull-use-nutritional-suitability-as-dairy-cow-feed/
+  what_it_supports: "Of 673 almond hull samples analysed by the state in 2014–2018, between 39% and 62% exceeded the 15% crude fiber limit; feed law 2773.5 limits (13% moisture, 15% crude fiber, 9% ash)."
+
+- id: sechrist2022
+  title: "Sechrist E.A., \"Investigating the potential of almond hulls as a feedstock for fermented cattle feed\" (MS thesis, UC Davis, 2022)"
+  url: https://escholarship.org/uc/item/9j7102c5
+  what_it_supports: "Hulls fermented with S. cerevisiae for 14 days cut in vitro enteric methane by 96% over 72 h at a 20% inclusion rate (lab result)."
+
+- id: nrc2001
+  title: "National Research Council, Nutrient Requirements of Dairy Cattle, 7th rev. ed. (2001), Table 15-1"
+  url: https://ovc.uoguelph.ca/ruminant_health_management/sites/default/files/files/nutrient_composition_of_feeds.pdf
+  what_it_supports: "Almond hulls: TDN 58.4%, NEL 1.14 Mcal/kg, DM 86.9%, CP 6.5%, NDF 36.8% (p. 283). Corn grain, ground dry: NEL 2.01, CP 9.4%, DM 88.1% (p. 284). Soybean meal 48%: NEL 2.21, CP 53.8%, DM 89.5% (p. 288). All on a DM basis."
+
+- id: stpierre2004
+  title: "St-Pierre N.R., \"Bargains and rip-offs: assessing the economic value of feedstuffs using market prices\", 2004 Florida Ruminant Nutrition Symposium, pp. 94–107"
+  url: https://animal.ifas.ufl.edu/apps/dairymedia/rns/2004/St_Pierre.pdf
+  what_it_supports: "The Petersen method (1932) values a feed by equating the energy and protein of corn grain and soybean meal to their prices (two equations, two unknowns); it assumes perfect markets and ignores other nutrients."
+
+- id: ams_3146
+  title: "USDA AMS, \"California Grain Bids\" (report 3146), October 22, 2026"
+  url: https://www.ams.usda.gov/mnreports/ams_3146.pdf
+  what_it_supports: "US #2 yellow corn, Central California: $6.2450/bu FOB-T, $6.4450/bu delivered by truck."
+
+- id: wasde_nov2026
+  title: "USDA, World Agricultural Supply and Demand Estimates (WASDE-677), November 10, 2026"
+  url: https://esmis.nal.usda.gov/sites/default/release-files/796142/wasde1126.pdf
+  what_it_supports: "2026/27 soybean meal season-average price forecast unchanged at $340 per short ton (national, not a California delivered price)."
+
+- id: masoumi2021_hydrochar
+  title: "Masoumi S. et al., \"Hydrochar: A review on its production technologies and applications\", Catalysts 11(8):939 (2021)"
+  url: https://www.mdpi.com/2073-4344/11/8/939
+  what_it_supports: "Hydrochar generally has very low surface area and porosity; activating an (algal) hydrochar with K2CO3/KOH at 675 °C raised surface area from 4 to ≥2100 m2/g. Uses: soil amendment, pollutant adsorption, catalyst support, solid fuel, carbon sequestration, electrodes."
+
+- id: ledesma2018
+  title: "Ledesma B. et al., \"Method for promoting in-situ hydrochar porosity in hydrothermal carbonization of almond shells with air activation\", J. Supercritical Fluids 138:187–192 (2018)"
+  url: https://doi.org/10.1016/j.supflu.2018.04.018
+  what_it_supports: "Almond SHELL hydrochar activated in situ with air during HTC reached apparent surface areas up to 320 m2/g (shells, not hulls)."
+
+- id: shell_htc_adsorption2024
+  title: "\"Hydrothermal carbonization of biomass waste and application of produced hydrochar in organic pollutants removal\", Journal of Cleaner Production (2024)"
+  url: https://doi.org/10.1016/j.jclepro.2024.142386
+  what_it_supports: "Wild almond SHELL hydrochar (200 °C, 8 h) adsorbed up to 85–153 mg/g of test pollutants; activated carbon made from it, 265–556 mg/g (shells, not hulls)."

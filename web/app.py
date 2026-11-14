@@ -48,6 +48,8 @@ from biocycle.data import (
     load_buyers,
     load_sources,
 )
+from biocycle.evidence import LEVEL_LABEL, Models, load_models
+from biocycle.pathways import FeedValue, feed_value, value_all, value_material
 from biocycle.llm import LLMError, LLMResult
 from biocycle.market import (
     LOCAL_REGION,
@@ -78,7 +80,19 @@ templates.env.globals.update(
     STATUS_LABEL=p.STATUS_LABEL, NO_QUOTE_TEXT=p.NO_QUOTE_TEXT, slug=p.slug,
     PLACEHOLDER_BANNER=PLACEHOLDER_BANNER, default_price_text=p.default_price_text,
     default_price_tier=p.default_price_tier, MARKET_LABEL=MARKET_LABEL,
+    pretty_unit=p.pretty_unit, num=p.num,
+    range_text=p.range_text, price_num=p.price_num, LEVEL_LABEL=LEVEL_LABEL,
 )
+
+# Evidence pathways, in the order the Sources tab lists them.
+PATHWAY_LABEL = {
+    "animal_feed": "Animal feed",
+    "bioenergy": "Bioenergy: biomass power plant",
+    "bioenergy_htl": "Bioenergy: hydrothermal bio-oil and hydro-char",
+    "fermentation_yeast_protein": "Fermentation: high-protein yeast",
+    "fermentation_ethanol": "Fermentation: ethanol and biogas",
+    "biomaterial_hydrochar": "Biomaterials: hydrochar",
+}
 
 
 # ---------- data ----------
@@ -100,6 +114,17 @@ def load_data(biomass_id: str = DEFAULT_BIOMASS
     """(sources, outlets, fictional sample buyers) for one biomass."""
     bm = get_biomass(biomass_id)
     return load_sources(), bm.outlets, tuple(load_buyers(bm.outlets, biomass=bm.id))
+
+
+@lru_cache
+def load_models_cached() -> Models:
+    return load_models(load_data()[0])
+
+
+def literature(models: Models) -> dict[str, Any]:
+    """Model breakdowns for the templates: conversion models and material models by id."""
+    return {"conversion": value_all(models),
+            "material": {k: value_material(m, models) for k, m in models.material.items()}}
 
 
 @lru_cache
@@ -155,6 +180,7 @@ class Computed:
     outlets: dict[str, Outlet]
     sus_outlet: str  # option shown on the Sustainability tab
     biomass: Biomass
+    feed: FeedValue | None = None  # nutrient-replacement value of the hulls (Petersen)
 
     @property
     def show_banner(self) -> bool:
@@ -218,11 +244,21 @@ def compute(form: Any | None, mode: str | None = None, haul_mode: str | None = N
     alloc = allocate(buyers, lot, results, tiers, must_place=bm.must_place) if buyers else None
     sus = str(form.get("sus_outlet") or "")
     sus = sus if sus in outlets else str(results.iloc[0]["outlet_id"])
-    return Computed(lot, results, rows, alloc, errors, mode, haul_mode, outlets, sus, bm)
+    # The literature feed-value check describes almond hulls only.
+    feed = (feed_value(load_models_cached(), corn_price=_price_field(form, "corn_price"),
+                       sbm_price=_price_field(form, "sbm_price"))
+            if bm.id == DEFAULT_BIOMASS else None)
+    return Computed(lot, results, rows, alloc, errors, mode, haul_mode, outlets, sus, bm, feed)
+
+
+def _price_field(form: Any, name: str) -> float | None:
+    v = p.parse_number(form.get(name))
+    return v if v is not None and v > 0 else None
 
 
 def payload_hash(c: Computed) -> str:
-    payload = build_payload(c.lot, c.results, load_sources_cached(), Material.of(c.biomass))
+    payload = build_payload(c.lot, c.results, load_sources_cached(), Material.of(c.biomass),
+                            literature_for_report(c))
     return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
 
 
@@ -263,6 +299,10 @@ def biomass_sources(bm: Biomass, outlets: dict[str, Outlet], sources: dict[str, 
     ids = set(bm.source_ids)
     for o in outlets.values():
         ids |= set(o.source_ids) | {s for cp in o.coproducts for s in cp.source_ids}
+    if bm.id == DEFAULT_BIOMASS:  # the literature evidence library and feed-value check
+        models = load_models_cached()
+        ids |= {e.source_id for e in models.evidence.values()}
+        ids |= {models.feed.method_source} if getattr(models, "feed", None) else set()
     ids |= {n.source_id for n in bm.nutrients.values() if n.source_id}
     ids |= {c.source_id for c in bm.composition if c.source_id}
     text = " ".join([bm.summary, bm.ca_volume, *bm.quality_notes, *bm.caveats,
@@ -288,6 +328,8 @@ def context(c: Computed, session: Session) -> dict[str, Any]:
     history = [q for q in load_hull_history_cached()
                if q.region == LOCAL_REGION and q.delivered] if bm.market_data else []
     top = c.results.iloc[0]
+    models = load_models_cached()
+    base_row = c.results.loc[c.results["is_baseline"]].iloc[0]
     local_total = c.results.loc[c.results["is_baseline"], "total_expected"].iloc[0]
     base_name = c.results.loc[c.results["is_baseline"], "name"].iloc[0]
     return {
@@ -336,12 +378,88 @@ def context(c: Computed, session: Session) -> dict[str, Any]:
         "sus_alloc": (sustainability.assess_allocation(c.alloc.table, outlets, biomass=bm)
                       if c.alloc is not None else []),
         "sus_outlet": c.sus_outlet,
+        "lit": literature(models),
+        "evidence": models.evidence,
+        "evidence_groups": evidence_groups(models),
+        "feed": c.feed,
+        "feed_spec": models.feed_value,
+        "base_price": (base_row["price_low"], base_row["price_high"]),
         "cited_by": {
             s: [o.name for o in outlets.values()
                 if s in o.source_ids or any(s in cp.source_ids for cp in o.coproducts)]
             for s in sources
         },
     }
+
+
+def evidence_groups(models: Models) -> list[tuple[str, list]]:
+    """Evidence records grouped by their first pathway, in PATHWAY_LABEL order."""
+    groups: dict[str, list] = {k: [] for k in PATHWAY_LABEL}
+    for e in models.evidence.values():
+        key = e.pathways[0] if e.pathways else "other"
+        groups.setdefault(key, []).append(e)
+    return [(PATHWAY_LABEL.get(k, k.replace("_", " ").capitalize()), v)
+            for k, v in groups.items() if v]
+
+
+def literature_for_report(c: Computed) -> dict[str, Any]:
+    """Literature numbers the AI report may cite: models behind each outlet, feed value, evidence."""
+    models = load_models_cached()
+    lit = literature(models)
+    rows = c.results.set_index("outlet_id")
+    out: dict[str, Any] = {"conversion_models": [], "material_models": [], "evidence": []}
+    used: list[str] = []
+    for oid, r in rows.iterrows():
+        used += list(r["evidence_ids"])
+        price_model, material_model = p.opt_str(r["price_model"]), p.opt_str(r["material_model"])
+        if price_model:
+            mv = lit["conversion"][price_model]
+            out["conversion_models"].append({
+                "outlet_id": oid, "model": mv.name,
+                "products": [{"name": pv.name, "amount_low_per_dry_ton": pv.amount_low,
+                              "amount_high_per_dry_ton": pv.amount_high,
+                              "amount_unit": pv.amount_unit, "price_low": pv.price_low,
+                              "price_high": pv.price_high, "price_unit": pv.price_unit,
+                              "price_tier": pv.price_tier} for pv in mv.products],
+                "conversion_cost_per_dry_ton": mv.conversion_cost,
+                "conversion_cost_tier": mv.conversion_cost_tier,
+                "processor_can_pay_low_per_ton": mv.price_low,
+                "processor_can_pay_high_per_ton": mv.price_high,
+                "product_value_multiple_needed_to_match_local_dairy":
+                    mv.multiple_needed(float(r["break_even_price"])),
+            })
+        if material_model:
+            mat = lit["material"][material_model]
+            lo, hi = mat.price_needed(float(r["break_even_price"]))
+            out["material_models"].append({
+                "outlet_id": oid, "model": mat.name, "product": mat.product,
+                "yield_low_per_dry_ton": mat.yield_low, "yield_high_per_dry_ton": mat.yield_high,
+                "conversion_cost_per_dry_ton": mat.conversion_cost,
+                "conversion_cost_tier": mat.conversion_cost_tier,
+                "product_price_needed_to_match_local_dairy_low": lo,
+                "product_price_needed_to_match_local_dairy_high": hi,
+                "product_price_unit": f"usd/{mat.product_unit}",
+            })
+    if c.feed is not None:
+        f = c.feed
+        out["feed_value"] = {
+            "method": "Petersen (corn + soybean meal replacement)", "source_id": "stpierre2004",
+            "value_low_per_ton": f.low, "value_high_per_ton": f.high, "tier": f.tier,
+            "corn_price_per_ton": [f.corn_price_low, f.corn_price_high],
+            "soybean_meal_price_per_ton": [f.sbm_price_low, f.sbm_price_high],
+            "scenarios": [{"name": sc.name, "value_low_per_ton": sc.value_low,
+                           "value_high_per_ton": sc.value_high} for sc in f.scenarios],
+            "caveat": "A reference check, not a price offered: assumes corn and soybean meal are "
+                      "fairly priced and values only energy and protein [stpierre2004].",
+        }
+        used += list(f.evidence_ids)
+    for eid in dict.fromkeys(used):
+        e = models.evidence[eid]
+        out["evidence"].append({
+            "id": e.id, "source_id": e.source_id, "parameter": e.parameter,
+            "value_low": e.value_low, "value_high": e.value_high, "unit": e.unit,
+            "evidence_level": e.evidence_level, "feedstock": e.feedstock})
+    return out
 
 
 # ---------- report rendering ----------
@@ -391,7 +509,8 @@ async def report(request: Request) -> Response:
     sources = load_sources_cached()
     ctx: dict[str, Any] = {"error": None, "report": None, "session": session}
     try:
-        rep = generate_report(c.lot, c.results, sources, material=Material.of(c.biomass))
+        rep = generate_report(c.lot, c.results, sources, material=Material.of(c.biomass),
+                              literature=literature_for_report(c))
     except LLMError as e:
         ctx["error"] = str(e)
     else:

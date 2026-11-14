@@ -93,7 +93,7 @@ class FakeClient:
 def test_payload_is_json_safe_and_complete(payload):
     text = json.dumps(payload)  # no NaN, no numpy types
     assert "NaN" not in text
-    assert payload["outlet_count"] == 6
+    assert payload["outlet_count"] == 11
     assert payload["placeholder_affects_results"] is True
     food = next(o for o in payload["outlets"] if o["outlet_id"] == "food_ingredient")
     assert food["needs_quote"] is True and food["net_expected_per_ton"] is None

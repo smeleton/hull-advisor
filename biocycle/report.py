@@ -70,6 +70,11 @@ depends on placeholders and which quote would confirm it before switching. Count
 only from the payload (outlets with vs_baseline_per_ton above zero beat the baseline).
 - Cite sources by their id in square brackets, e.g. [giannini2026], and list their titles \
 and URLs in the last section.
+- The payload may include "literature": research-based models behind experimental options \
+(conversion_models: what a processor could pay at break-even; material_models: what the product \
+would have to sell for), a feed_value reference check, and the evidence records used. Describe \
+evidence by its evidence_level and feedstock (e.g. "a lab study on almond shells"); never present \
+a lab result as proven at farm scale. The feed value is a reference check, not a price offered.
 
 Format: Markdown with exactly these level-2 headings, in order: \
 {", ".join(f'"## {s}"' for s in SECTIONS)}. Do not number the headings. Keep the whole \
@@ -85,7 +90,7 @@ SYSTEM_PROMPT = system_prompt()
 
 
 def _clean(value: Any) -> Any:
-    """JSON-safe: NaN -> None, floats rounded to cents, numpy scalars to Python."""
+    """JSON-safe: NaN -> None, floats rounded (cents, or 4 decimals below 1), numpy to Python."""
     if isinstance(value, dict):
         return {k: _clean(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
@@ -93,7 +98,10 @@ def _clean(value: Any) -> Any:
     if hasattr(value, "item"):  # numpy scalar
         value = value.item()
     if isinstance(value, float):
-        return None if math.isnan(value) else round(value, 2)
+        if math.isnan(value):
+            return None
+        # Cents for money; small literature values (yields like 0.072) keep 4 decimals.
+        return round(value, 2) if abs(value) >= 1 else round(value, 4)
     return value
 
 
@@ -171,7 +179,8 @@ class Material:
 
 
 def build_payload(lot: Lot, results: pd.DataFrame, sources: dict[str, Source],
-                  material: Material = Material()) -> dict[str, Any]:
+                  material: Material = Material(),
+                  literature: dict[str, Any] | None = None) -> dict[str, Any]:
     outlets = []
     for row in results.to_dict("records"):
         out = {name: row[col] for col, name in OUTLET_FIELDS.items()}
@@ -189,6 +198,10 @@ def build_payload(lot: Lot, results: pd.DataFrame, sources: dict[str, Source],
         for text in (*row["requirements"], *row["risks"]):
             for group in re.findall(r"\[([a-z0-9_, ]+)\]", text):
                 cited |= {i.strip() for i in group.split(",")}
+    if literature:
+        cited |= {e["source_id"] for e in literature.get("evidence", [])}
+        if "feed_value" in literature:
+            cited.add(literature["feed_value"]["source_id"])
     cited = sorted(c for c in cited if c in sources)
     baseline = next(o for o in outlets if o["is_baseline"])
     rules = material.rules
@@ -217,6 +230,7 @@ def build_payload(lot: Lot, results: pd.DataFrame, sources: dict[str, Source],
         "placeholder_affects_results": any_placeholder(results),
         "definitions": DEFINITIONS,
         "outlets": outlets,
+        **({"literature": literature} if literature else {}),
         "sources": [
             {"id": s, "title": sources[s].title, "url": sources[s].url,
              "what_it_supports": sources[s].what_it_supports}
@@ -353,8 +367,9 @@ def prompt_for(material: Material, baseline_name: str) -> str:
 
 
 def generate_report(lot: Lot, results: pd.DataFrame, sources: dict[str, Source],
-                    client: Any = None, material: Material = Material()) -> Report:
-    payload = build_payload(lot, results, sources, material)
+                    client: Any = None, material: Material = Material(),
+                    literature: dict[str, Any] | None = None) -> Report:
+    payload = build_payload(lot, results, sources, material, literature)
     user = ("Write the report for this lot. Payload:\n\n```json\n"
             + json.dumps(payload, indent=2) + "\n```")
     llm = complete(prompt_for(material, payload["baseline_name"]), user, max_tokens=REPORT_MAX_TOKENS, effort=REPORT_EFFORT,
