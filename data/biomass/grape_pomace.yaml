@@ -280,7 +280,7 @@ outlets:
     a lab measure, not the mass of sellable extract.'
   risks:
   - Few CA buyers; volumes small vs 385,000 t/yr [grape_ucdavis_allison2018]
-  - Polyphenolics' current status unverified (2016 source) [grape_nutraingredients_polyphenolics]
+  - The Madera seed-extract plant run by the company Polyphenolics was last reported in 2016; check that it still buys pomace [grape_nutraingredients_polyphenolics]
   source_ids:
   - grape_salutesante
   - grape_nutraingredients_polyphenolics

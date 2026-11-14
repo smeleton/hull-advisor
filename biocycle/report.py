@@ -64,6 +64,10 @@ price_to_match_baseline_per_ton is a comparison with the baseline, never a \
 "break-even" or "cover costs" price; when it is null, don't give one.
 - Nutrient values (nutrients) are fertilizer value. They count in an outlet's net only when \
 nutrient_credit is true; otherwise mention them only as information.
+- In "Recommendation", name the top-ranked eligible priced outlet first as the best-priced \
+option, even when its edge rests on placeholder values; then say plainly whether that edge \
+depends on placeholders and which quote would confirm it before switching. Count options \
+only from the payload (outlets with vs_baseline_per_ton above zero beat the baseline).
 - Cite sources by their id in square brackets, e.g. [giannini2026], and list their titles \
 and URLs in the last section.
 
@@ -178,7 +182,14 @@ def build_payload(lot: Lot, results: pd.DataFrame, sources: dict[str, Source],
                                  "value_high_per_ton": n["value_high"], "tier": n["tier"]}
                                 for n in row["nutrients"]]
         outlets.append(out)
-    cited = sorted({sid for row in outlets for sid in row["source_ids"] if sid in sources})
+    cited = {sid for row in outlets for sid in row["source_ids"]}
+    # Sources named inside requirement and risk text (e.g. "[calrecycle_stanislaus_fees_2026]")
+    # must be in the payload too, or the report can cite an id the reader can't look up.
+    for row in outlets:
+        for text in (*row["requirements"], *row["risks"]):
+            for group in re.findall(r"\[([a-z0-9_, ]+)\]", text):
+                cited |= {i.strip() for i in group.split(",")}
+    cited = sorted(c for c in cited if c in sources)
     baseline = next(o for o in outlets if o["is_baseline"])
     rules = material.rules
     return _clean({
@@ -190,6 +201,8 @@ def build_payload(lot: Lot, results: pd.DataFrame, sources: dict[str, Source],
                                        for m, r in lot.haul_schedule] or None),
             "haul_rate_tier": lot.haul_rate_tier,
             "moisture_pct": lot.moisture_pct,
+            # Lot measurements are what the user typed in, never a sourced figure.
+            "measurements_tier": "user",
             **({"crude_fiber_pct": lot.crude_fiber_pct}
                if rules.crude_fiber_max is not None else {}),
             **({f"{rules.mycotoxin}_tested": lot.aflatoxin_tested} if rules.mycotoxin else {}),

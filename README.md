@@ -1,9 +1,40 @@
-# BioCycle Hull Value Advisor (demo prototype)
+# BioCycle Byproduct Value Advisor (demo prototype)
 
-Answers one question for whoever controls a lot of almond hulls:
+Answers one question for whoever controls a lot of a crop residue:
 
-> What is the best thing to do with this lot of hulls, and how much more would it earn than
-> selling it to the local dairy?
+> What is the best thing to do with this lot, and how does it compare with today's usual
+> route (for almond hulls, selling to the local dairy)?
+
+Materials (pick one at the top of "Your lot"; each lives in `data/biomass/<id>.yaml`):
+
+| Material | Who has it | Today's usual route (baseline) |
+|---|---|---|
+| Almond hulls | Hullers and shellers | Sell to the local dairy (USDA market data) |
+| Almond shells | Hullers and shellers | Dairy bedding |
+| Pistachio hulls | Pistachio processors | Wet hulls to cattle feed |
+| Grape pomace | Wineries | Wet pomace to cattle feed |
+| Tomato pomace | Tomato processors | Wet pomace to dairy feed |
+| Orange peels | Juice plants and packers | Pressed peel to cattle feeders |
+| Mango peels | Fresh-cut processors | Compost / green bin (small California volume) |
+| Kiwi peels | Kiwifruit processors | Compost (small California volume) |
+
+Each profile has composition, N-P-K-Mg content, quality rules, 5–7 outlets and verified
+companies. Outside almond hulls most prices are **Demo values**: no public market exists, so
+enter real quotes. Wet residues are perishable, so the buyer split always places the whole lot
+(even where a buyer charges a gate fee, entered as a negative price). Outlets that dry or
+extract on site use `mass_yield` (tons of product per ton of input): the price is per ton of
+product, and only the product is hauled.
+
+**Nutrient recovery** (`data/nutrients.yaml`): the N, P, K and Mg in a lot are valued at
+Nov 2026 DTN fertilizer prices for each recovery route on composting, digestion and land
+application outlets (retained in compost, digestate spread on land, struvite, ammonia
+stripping, biochar). The value counts in the net only where the producer keeps the nutrients
+(spreading on their own land); otherwise it is shown for information, because the composter's
+or digester's gate fee already reflects it.
+
+**Adding a material:** copy a file in `data/biomass/`, keep outlet ids unique, give the
+baseline a price, cite sources by id from `data/sources.yaml`, and add fictional sample
+buyers to `data/buyers_sample.csv` (with the `biomass` column). The loader validates all of it.
 
 All calculations are deterministic Python (`biocycle/valuation.py`). Every number is tagged
 **Sourced** (`data/sources.yaml`), **Your entry** (entered in the UI), or **Demo value**
@@ -50,7 +81,8 @@ The refresh pulls public, keyless sources and writes small committed files to `d
 | Shelled almond price, annual | USDA NASS (`nass_ncit`) | Ceiling for recovered-kernel value (the kernel price stays a demo value) |
 
 In the app, **Prices from: USDA market** (the default when a snapshot exists) uses these numbers,
-tagged *Sourced*; **Demo values** uses `data/outlets.yaml`. **Hauling: USDA by distance** or a
+tagged *Sourced*; **Demo values** uses `data/biomass/almond_hulls.yaml`. (Market data
+exists for almond hulls only.) **Hauling: USDA by distance** or a
 flat rate. The Sources tab shows the latest quotes and the weekly price history.
 `python -m evals.run market` compares demo and market results and replays the recommendation
 over every week of real prices.
@@ -167,12 +199,14 @@ web/app.py             FastAPI routes: /, /calculate, /report, /report/{id}.md, 
 web/templates/         page and partial templates
 web/static/            style.css, app.js, favicon
 biocycle/config.py     model name, units, defaults
-biocycle/data.py       YAML/CSV loaders and validation
+biocycle/data.py       YAML/CSV loaders and validation (biomass profiles, outlets)
+biocycle/nutrients.py  fertilizer value of N, P, K, Mg by recovery route
 biocycle/valuation.py  net value, ranges, break-even, flags, tiers
 biocycle/present.py    UI-free helpers: form parsing, formatting, table rows, SVG chart
 biocycle/llm.py        Claude wrapper: retries, refusal handling, token + cost logging
 biocycle/report.py     report payload, system prompt, number guardrail
 biocycle/allocation.py buyer allocation LP and dual values
-data/                  sources.yaml, outlets.yaml, buyers_sample.csv
+data/                  sources.yaml, biomass/<id>.yaml, nutrients.yaml,
+                       emission_factors.yaml, buyers_directory.yaml, buyers_sample.csv
 tests/                 pytest suite (web routes via FastAPI TestClient; LLM mocked)
 ```

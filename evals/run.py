@@ -21,12 +21,12 @@ from pathlib import Path
 from typing import Any
 
 from biocycle.config import EVAL_RESULTS_DIR, EVAL_SPEND_CAP_USD, MODEL, JUDGE_MODEL
-from biocycle.data import load_outlets, load_sources
+from biocycle.data import load_biomasses, load_sources
 from biocycle.feedback import load as load_feedback
 from biocycle.llm import LLMError
 from biocycle.market import apply_snapshot, load_snapshot
-from biocycle.report import build_payload, generate_report
-from biocycle.valuation import evaluate
+from biocycle.report import Material, build_payload, generate_report
+from biocycle.valuation import evaluate_biomass
 from evals import math_checks
 from evals.feedback_summary import summarize, to_markdown
 from evals.judge import CRITERIA, judge_report
@@ -81,7 +81,7 @@ def run_math(out_dir: Path) -> bool:
 def run_report(scenarios: list[Scenario], judge: bool, max_spend: float, out_dir: Path,
                client: Any = None) -> bool:
     sources = load_sources()
-    outlets = load_outlets(sources)
+    biomasses = load_biomasses(sources)
     spent, observed = 0.0, []  # observed: cost of each finished scenario
     rows: list[dict[str, Any]] = []
 
@@ -91,7 +91,9 @@ def run_report(scenarios: list[Scenario], judge: bool, max_spend: float, out_dir
             rows.append({"scenario": sc.id, "status": "skipped",
                          "reason": f"spend cap ${max_spend:.2f} reached (${spent:.4f} spent)"})
             continue
-        lot, sc_outlets = sc.lot, outlets
+        bm = biomasses[sc.biomass]
+        material = Material.of(bm)
+        lot, sc_outlets = sc.lot, bm.outlets
         if sc.market:
             snap = load_snapshot()
             if snap is None:
@@ -99,13 +101,13 @@ def run_report(scenarios: list[Scenario], judge: bool, max_spend: float, out_dir
                              "reason": "no market snapshot (run python -m biocycle.refresh)"})
                 continue
             lot = replace(sc.lot, haul_schedule=snap.truck_rates)
-            sc_outlets = apply_snapshot(outlets, snap)
-        results = evaluate(lot, sc_outlets, sc.overrides)
-        payload = build_payload(lot, results, sources)
+            sc_outlets = apply_snapshot(bm.outlets, snap)
+        results = evaluate_biomass(lot, bm, sc.overrides, sc_outlets)
+        payload = build_payload(lot, results, sources, material)
         row: dict[str, Any] = {"scenario": sc.id, "description": sc.description}
         cost = 0.0
         try:
-            rep = generate_report(lot, results, sources, client=client)
+            rep = generate_report(lot, results, sources, client=client, material=material)
             cost += rep.llm.cost_usd
             grades = grade_report(rep.llm.text, payload)
             row.update(status="ok", report=rep.llm.text,

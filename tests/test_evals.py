@@ -172,6 +172,23 @@ def test_runner_writes_results_and_respects_spend_cap(tmp_path, monkeypatch):
     assert next(tmp_path.glob("*-report.md")).read_text().startswith("# AI report evaluation")
 
 
+def test_runner_reaches_every_scenario_with_a_generous_cap(tmp_path, monkeypatch):
+    """Every scenario (market data and other materials included) runs end to end offline,
+    so a runner bug fails here instead of halfway through a paid live run."""
+    import evals.run as run
+
+    client = ScriptedClient()
+    monkeypatch.setattr(llm, "make_client", lambda: client)
+    run.run_report(list(SCENARIOS), judge=False, max_spend=100, out_dir=tmp_path)
+    data = json.loads(next(tmp_path.glob("*-report.json")).read_text())
+    by_id = {s["scenario"]: s for s in data["scenarios"]}
+    assert set(by_id) == {s.id for s in SCENARIOS}
+    assert all(s["status"] in ("ok", "skipped") for s in by_id.values())
+    assert by_id["grape_default"]["status"] == "ok" and by_id["orange_fees"]["status"] == "ok"
+    writer_prompts = [c["system"] for c in client.calls]
+    assert any("grape pomace" in str(p) for p in writer_prompts)
+
+
 def test_cli_math_exit_code(tmp_path):
     assert run_main(["--out", str(tmp_path), "math"]) == 0
     assert list(tmp_path.glob("*-math.md"))
