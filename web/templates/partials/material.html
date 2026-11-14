@@ -14,11 +14,11 @@
   <div class="table-wrap">
   <table class="data compact">
     <caption class="sr-only">Composition of {{ biomass.name|lower }}</caption>
-    <thead><tr><th scope="col">Component</th><th scope="col" class="num">Value</th><th scope="col">Basis</th><th scope="col">Data</th></tr></thead>
+    <thead><tr><th scope="col">Component</th><th scope="col" class="num">Value</th><th scope="col">Basis</th><th scope="col">Source</th></tr></thead>
     <tbody>
     {% for c in biomass.composition %}
       <tr><td class="opt">{{ c.component[:1]|upper }}{{ c.component[1:] }}</td><td class="num">{{ c.value }}</td><td>{{ "% of dry matter" if c.basis == "dry" else ("as delivered" if c.basis == "wet" else c.basis) }}</td>
-        <td>{{ tier(c.tier) }}{% if c.source_id %} <span class="muted small">[{{ c.source_id }}]</span>{% endif %}</td></tr>
+        <td>{% if c.source_id %}<span class="muted small">[{{ c.source_id }}]</span>{% endif %}</td></tr>
     {% endfor %}
     </tbody>
   </table>

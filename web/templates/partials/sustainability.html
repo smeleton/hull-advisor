@@ -43,7 +43,6 @@ On EPA's Wasted Food Scale [epa_wasted_food_scale]: {{ sus.scale_position }} (a 
     <th scope="col" class="num">End use<br><span class="th-unit">CO2e</span></th>
     <th scope="col" class="num">Total<br><span class="th-unit">CO2e</span></th>
     <th scope="col" class="num">Per ton<br><span class="th-unit">kg CO2e</span></th>
-    <th scope="col">Data</th>
   </tr></thead>
   <tbody>
   {% for r in sus_rows %}
@@ -54,7 +53,6 @@ On EPA's Wasted Food Scale [epa_wasted_food_scale]: {{ sus.scale_position }} (a 
       <td class="num">{{ kg(r.treatment_kg) if r.treatment_kg is not none else "not estimated" }}</td>
       <td class="num strong">{{ kg(r.total_kg) }}</td>
       <td class="num">{{ "%.1f"|format(r.kg_per_ton) }}</td>
-      <td>{{ tier(r.tier) }}</td>
     </tr>
   {% endfor %}
   </tbody>
@@ -67,11 +65,11 @@ On EPA's Wasted Food Scale [epa_wasted_food_scale]: {{ sus.scale_position }} (a 
 <table class="data">
   <caption class="sr-only">Estimated emissions per buyer in the allocation</caption>
   <thead><tr><th scope="col">Buyer</th><th scope="col">Use</th><th scope="col" class="num">Tons</th><th scope="col" class="num">Miles</th>
-    <th scope="col" class="num">Total<br><span class="th-unit">CO2e</span></th><th scope="col">Data</th></tr></thead>
+    <th scope="col" class="num">Total<br><span class="th-unit">CO2e</span></th></tr></thead>
   <tbody>
   {% for r in sus_alloc %}
     <tr><td class="opt">{{ r.name }}</td><td>{{ r.use }}</td><td class="num">{{ tons(r.tons) }}</td><td class="num">{{ tons(r.miles) }}</td>
-      <td class="num strong">{{ kg(r.total_kg) }}</td><td>{{ tier(r.tier) }}</td></tr>
+      <td class="num strong">{{ kg(r.total_kg) }}</td></tr>
   {% endfor %}
   </tbody>
 </table>

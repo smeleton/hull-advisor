@@ -19,12 +19,12 @@
     <div class="nutrients">
       <h4>Nutrients in this lot (fertilizer value)</h4>
       <table class="data compact">
-        <thead><tr><th scope="col">Recovery route</th><th scope="col" class="num">N</th><th scope="col" class="num">P</th><th scope="col" class="num">K</th><th scope="col" class="num">Mg</th><th scope="col" class="num">Value<br><span class="th-unit">$/ton</span></th><th scope="col">Data</th></tr></thead>
+        <thead><tr><th scope="col">Recovery route</th><th scope="col" class="num">N</th><th scope="col" class="num">P</th><th scope="col" class="num">K</th><th scope="col" class="num">Mg</th><th scope="col" class="num">Value<br><span class="th-unit">$/ton</span></th></tr></thead>
         <tbody>
         {% for n in r.nutrients %}
           <tr><td class="opt">{{ n.name }}{% if loop.first and r.nutrient_credit %} <span class="pill">counted in net</span>{% endif %}</td>
             {% for k in ["N", "P", "K", "Mg"] %}<td class="num">{% if k in n.lb_low %}{{ "%.1f"|format(n.lb_low[k]) }}–{{ "%.1f"|format(n.lb_high[k]) }} lb{% else %}—{% endif %}</td>{% endfor %}
-            <td class="num strong">{{ money(n.value_low) }}–{{ money(n.value_high) }}</td><td>{{ tier(n.tier) }}</td></tr>
+            <td class="num strong">{{ money(n.value_low) }}–{{ money(n.value_high) }}</td></tr>
         {% endfor %}
         </tbody>
       </table>
@@ -40,9 +40,6 @@
       <div><h4>Risks</h4><ul>{% for x in r.risks %}<li>{{ x }}</li>{% endfor %}</ul></div>
     </div>
     {% set ids = r.evidence_ids %}{% include "partials/evidence_list.html" %}
-    <p class="tiers"><span class="label">Where each input comes from:</span>
-      {% for k, v in r.input_tiers.items() %}<span class="tier-item">{{ k|replace("_", " ") }} {{ tier(v) }}</span>{% endfor %}
-    </p>
     {% if r.source_ids %}
     <p class="tiers"><span class="label">Sources:</span>
       {% for sid in r.source_ids %}<a href="{{ sources[sid].url }}" target="_blank" rel="noopener">{{ sid }}</a>{% if not loop.last %} · {% endif %}{% endfor %}

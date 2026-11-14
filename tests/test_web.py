@@ -62,11 +62,13 @@ def post(client: TestClient, path: str, form: list[tuple[str, str]]):
 # ---------- page ----------
 
 
-def test_index_renders_with_banner_and_tabs(client):
+def test_index_renders_without_demo_tags_and_with_tabs(client):
     r = client.get("/?data=demo")
     assert r.status_code == 200
     html = r.text
-    assert PLACEHOLDER_BANNER in html
+    assert PLACEHOLDER_BANNER not in html
+    assert 'class="tier ' not in html, "data-source tags are hidden"
+    assert '<th scope="col">Checks</th>' not in html and 'class="check ' not in html
     for tab in ("Compare options", "Split across buyers", "Written report", "Material and sources"):
         assert f">{tab}</button>" in html
     assert answer(html) == "Clean, recover kernels, then sell to local dairy"
@@ -114,7 +116,7 @@ def test_buyer_quote_makes_food_ingredient_rankable(client):
     html = post(client, "/calculate", form).text
     assert answer(html) == "Hull powder food ingredient"  # 200 - 60 - 30 = 110/t
     assert figure(html, "Expected net") == "$110"
-    assert '<span class="tier tier-user"' in html
+    assert 'class="tier ' not in html
 
 
 def test_bad_numbers_fall_back_to_defaults(client):
@@ -125,9 +127,10 @@ def test_bad_numbers_fall_back_to_defaults(client):
 
 
 def test_banner_is_in_swap_fragment(client):
-    """The swap fragment re-renders the banner so it tracks placeholder use."""
+    """The swap fragment keeps the banner slot; the demo banner itself is switched off."""
     html = post(client, "/calculate", default_form()).text
-    assert PLACEHOLDER_BANNER in html
+    assert 'data-swap="banner"' in html
+    assert PLACEHOLDER_BANNER not in html
 
 
 # ---------- buyers ----------
@@ -150,7 +153,6 @@ def test_buyer_rows_validation_and_removal(client):
     html = post(client, "/calculate", form).text
     assert "Row 2: needs a buyer name, an outlet" in html
     assert figure(html, "Best total value") == "$19,400"  # 200 x (100 - 3)
-    assert '<span class="tier tier-user"' in html
 
 
 def test_no_buyers_shows_prompt(client):

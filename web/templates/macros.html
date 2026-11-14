@@ -1,5 +1,5 @@
 {% macro tier(t) -%}
-<span class="tier tier-{{ t }}" title="{{ TIER_HELP[t] }}">{{ TIER_LABEL[t] }}</span>
+{% if SHOW_TIERS %}<span class="tier tier-{{ t }}" title="{{ TIER_HELP[t] }}">{{ TIER_LABEL[t] }}</span>{% endif %}
 {%- endmacro %}
 
 {% macro check(c) -%}
