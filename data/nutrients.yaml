@@ -1,0 +1,98 @@
+# Nutrient recovery: what N, P, K and Mg in a lot are worth as fertilizer, by recovery route.
+#
+# value per ton of material = 2000 lb x dry fraction x nutrient % of dry matter x recovery
+#                             efficiency x $ per lb of nutrient
+# Nutrient % of dry matter comes from each biomass file (nutrients_pct_dry).
+# The value counts in an outlet's net only when the producer keeps it (nutrient_credit: true,
+# e.g. spreading on their own land). For outlets where a composter or digester takes the
+# material, it is shown for information: their gate fee already reflects it.
+# Checked 2026-11-14.
+
+prices_per_lb:
+  # DTN US average retail fertilizer prices, week of Nov 2-6, 2026 [nutr_dtn_retail_2026_11_11].
+  N:
+    low: 0.61    # anhydrous 82-0-0 at $1,003/ton: 1003 / 1640 lb N
+    high: 0.72   # urea 46-0-0 at $662/ton: 662 / 920 lb N
+    tier: sourced
+    source_id: nutr_dtn_retail_2026_11_11
+    note: Nitrogen kept in compost, digestate or soil is valued like commodity N fertilizer.
+  N_as_ammonium_sulfate:
+    low: 1.29    # ammonium sulfate 21-0-0-24S, $540-890/ton: 540 / 420 lb N .. (spot check)
+    high: 1.61   # $675/ton / 420 lb N
+    tier: placeholder  # the ammonium sulfate price page could not be reloaded
+    note: Recovered ammonium sulfate sells as a specialty N-and-sulfur fertilizer.
+  P:
+    low: 1.72    # DAP 18-46-0 at $950/ton, after crediting its N: (950 - 360 x 0.72) / 401 lb P
+    high: 2.19   # MAP 11-52-0 at $991/ton, no N credit: 991 / 453 lb P  (P2O5 x 0.436 = P)
+    tier: sourced
+    source_id: nutr_dtn_retail_2026_11_11
+  K:
+    low: 0.50    # potash 0-0-60 at $504/ton: 504 / 996 lb K  (K2O x 0.830 = K)
+    high: 0.51
+    tier: sourced
+    source_id: nutr_dtn_retail_2026_11_11
+  Mg:
+    low: 1.50
+    high: 2.20
+    tier: placeholder  # no loaded US magnesium fertilizer price
+    note: Kieserite (magnesium sulfate) import prices suggest about $1.80 per lb of Mg.
+
+routes:
+  land_applied:
+    name: Spread on your own land (nutrients stay in the soil)
+    status: established
+    n_price: N
+    efficiency:   # share of each nutrient the crop can use; ammonia losses on spreading
+      N: {low: 0.50, high: 0.80, tier: placeholder}
+      P: {low: 0.90, high: 1.00, tier: placeholder}
+      K: {low: 0.90, high: 1.00, tier: placeholder}
+      Mg: {low: 0.90, high: 1.00, tier: placeholder}
+    source_ids: [nutr_eghball_1997_composting]
+  compost_retained:
+    name: Composting (nutrients kept in the compost)
+    status: established
+    n_price: N
+    efficiency:
+      N: {low: 0.58, high: 0.81, tier: sourced, source_id: nutr_eghball_1997_composting}
+      P: {low: 0.97, high: 1.00, tier: sourced, source_id: nutr_eghball_1997_composting}
+      K: {low: 0.90, high: 1.00, tier: sourced, source_id: nutr_eghball_1997_composting}
+      Mg: {low: 0.95, high: 1.00, tier: placeholder}
+    source_ids: [nutr_eghball_1997_composting]
+  digestate_land_application:
+    name: Digestion, then digestate spread on land
+    status: established
+    n_price: N
+    efficiency:
+      N: {low: 0.60, high: 0.90, tier: placeholder}
+      P: {low: 0.90, high: 1.00, tier: placeholder}
+      K: {low: 0.90, high: 1.00, tier: placeholder}
+      Mg: {low: 0.90, high: 1.00, tier: placeholder}
+    source_ids: []
+  struvite:
+    name: Struvite precipitation (magnesium ammonium phosphate crystals)
+    status: emerging
+    n_price: N
+    efficiency:
+      N: {low: 0.02, high: 0.08, tier: placeholder}
+      P: {low: 0.30, high: 0.60, tier: placeholder}
+      Mg: {low: 0.50, high: 0.90, tier: placeholder}
+    source_ids: [nutr_muys_2021_struvite]
+    note: Struvite often sells below its nutrient value (Europe, 0-100 EUR/t) [nutr_muys_2021_struvite].
+  ammonia_stripping:
+    name: Ammonia stripping to ammonium sulfate
+    status: emerging
+    n_price: N_as_ammonium_sulfate
+    efficiency:
+      N: {low: 0.40, high: 0.75, tier: placeholder}   # stripper 80-92% x share of N as ammonium
+    source_ids: [nutr_folino_2020_stripping]
+  biochar:
+    name: Pyrolysis (P, K, Mg concentrated in the char; most N lost)
+    status: emerging
+    n_price: N
+    efficiency:
+      N: {low: 0.05, high: 0.30, tier: placeholder}
+      P: {low: 0.80, high: 1.00, tier: placeholder}
+      K: {low: 0.70, high: 1.00, tier: placeholder}
+      Mg: {low: 0.90, high: 1.00, tier: placeholder}
+    source_ids: [nutr_premalatha_2023_biochar]
+    note: Nutrient availability in char drops at higher pyrolysis temperatures; test before claiming it.

@@ -136,3 +136,190 @@
       quote: "Feedstock used in the plant will consist of agricultural wood waste, pistachio shells, and almond shells."
   checked: 2026-11-07
   notes: Not yet built. Uses shells, not hulls.
+
+# ---- Other biomasses (checked 2026-11-14). Producers of the same material are not listed; quotes were re-checked against the live pages. ----
+
+- id: treehouse_sitos_biochar
+  name: Treehouse California Almonds / The Sitos Group
+  outlets:
+  - shells_biochar
+  what: Slow-pyrolysis plant converting ~24,000 tons/yr of almond shells to biochar and power at a shelling
+    site.
+  location: Tulare County, CA
+  status: planned
+  evidence:
+  - url: https://biochartoday.com/news/the-sitos-group-and-treehouse-california-almonds-establish-biochar-infrastructure-to-replace-agricultural-burning
+    quote: a historically undervalued material
+  checked: '2026-11-14'
+  notes: Website field is the news article; company sites were not loaded. Article date unconfirmed.
+- id: west_biofuels
+  name: West Biofuels
+  outlets:
+  - shells_power
+  - shells_biochar
+  what: Develops rotary-drum gasification plus ORC systems that make power and biochar from almond biomass.
+  location: Woodland, CA
+  status: listed
+  evidence:
+  - url: https://www.almonds.org/sites/default/files/6.%20WB_Bioenergy_Presentation_Matt_Summers.pdf
+    quote: converting biomass to power, heat, biochar and synthetic fuels
+  checked: '2026-11-14'
+  notes: 2018 deck; current activity unverified (a Kerman project was mentioned only in a search snippet).
+- id: grow_plastics_fds
+  name: Grow Plastics and FDS (USDA torrefied-shell partners)
+  outlets:
+  - shells_polymers
+  what: California companies working with USDA to commercialize torrefied almond shell as plastic filler.
+  location: CA
+  status: research
+  evidence:
+  - url: https://ceres.ai/blog/torrefaction-another-word-for-a-huge-new-market-for-almond-shells
+    quote: working with California companies Grow Plastics and FDS to commercialize the technology
+  checked: '2026-11-14'
+  notes: 2018 source; companies' own sites not loaded; city unknown; may no longer be active.
+- id: vgrid_energy
+  name: VGrid Energy Systems
+  outlets:
+  - pistachio_biochar_energy
+  what: California gasifier/biochar maker; biochar from pistachio SHELLS certified for organic use; relevant
+    as a possible hull-solids energy partner.
+  location: CA (city not found)
+  status: research
+  evidence:
+  - url: https://www.qcintel.com/carbon/article/pistachio-derived-biochar-earns-california-organic-certification-41417.html
+    quote: Two biochar-based products produced by California-based VGrid Energy Systems from pistachio
+      shells have been certified by
+  checked: '2026-11-14'
+  notes: Shells, not hulls. Own website not loaded; do not present as a hull buyer without a quote.
+- id: napa_recycling_waste_services
+  name: Napa Recycling & Waste Services
+  outlets:
+  - grape_compost
+  - grape_ad_biogas
+  - grape_feed_wet
+  what: Operates the City of Napa composting facility that takes winery pomace by debris box, composted
+    or reused as animal feed; digester planned.
+  location: Napa, CA
+  website: https://naparecycling.com
+  status: active
+  evidence:
+  - url: https://www.biocycle.net/?p=57005
+    quote: The facility is operated by Napa Recycling, and owned by the City of Napa.
+  checked: '2026-11-14'
+  notes: Composts 5,000-8,000 t/yr pomace and lees [grape_napagreen_2022]. No fee published. AD project
+    has no stated start date.
+- id: upper_valley_disposal_recycling
+  name: Upper Valley Disposal & Recycling
+  outlets:
+  - grape_compost
+  what: St. Helena hauler-composter that collects winery pomace (about 60% of its compost feedstock) in
+    Aug to early Nov.
+  location: St. Helena, CA
+  status: active
+  evidence:
+  - url: https://www.wastedive.com/news/napa-compost-upper-valley-grape-pomace-wine-country/634301/
+    quote: Mr. Mondavi didn't want to dump the residual on the ground on his property,
+  checked: '2026-11-14'
+  notes: Article (Waste Dive) says Waste Connections later bought the company; current terms unknown.
+- id: polyphenolics
+  name: Polyphenolics
+  outlets:
+  - grape_ingredients
+  what: Makes MegaNatural grape seed extract ingredients from wine-production waste at a Madera plant
+    (2016 report).
+  location: Madera, CA
+  website: https://www.polyphenolics.com
+  status: listed
+  evidence:
+  - url: https://www.nutraingredients.com/Article/2016/10/19/Polyphenolics-delves-into-sports-nutrition-with-its-grape-seed-extracts/
+    quote: At its plant in Madera, CA the company has delved into grape seed extracts and the anthocyanins
+      contained within them.
+  - url: https://www.polyphenolics.com
+    quote: Realizing the health benefits of the grape.
+  checked: '2026-11-14'
+  notes: Location from 2016 article; company site does not state city. Parent and current sourcing not
+    verified.
+- id: salute_sante_food_and_vine
+  name: Salute Sante! Grapeseed Oil (Food & Vine Inc.)
+  outlets:
+  - grape_ingredients
+  what: Sources seeds from winery pomace and cold-presses grapeseed oil in Napa.
+  location: Napa, CA
+  website: https://grapeseedoil.com
+  status: active
+  evidence:
+  - url: https://grapeseedoil.com/fruit-oil/
+    quote: our oil is 100% UPCYCLED from winery pomace (seeds, skins and stems), an existing resource,
+      and is ZERO WASTE.
+  - url: https://grapeseedoil.com/fruit-oil/
+    quote: began pressing in Napa, CA in 2010.
+  checked: '2026-11-14'
+  notes: Purchase terms and volumes unknown; contact via their site.
+- id: wholevine_sonomaceuticals
+  name: WholeVine Products / Sonomaceuticals
+  outlets:
+  - grape_ingredients
+  what: Dries, presses and mills chardonnay marc into a food-ingredient powder.
+  location: Sonoma County, CA
+  status: listed
+  evidence:
+  - url: https://www.californiabountiful.com/magazine-features/magazine-issues/fall-2024/healthy-promise/
+    quote: naturally sweet, alcohol-free powder rich in antioxidants and fiber.
+  checked: '2026-11-14'
+  notes: Article is from Fall 2024. Size of pomace purchases unknown.
+- id: g3_enterprises
+  name: G3 Enterprises
+  outlets:
+  - grape_feed_wet
+  what: Modesto-area logistics firm with a pomace hauling service; its feed-sales and 40%-of-state-pomace
+    claims were seen only in search snippets and are not verified here.
+  location: Modesto, CA
+  website: https://g3enterprises.com
+  status: listed
+  evidence:
+  - url: https://g3enterprises.com/logistics/transportation/pomace-hauling
+    quote: Efficient Pomace Hauling Services | G3 Enterprises
+  checked: '2026-11-14'
+  notes: Treat as hauler lead only; verify feed buyer role by phone/quote.
+- id: gilly
+  name: Gilly
+  outlets:
+  - tomato_feed_wet
+  what: California startup using solid-state fungal fermentation to turn tomato pomace into a dairy-ration
+    ingredient.
+  location: California (trial at Trinkler Dairy, Modesto)
+  status: research
+  evidence:
+  - url: https://dairynews.today/milkypedia/organization/gilly_4314153/
+    quote: A notable event in Gilly's journey is the commercial trial conducted at Trinkler Dairy in Modesto,
+      California.
+  checked: '2026-11-14'
+  notes: Directory listing page, no company site loaded; stage and volumes unknown.
+- id: mid_valley_disposal_compost
+  name: Mid Valley Disposal (Kerman food-scrap composting)
+  outlets:
+  - orange_compost
+  - mango_compost_greenbin
+  - kiwi_compost
+  what: Fresno County compost facility designed for pre- and postconsumer food scraps and yard trimmings.
+  location: Kerman, CA
+  status: listed
+  evidence:
+  - url: https://www.biocycle.net/?p=27055
+    quote: 60,000 tons/year of pre and postconsumer food scraps and yard trimmings
+  checked: '2026-11-14'
+  notes: 2016 article. Current operation, fees and acceptance of fruit processing residue unverified.
+- id: agromin_limoneira_santa_paula
+  name: Agromin / Limoneira organic waste recycling JV
+  outlets:
+  - orange_compost
+  - mango_compost_greenbin
+  - kiwi_compost
+  what: Planned large compost site earning gate fees and compost sales; citrus waste acceptance not stated.
+  location: Santa Paula, CA
+  status: planned
+  evidence:
+  - url: https://www.pacbiztimes.com/2026/04/16/limoneira-stikes-deal-with-oxnard-based-agromin/
+    quote: organic waste recycling facility on 70 acres in Santa Paula
+  checked: '2026-11-14'
+  notes: Announced April 2026; not yet operating as far as the page shows.

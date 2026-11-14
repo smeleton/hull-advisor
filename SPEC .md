@@ -21,7 +21,9 @@ Ignore scalability, auth, deployment, and databases.
    (`data/buyers_directory.yaml`), and only with public business information backed by a page
    we loaded (evidence URL, quote, date checked). Never personal names, emails or phone numbers,
    and never guessed URLs. The app never contacts anyone; quote requests are drafts the user
-   sends. (Updated for the cofounder review, Nov 2026.)
+   sends. (Updated for the cofounder review, Nov 2026.) The directory lists only companies that
+   take, buy or process someone else's material, never other producers of the same residue, and
+   every quote is re-checked against its page before it is added (multi-biomass, Nov 14, 2026).
 
 ## Stack
 Python 3.11+, Streamlit, pandas, scipy (`linprog` with HiGHS), pyyaml, plotly, anthropic SDK,

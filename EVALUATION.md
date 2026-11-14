@@ -38,9 +38,10 @@ The command exits non-zero if any check fails, so it can gate a release.
 
 ## 2. AI report eval (`evals/report_graders.py`, `evals/judge.py`, `evals/scenarios.py`)
 
-Eight scenarios (default lot, high fiber, a food buyer quote, worthless kernels, a tested wet lot,
-a small lot with expensive hauling, a lot with no demo values, and the default lot on real USDA
-market data) are each run through the real
+Ten scenarios (default lot, high fiber, a food buyer quote, worthless kernels, a tested wet lot,
+a small lot with expensive hauling, a lot with no demo values, the default lot on real USDA
+market data, and two other materials: grape pomace, and orange peels where several options
+charge a gate fee) are each run through the real
 report prompt. The raw model output is graded two ways:
 
 **Code graders** (exact, free):

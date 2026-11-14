@@ -21,6 +21,22 @@ OUTLET_ALIASES: dict[str, tuple[str, ...]] = {
     "food_ingredient": ("food ingredient", "hull powder", "food buyer", "food-ingredient"),
     "compost_soil": ("compost", "soil amendment"),
     "bioenergy": ("bioenergy", "biomass"),
+    # grape pomace
+    "grape_feed_wet": ("wet pomace", "cattle feed", "dairy feed", "dairies"),
+    "grape_ingredients": ("seed oil", "polyphenol", "ingredient", "marc"),
+    "grape_distill_tartrate": ("distill", "tartrate", "grappa"),
+    "grape_feed_dried": ("dried pomace", "dry the pomace", "drying"),
+    "grape_compost": ("compost",),
+    "grape_ad_biogas": ("digest", "biogas"),
+    "grape_biochar": ("biochar",),
+    # orange peels
+    "orange_cattle_feed_wet": ("wet peel", "cattle feed", "dairies", "feed mixer", "ensil"),
+    "orange_limonene_recovery": ("limonene", "peel oil"),
+    "orange_dried_pulp_pellets": ("pellet", "dried pulp"),
+    "orange_anaerobic_digestion": ("digest", "biogas"),
+    "orange_compost": ("compost",),
+    "orange_pectin_fiber": ("pectin",),
+    "orange_ethanol": ("ethanol",),
 }
 MAX_WORDS = 600
 MAX_GRADE_LEVEL = 10.0  # Flesch-Kincaid; a busy manager should not need more than 10th grade

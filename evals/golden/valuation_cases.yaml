@@ -62,4 +62,4 @@
   lot: {tons: 1000, haul_rate: 0.30}
   expect:
     # Food D 150 t x (180-60-30=90) + Dairy B 400 t x (97-10.5=86.5) + Dairy A 450 t x (90-4.5=85.5)
-    allocation: {total_value: 86575, tons_allocated: 1000, hull_marginal: 85.5}
+    allocation: {total_value: 86575, tons_allocated: 1000, lot_marginal: 85.5}

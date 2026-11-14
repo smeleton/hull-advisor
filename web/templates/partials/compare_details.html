@@ -4,16 +4,32 @@
   <summary><span class="rank">{{ r["rank"] }}.</span> {{ r.name }} {{ tier(r.result_tier) }}</summary>
   <div class="detail-body">
     {% if r.needs_quote %}
-    <p>{{ NO_QUOTE_TEXT }} To beat selling locally, a quote must exceed <strong>{{ r.break_even_text }}/ton</strong>.</p>
+    <p>{{ NO_QUOTE_TEXT }} {% if r.break_even_price < 0 %}It beats today's route unless the buyer charges more than <strong>{{ money(-r.break_even_price) }}/ton</strong>.{% else %}To beat today's route, a quote must exceed <strong>{{ r.break_even_text }}/ton</strong>.{% endif %}</p>
     {% else %}
     <p class="calc">
-      Price {{ money(r.price_low) }}{% if r.price_high != r.price_low %}–{{ money(r.price_high) }}{% endif %}
+      Price {{ money(r.price_low) }}{% if r.price_high != r.price_low %}–{{ money(r.price_high) }}{% endif %}{% if r.mass_yield < 1 %} × {{ '%g'|format(r.mass_yield) }} t of product per ton{% endif %}
       − processing {{ money(r.processing_cost) }}
-      − hauling {{ money(r.haul_cost) }} <span class="muted">({{ tons(r.miles) }} mi)</span>
-      {% if r.coproduct_high > 0 %}+ coproducts {{ money(r.coproduct_low) }}–{{ money(r.coproduct_high) }}{% endif %}
+      − hauling {{ money(r.haul_cost) }} <span class="muted">({{ tons(r.miles) }} mi{% if r.haul_tons_per_ton < 1 %}, product only{% endif %})</span>
+      {% if r.coproduct_high > 0 %}+ {{ "coproducts and nutrients" if r.nutrient_credit else "coproducts" }} {{ money(r.coproduct_low) }}–{{ money(r.coproduct_high) }}{% endif %}
       = <strong>{{ money(r.net_low) }}{% if r.net_high != r.net_low %} to {{ money(r.net_high) }}{% endif %} per ton</strong>.
-      {% if r.has_break_even %}To match selling locally, this buyer must pay {{ r.break_even_text }}/ton.{% endif %}
+      {% if r.has_break_even %}{% if r.break_even_price < 0 %}This matches today's route even if the buyer charges a fee of up to {{ money(-r.break_even_price) }}/ton.{% else %}To match today's route, this buyer must pay {{ r.break_even_text }}/ton.{% endif %}{% endif %}
     </p>
+    {% endif %}
+    {% if r.nutrients %}
+    <div class="nutrients">
+      <h4>Nutrients in this lot (fertilizer value)</h4>
+      <table class="data compact">
+        <thead><tr><th scope="col">Recovery route</th><th scope="col" class="num">N</th><th scope="col" class="num">P</th><th scope="col" class="num">K</th><th scope="col" class="num">Mg</th><th scope="col" class="num">Value<br><span class="th-unit">$/ton</span></th><th scope="col">Data</th></tr></thead>
+        <tbody>
+        {% for n in r.nutrients %}
+          <tr><td class="opt">{{ n.name }}{% if loop.first and r.nutrient_credit %} <span class="pill">counted in net</span>{% endif %}</td>
+            {% for k in ["N", "P", "K", "Mg"] %}<td class="num">{% if k in n.lb_low %}{{ "%.1f"|format(n.lb_low[k]) }}–{{ "%.1f"|format(n.lb_high[k]) }} lb{% else %}—{% endif %}</td>{% endfor %}
+            <td class="num strong">{{ money(n.value_low) }}–{{ money(n.value_high) }}</td><td>{{ tier(n.tier) }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <p class="muted small">{% if r.nutrient_credit %}You keep these nutrients (they stay on your land), so the first route's value counts in the net.{% else %}Shown for information, not counted: the composter or digester keeps the nutrients, and its gate fee already reflects them.{% endif %} Pounds per ton of material at the lot's moisture; fertilizer prices from DTN retail, Nov 2026 [nutr_dtn_retail_2026_11_11].</p>
+    </div>
     {% endif %}
     {% if r.detail_flags %}
     <ul class="flags">{% for f in r.detail_flags %}<li>{{ f }}</li>{% endfor %}</ul>

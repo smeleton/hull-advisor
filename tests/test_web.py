@@ -66,7 +66,7 @@ def test_index_renders_with_banner_and_tabs(client):
     assert r.status_code == 200
     html = r.text
     assert PLACEHOLDER_BANNER in html
-    for tab in ("Compare options", "Split across buyers", "Written report", "Sources"):
+    for tab in ("Compare options", "Split across buyers", "Written report", "Material and sources"):
         assert f">{tab}</button>" in html
     assert answer(html) == "Clean, recover kernels, then sell to local dairy"
     assert "<svg class=\"chart\"" in html

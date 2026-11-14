@@ -76,7 +76,15 @@
   }
   // Feedback fields (fb_*) and unnamed fields (e.g. quote-request drafts) don't change the
   // results, so they don't trigger a recalculation (which would also wipe what was typed).
-  const isFeedback = (e) => !e.target.name || e.target.name.startsWith("fb_");
+  // Switching material reloads the page: the options, quality fields and buyers all change.
+  const isFeedback = (e) => !e.target.name || e.target.name.startsWith("fb_")
+    || e.target.name === "biomass";
+  const biomassSelect = form.querySelector('select[name="biomass"]');
+  if (biomassSelect) {
+    biomassSelect.addEventListener("change", () => {
+      window.location.href = "/?biomass=" + encodeURIComponent(biomassSelect.value);
+    });
+  }
   form.addEventListener("input", (e) => { if (!isFeedback(e)) recalc(); });
   form.addEventListener("change", (e) => { if (!isFeedback(e)) recalc(); });
   form.addEventListener("submit", (e) => {

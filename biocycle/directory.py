@@ -1,4 +1,5 @@
-"""Directory of real companies that work with almond hulls, and quote-request drafts.
+"""Directory of real companies that take almond hulls and other residues, and quote-request
+drafts.
 
 Entries live in data/buyers_directory.yaml. Each one is public business information backed by
 a page we loaded (evidence URL + quote + date). The loader refuses anything that looks like a
@@ -118,28 +119,46 @@ def by_outlet(companies: list[Company], outlet_ids: list[str]) -> dict[str, list
 # ---------- quote request ----------
 
 
-def _quality_lines(lot: Lot) -> list[str]:
-    afla = {"yes": "tested (results available on request)", "no": "not tested yet",
-            "unknown": "not tested yet"}[lot.aflatoxin_tested]
-    lines = [f"- Aflatoxin: {afla}"]
-    lines.append(f"- Crude fiber: {lot.crude_fiber_pct:g}%" if lot.crude_fiber_pct is not None
-                 else "- Crude fiber: not measured yet")
+def _quality_lines(lot: Lot, mycotoxin: str | None = "aflatoxin",
+                   crude_fiber: bool = True) -> list[str]:
+    lines = []
+    if mycotoxin:
+        tested = {"yes": "tested (results available on request)", "no": "not tested yet",
+                  "unknown": "not tested yet"}[lot.aflatoxin_tested]
+        lines.append(f"- {mycotoxin.capitalize()}: {tested}")
+    if crude_fiber:
+        lines.append(f"- Crude fiber: {lot.crude_fiber_pct:g}%" if lot.crude_fiber_pct is not None
+                     else "- Crude fiber: not measured yet")
     lines.append(f"- Moisture: {lot.moisture_pct:g}%" if lot.moisture_pct is not None
                  else "- Moisture: not measured yet")
     return lines
 
 
-def quote_request(lot: Lot, company: Company, outlet: Outlet) -> tuple[str, str]:
+def quote_request(lot: Lot, company: Company, outlet: Outlet,
+                  biomass: Any = None) -> tuple[str, str]:
     """(subject, body) for a quote request the user edits and sends themselves."""
-    product = ("almond shells/hulls" if outlet.market == "energy" else "almond hulls")
+    if biomass is None or biomass.id == "almond_hulls":
+        product = "almond shells/hulls" if outlet.market == "energy" else "almond hulls"
+        noun, mycotoxin, fiber = "hulls", "aflatoxin", True
+    else:
+        product = biomass.name.lower()
+        noun = biomass.noun
+        mycotoxin, fiber = biomass.rules.mycotoxin, biomass.rules.crude_fiber_max is not None
     subject = f"Quote request: {lot.tons:,.0f} tons of {product}"
+    accept = (f"whether you accept almond hulls as well as shells, and your price per ton "
+              "delivered") if product == "almond shells/hulls" else (
+        f"whether you accept {product}, and your price per ton delivered")
     ask = {
         "feed": "your price per ton, delivered and FOB our site, and your quality requirements",
-        "food": "whether you are sourcing hulls for food use, your quality and handling "
+        "food": f"whether you are sourcing {noun} for food use, your quality and handling "
                 "requirements, and indicative pricing",
-        "soil": "whether you accept almond hulls, and your price or tipping fee per ton",
-        "energy": "whether you accept almond hulls as well as shells, and your price per ton "
-                  "delivered",
+        "soil": f"whether you accept {product}, and your price or tipping fee per ton",
+        "energy": accept,
+        "chemicals": f"whether you are sourcing {product} for extraction, your quality and "
+                     "handling requirements, and indicative pricing",
+        "materials": f"whether you can use {product} as a raw material, your specifications, "
+                     "and indicative pricing",
+        "disposal": f"whether you accept {product}, and your gate fee per ton",
     }[outlet.market]
     body = "\n".join([
         f"Hello {company.name} team,",
@@ -148,7 +167,7 @@ def quote_request(lot: Lot, company: Company, outlet: Outlet) -> tuple[str, str]
         "[month/timing] at [your city], California.",
         "",
         "Lot details:",
-        *_quality_lines(lot),
+        *_quality_lines(lot, mycotoxin, fiber),
         "",
         f"Could you share {ask}? We can arrange hauling or have you pick up.",
         "",

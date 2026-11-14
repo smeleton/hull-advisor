@@ -17,21 +17,23 @@ CRITERIA: dict[str, str] = {
     "faithfulness": "Every claim and recommendation is supported by the payload. Nothing is "
                     "invented, and nothing contradicts the ranking, flags or tiers. 5 = fully "
                     "faithful; 1 = a material false claim.",
-    "decision_clarity": "A busy huller manager finishes the Recommendation knowing what to do "
+    "decision_clarity": "A busy plant manager finishes the Recommendation knowing what to do "
                         "next and why. 5 = one clear, justified action; 1 = no clear answer.",
     "uncertainty_honesty": "The report separates sourced facts from placeholder (demo) "
                            "assumptions and does not overstate confidence. 5 = clear and "
                            "proportionate; 1 = presents placeholders as fact.",
     "risk_coverage": "Quality flags (crude fiber, aflatoxin, moisture), ineligible or "
-                     "needs-quote options, and break-even prices are explained correctly. "
+                     "needs-quote options, fees (negative prices), and the prices needed to "
+                     "match the baseline are explained correctly. "
                      "5 = all relevant ones, correctly; 1 = missing or wrong.",
-    "plain_language": "Plain English for a farmer or huller manager: short sentences, no "
+    "plain_language": "Plain English for a farmer or plant manager: short sentences, no "
                       "jargon or hype. 5 = very easy to read; 1 = hard to follow.",
 }
 PASS_MIN = 4  # every criterion must score at least this for the report to pass
 
-JUDGE_SYSTEM = """You are a strict reviewer of short decision reports written for almond \
-huller managers and farmers. You receive the JSON payload of computed results that the \
+JUDGE_SYSTEM = """You are a strict reviewer of short decision reports written for managers \
+of farms and processing plants (almond hullers, wineries, juice plants and others) deciding \
+where to send a crop residue. You receive the JSON payload of computed results that the \
 report writer was given, and the report itself. Judge the report only against the payload: \
 the payload is the ground truth, and all math in it is correct.
 

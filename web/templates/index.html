@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hull Value Advisor · BioCycle</title>
+  <title>{{ biomass.name }} · Byproduct Value Advisor · BioCycle</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
     <span class="brand-mark" aria-hidden="true"></span>
     <span class="brand-name">BioCycle</span>
     <span class="brand-sep" aria-hidden="true">/</span>
-    <span class="brand-product">Hull Value Advisor</span>
+    <span class="brand-product">Byproduct Value Advisor</span>
   </div>
   <div class="spend" id="spend">{% include "partials/spend.html" %}</div>
 </header>
@@ -26,9 +26,17 @@
 <form id="advisor" class="layout" autocomplete="off" novalidate>
   <aside class="lot" aria-labelledby="lot-h">
     <h2 id="lot-h">Your lot</h2>
-    <p class="lede">What's the best thing to do with this lot of almond hulls, and how much more would it earn than selling to the local dairy?</p>
+    <label class="field">
+      <span class="field-label">Material</span>
+      <select class="cell biomass-select" name="biomass" aria-describedby="biomass-hint">
+        {% for b in biomasses %}<option value="{{ b.id }}" {{ "selected" if b.id == biomass.id }}>{{ b.name }}</option>{% endfor %}
+      </select>
+      <span class="hint" id="biomass-hint">{{ biomass.producers }}. Switching resets your edits.</span>
+    </label>
+    <p class="lede">What's the best thing to do with this lot of {{ biomass.name|lower }}, and how does it compare with today's usual route ({{ baseline_name|lower }})?</p>
 
     <input type="hidden" name="data_mode" value="{{ mode }}">
+    {% if biomass.market_data %}
     <div class="field">
       <span class="field-label" id="mode-l">Prices from</span>
       <div class="segmented segmented-links" role="group" aria-labelledby="mode-l">
@@ -43,9 +51,12 @@
       <span class="hint">No market data yet. Run <code>python -m biocycle.refresh</code>.</span>
       {% endif %}
     </div>
+    {% else %}
+    <p class="hint">No public market price is reported for {{ biomass.name|lower }}; prices are from cited sources where we found them, otherwise demo values.</p>
+    {% endif %}
 
     <label class="field">
-      <span class="field-label">Tons of hulls</span>
+      <span class="field-label">Tons of {{ biomass.noun }}</span>
       <span class="input-unit"><input type="number" name="tons" value="{{ '%g'|format(lot.tons) }}" min="1" step="any" inputmode="decimal"><span>tons</span></span>
     </label>
 
@@ -70,23 +81,28 @@
       <label class="field">
         <span class="field-label">Moisture</span>
         <span class="input-unit"><input type="number" name="moisture" min="0" max="100" step="0.5" placeholder="Not measured" inputmode="decimal"><span>%</span></span>
+        {% if rules.moisture_typical %}<span class="hint">Typical {{ '%g'|format(rules.moisture_typical[0]) }}–{{ '%g'|format(rules.moisture_typical[1]) }}% {{ rules.moisture_note }}.{% if biomass.nutrients %} Used for the nutrient value.{% endif %}</span>{% endif %}
       </label>
+      {% if fiber_max is not none %}
       <label class="field">
         <span class="field-label">Crude fiber</span>
         <span class="input-unit"><input type="number" name="crude_fiber" min="0" max="100" step="0.5" placeholder="Not measured" inputmode="decimal"><span>%</span></span>
-        <span class="hint">Feed standard: below {{ '%g'|format(fiber_max) }}% [wcngg2022].</span>
+        <span class="hint">Feed standard: below {{ '%g'|format(fiber_max) }}% [{{ rules.crude_fiber_source }}].</span>
       </label>
+      {% endif %}
+      {% if rules.mycotoxin %}
       <div class="field">
-        <span class="field-label" id="afla-l">Aflatoxin tested?</span>
+        <span class="field-label" id="afla-l">{{ rules.mycotoxin|capitalize }} tested?</span>
         <div class="segmented" role="radiogroup" aria-labelledby="afla-l">
           {% for v, label in [("unknown", "Unknown"), ("yes", "Yes"), ("no", "No")] %}
           <label><input type="radio" name="aflatoxin" value="{{ v }}" {{ "checked" if lot.aflatoxin_tested == v }}><span>{{ label }}</span></label>
           {% endfor %}
         </div>
       </div>
+      {% endif %}
     </fieldset>
 
-    <p class="units">US short tons (2,000 lb) as delivered · prices in $/ton · one-way miles</p>
+    <p class="units">US short tons (2,000 lb) as delivered · prices in $/ton (negative = a fee you pay) · one-way miles</p>
     <div class="legend-box">
       <p class="legend-title">Where numbers come from</p>
       <ul class="legend">
@@ -105,7 +121,7 @@
       <button type="button" role="tab" id="tab-directory" aria-controls="panel-directory" aria-selected="false">Find buyers</button>
       <button type="button" role="tab" id="tab-report" aria-controls="panel-report" aria-selected="false">Written report</button>
       <button type="button" role="tab" id="tab-sustainability" aria-controls="panel-sustainability" aria-selected="false">Sustainability</button>
-      <button type="button" role="tab" id="tab-sources" aria-controls="panel-sources" aria-selected="false">Sources</button>
+      <button type="button" role="tab" id="tab-sources" aria-controls="panel-sources" aria-selected="false">Material and sources</button>
       <span class="status" id="status" aria-live="polite"></span>
     </nav>
 
@@ -115,7 +131,7 @@
 
       <section class="block">
         <h3 class="block-h">Adjust prices, distances and costs</h3>
-        <p class="block-sub">Type a buyer quote to replace the default price. Anything you change counts as {{ tier("user") }}.</p>
+        <p class="block-sub">Type a buyer quote to replace the default price (a negative quote is a fee you pay). Anything you change counts as {{ tier("user") }}.</p>
         <div class="table-wrap">
         <table class="data editor">
           <thead><tr>
@@ -130,7 +146,7 @@
             <tr>
               <td class="opt">{{ o.name }}<div class="sub">{{ STATUS_LABEL[o.status] }}</div></td>
               <td>{{ default_price_text(o) }} {% if o.price_low is not none or o.price_from %}{{ tier(default_price_tier(o)) }}{% endif %}</td>
-              <td class="num"><input class="cell" type="number" name="price__{{ o.id }}" min="0" step="any" placeholder="{{ 'needed' if o.price_low is none and not o.price_from else 'default' }}" aria-label="Your quote for {{ o.name }}, $ per ton"></td>
+              <td class="num"><input class="cell" type="number" name="price__{{ o.id }}" step="any" placeholder="{{ 'needed' if o.price_low is none and not o.price_from else 'default' }}" aria-label="Your quote for {{ o.name }}, $ per ton"></td>
               <td class="num"><input class="cell" type="number" name="miles__{{ o.id }}" value="{{ '%g'|format(o.default_miles) }}" min="0" step="any" aria-label="One-way miles for {{ o.name }}">
                 <div class="cell-tier">{{ tier(o.miles_tier) }}</div></td>
               <td class="num"><input class="cell" type="number" name="processing__{{ o.id }}" value="{{ '%g'|format(o.processing_cost_per_ton) }}" min="0" step="any" aria-label="Processing cost for {{ o.name }}, $ per ton">
@@ -145,7 +161,7 @@
           <span class="field-label">{{ name }} price</span>
           <span class="input-unit"><span>$</span><input type="number" name="coproduct__{{ slug(name) }}" value="{{ '%.2f'|format(c.unit_price_per_lb) }}" min="0" step="0.05" inputmode="decimal"><span>per lb</span></span>
           {{ tier(c.unit_price_tier) }}
-          <span class="hint">Recovered kernels may grade lower than standard kernels. Yield of 1.0–1.3% of hull weight is sourced [abc_food2025].</span>
+          <span class="hint">Yield {{ '%g'|format(c.yield_low * 100) }}–{{ '%g'|format(c.yield_high * 100) }}% of the input weight {{ tier(c.yield_tier) }}{% if c.source_ids %} [{{ c.source_ids|join(", ") }}]{% endif %}.{% if c.name == "Recovered kernel" %} Recovered kernels may grade lower than standard kernels.{% endif %}</span>
         </label>
         {% endfor %}
       </section>
@@ -183,7 +199,7 @@
     <!-- Directory -->
     <section class="panel" id="panel-directory" role="tabpanel" aria-labelledby="tab-directory">
       <div class="callout dir-intro">
-        <p><strong>Real companies that work with almond hulls in California.</strong> We list only public business information from each company's own website or news coverage, with the page we checked. BioCycle has no relationship with these companies; a listing is not an endorsement and doesn't mean they will buy your lot. Nothing is sent from this app: quote requests are drafts you send yourself.</p>
+        <p><strong>Real companies that take {{ biomass.name|lower }} in California.</strong> Other producers of the same material are not listed. We list only public business information from each company's own website or news coverage, with the page we checked. BioCycle has no relationship with these companies; a listing is not an endorsement and doesn't mean they will buy your lot. Nothing is sent from this app: quote requests are drafts you send yourself.</p>
       </div>
       <div id="directory-results">{% include "partials/directory.html" %}</div>
     </section>
@@ -215,7 +231,8 @@
 
     <!-- Sources -->
     <section class="panel" id="panel-sources" role="tabpanel" aria-labelledby="tab-sources">
-      {% if snap %}
+      {% include "partials/material.html" %}
+      {% if snap and biomass.market_data %}
       <section class="block market" aria-labelledby="market-h">
         <h3 class="block-h" id="market-h">Market data</h3>
         <p class="block-sub">Pulled from public USDA and EIA sources on {{ snap.retrieved_at[:10] }}. Refresh with <code>python -m biocycle.refresh</code>.</p>
@@ -246,8 +263,8 @@
         </figure>
         {% endif %}
       </section>
-      <h3 class="block-h">Sources</h3>
       {% endif %}
+      <h3 class="block-h">Sources</h3>
       <p class="block-sub">Every {{ tier("sourced") }} number traces to one of these. {{ tier("placeholder") }} numbers are made up for the demo; {{ tier("user") }} numbers are what you entered.</p>
       <ol class="sources">
       {% for s in sources.values() %}

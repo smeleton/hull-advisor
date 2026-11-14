@@ -1,0 +1,302 @@
+# Mango peels: profile and outlets. Generated from verified research notes (scratchpad tools/build_biomass.py), then reviewed.
+# Prices are $/short ton as delivered (negative = you pay, e.g. a gate fee); for outlets with mass_yield < 1 the price is per ton of product.
+# Tiers: sourced (cited page we loaded), user (your team's figures, links pending), placeholder (demo value).
+
+id: mango_peels
+name: Mango peels
+noun: peel
+producers: Fresh-cut fruit processors
+unit_label: short tons of mango peels as delivered
+season: Year-round at fresh-cut plants; import peak roughly spring-summer (placeholder)
+ca_volume: Unknown; small (mangoes are imported).
+summary: Peel from fresh-cut and puree plants. Mangoes are imported, so California volumes are small and
+  unmeasured; today's route is assumed to be the green bin.
+baseline: mango_compost_greenbin
+market_data: false
+must_place: true
+default_tons: 50
+moisture_default: 71
+ef_material: fruits_vegetables
+rules:
+  moisture_typical:
+  - 67
+  - 75
+  moisture_note: '[mango_pmc11336421]'
+  moisture_markets:
+  - feed
+nutrients_pct_dry:
+  N:
+    value: 1.2
+    tier: sourced
+    source_id: mango_pmc11336421
+  P:
+    value: 0.1
+    tier: placeholder
+  K:
+    value: 1.5
+    tier: sourced
+    source_id: mango_pmc11336421
+  Mg:
+    value: 0.24
+    tier: sourced
+    source_id: mango_pmc11336421
+composition:
+- component: peel share of whole fruit
+  value: 13.9-16.9
+  basis: wet
+  source_id: mango_pmc11336421
+  tier: sourced
+- component: total dietary fibre
+  value: 37-45
+  basis: dry
+  source_id: mango_pmc11336421
+  tier: sourced
+- component: pectin yield (high-methoxyl)
+  value: 17.3-22.9
+  basis: dry
+  source_id: mango_pmc11336421
+  tier: sourced
+- component: total phenols, mg GAE/100 g
+  value: 2123-4851
+  basis: dry
+  source_id: mango_pmc11336421
+  tier: sourced
+- component: protein
+  value: 0.8-2.6
+  basis: wet
+  source_id: mango_pmc11336421
+  tier: sourced
+- component: peel share of fruit (other review)
+  value: 15-25
+  basis: wet
+  source_id: mango_auctores
+  tier: sourced
+quality_notes:
+- High-moisture, sugary peel; will ferment/mold within a day or two unrefrigerated (placeholder; no source
+  loaded).
+- Peel and seed disposal must follow local environmental law [mango_ufifas_hs1443].
+- Peel flour is a research/ingredient concept; peel powder tested at 5-10% in biscuits/macaroni [mango_auctores].
+  The glycemic-index claim is NOT supported by the pages loaded.
+caveats:
+- 'Directory is thin: 4 companies, all orange or generic organics. ZERO companies for mango and kiwi peel
+  specifically (no CA processor, flour maker or extractor found).'
+- 'Mango: no meaningful CA volume. Mangos are imported (Mexico), so peel exists only at fresh-cut plants;
+  no volume found. Peel flour and pectin are research-stage; market data absent.'
+- 'Kiwi: CA grows 40,600 t (2025) but sells mostly fresh; the only UC page on processing (UC Small Farms,
+  1990) returned 403 and was NOT loaded. Peel volume is likely small; treat as pilot-scale.'
+- Kiwi K = 93.94 mg/g d.b. (9.4%) looks high; flagged. Mango N/K/Mg derived from fresh-basis values in
+  a 4-cultivar Mexican study.
+source_ids: []
+directory_groups:
+- key: soil
+  title: Composters and soil
+  outlet: mango_compost_greenbin
+  outlets:
+  - mango_compost_greenbin
+  blurb: Companies that take mango peels for these uses.
+  empty: ''
+- key: energy
+  title: Energy, biochar and digesters
+  outlet: mango_anaerobic_digestion
+  outlets:
+  - mango_anaerobic_digestion
+  - mango_biochar
+  blurb: Companies that take mango peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: food
+  title: Food ingredient makers
+  outlet: mango_peel_flour
+  outlets:
+  - mango_peel_flour
+  blurb: Companies that take mango peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: chemicals
+  title: Extract and ingredient makers
+  outlet: mango_pectin_polyphenol_extraction
+  outlets:
+  - mango_pectin_polyphenol_extraction
+  - mango_butanol
+  blurb: Companies that take mango peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: feed
+  title: Feed buyers
+  outlet: mango_feed
+  outlets:
+  - mango_feed
+  blurb: Companies that take mango peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+outlets:
+- id: mango_compost_greenbin
+  name: Compost / green-bin organics
+  description: Baseline; fresh-cut plants send peel and seed to organics haulers under SB 1383.
+  status: established
+  market: soil
+  pathway: compost
+  price_low: -90
+  price_high: -35
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 30
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - compost_retained
+  requirements:
+  - Local environmental law governs peel/seed disposal [mango_ufifas_hs1443]
+  risks:
+  - Fees are 2015 median / vendor assumption, not a 2026 survey [ca_anaergia]
+  - 2026 California gate fees for green waste run about $35–115/ton [calrecycle_stanislaus_fees_2026];
+    wet fruit residues may cost more. Get a quote from your composter.
+  source_ids:
+  - ca_anaergia
+  - ca_calrecycle_slcp
+  - mango_ufifas_hs1443
+- id: mango_anaerobic_digestion
+  name: Anaerobic digestion (food-waste digester)
+  description: Send high-sugar peel to a co-digestion plant for biogas.
+  status: emerging
+  market: energy
+  pathway: digestion
+  price_low: -55
+  price_high: -30
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 20
+  miles_tier: sourced
+  coproducts: []
+  nutrient_routes:
+  - digestate_land_application
+  requirements:
+  - Packaging-free, sorted stream
+  risks:
+  - Small volumes; hauler may bundle with other organics
+  source_ids:
+  - ca_anaergia
+- id: mango_peel_flour
+  name: Dry and mill into peel flour (food ingredient)
+  description: Wash, dry and mill peel into a fibre and polyphenol ingredient for bakery and snack use.
+  status: experimental
+  market: food
+  price_low: 800
+  price_high: 1500
+  price_tier: placeholder
+  mass_yield: 0.275
+  haul_product: true
+  processing_cost_per_ton: 150
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Peel powder tested at 5-10% in biscuits, 5% in macaroni [mango_auctores]
+  - Peel must be clean, quickly refrigerated or dried (placeholder)
+  - About 0.25–0.30 t of flour per wet ton of peel [mango_pmc11336421]; the price is per ton of flour
+    (demo value).
+  risks:
+  - Pesticide/wax residues on imported fruit peel (placeholder)
+  - Glycemic-index benefit claim not supported by loaded pages [mango_auctores]
+  - Earlier claims that peel flour lowers the glycemic index were not supported by the pages we could
+    load; don't market it that way without a study.
+  source_ids:
+  - mango_pmc11336421
+  - mango_auctores
+- id: mango_pectin_polyphenol_extraction
+  name: Pectin / polyphenol extraction
+  description: Extract high-methoxyl pectin and phenolics; a lab-proven route with no CA plant.
+  status: experimental
+  market: chemicals
+  price_low: 0
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 250
+  processing_tier: placeholder
+  default_miles: 200
+  miles_tier: placeholder
+  coproducts:
+  - name: Mango peel pectin (crude, to a refiner)
+    yield_low: 0.045
+    yield_high: 0.075
+    yield_tier: sourced
+    unit_price_per_lb: 1.0
+    unit_price_tier: placeholder
+    source_ids:
+    - mango_pmc11336421
+  requirements:
+  - Pectin esterification 66-71% (high-methoxyl) [mango_pmc11336421]
+  risks:
+  - 'Scale: CA mango peel volume unknown'
+  source_ids:
+  - mango_pmc11336421
+- id: mango_feed
+  name: Fresh to local livestock (small farms)
+  description: Informal hand-off of fresh peel to pig or goat farms.
+  status: experimental
+  market: feed
+  price_low: 0
+  price_high: 5
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 30
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Food-safety and prohibited-material rules on feeding food waste (not verified)
+  risks:
+  - No source loaded on mango peel feeding
+  source_ids: []
+- id: mango_biochar
+  name: Dry and pyrolyze to biochar
+  description: Dry the peel and pyrolyze it to biochar for soil use.
+  status: experimental
+  market: energy
+  pathway: biochar
+  price_low: -20
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 90
+  processing_tier: placeholder
+  default_miles: 60
+  miles_tier: placeholder
+  coproducts:
+  - name: Mango peel biochar
+    yield_low: 0.078
+    yield_high: 0.125
+    yield_tier: user
+    unit_price_per_lb: 0.1
+    unit_price_tier: placeholder
+    source_ids:
+    - team_yields_2026
+    - mango_pmc11336421
+  requirements:
+  - Biochar yield 43.2% of dry peel at 300 °C and 27.0% at 700 °C [team_yields_2026]; about 8–13% of wet
+    peel at 29% dry matter [mango_pmc11336421].
+  - Drying wet peel is most of the cost (demo value).
+  risks:
+  - Small volumes in California; a pyrolysis unit needs a steady feedstock.
+  source_ids:
+  - team_yields_2026
+  - mango_pmc11336421
+- id: mango_butanol
+  name: Ferment peel to biobutanol
+  description: Ferment the sugary peel to butanol (a fuel and solvent) by ABE fermentation.
+  status: experimental
+  market: chemicals
+  pathway: extraction
+  price_low: null
+  price_high: null
+  price_tier: placeholder
+  processing_cost_per_ton: 60
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Measured 15.42 g of butanol per litre of broth [team_yields_2026]; the yield per ton of peel depends
+    on the solids loading.
+  risks:
+  - Lab stage only; no buyer found.
+  source_ids:
+  - team_yields_2026

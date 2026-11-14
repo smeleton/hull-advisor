@@ -1,0 +1,278 @@
+# Pistachio hulls: profile and outlets. Generated from verified research notes (scratchpad tools/build_biomass.py), then reviewed.
+# Prices are $/short ton as delivered (negative = you pay, e.g. a gate fee); for outlets with mass_yield < 1 the price is per ton of product.
+# Tiers: sourced (cited page we loaded), user (your team's figures, links pending), placeholder (demo value).
+
+id: pistachio_hulls
+name: Pistachio hulls
+noun: hulls
+producers: Pistachio hullers and processors
+unit_label: short tons of pistachio hulls as delivered
+season: Mid-Aug to Oct, 30-45 days (hulling is seasonal; 5 weeks from early Sept at one plant)
+ca_volume: Not published; scales with the pistachio crop.
+summary: The soft green hull removed at the huller, about 72% water. It spoils within days, so it has
+  to move fast [pist_boga2013].
+baseline: pistachio_cattle_feed
+market_data: false
+must_place: true
+default_tons: 500
+moisture_default: 72.5
+ef_material: fruits_vegetables
+rules:
+  moisture_typical:
+  - 71
+  - 74
+  moisture_note: '[pist_boga2013]'
+  moisture_markets:
+  - feed
+  mycotoxin: aflatoxin
+  mycotoxin_markets:
+  - feed
+  - food
+nutrients_pct_dry:
+  N:
+    value: 1.8
+    tier: sourced
+    source_id: pist_boga2013
+  P:
+    value: 0.12
+    tier: placeholder
+  K:
+    value: 2.0
+    tier: placeholder
+  Mg:
+    value: 0.15
+    tier: placeholder
+composition:
+- component: crude protein
+  value: 7.3-15.0
+  basis: dry
+  source_id: pist_boga2013
+  tier: sourced
+- component: ash
+  value: 8.5-19.9
+  basis: dry
+  source_id: pist_boga2013
+  tier: sourced
+- component: NDF
+  value: 18.3-22.5
+  basis: dry
+  source_id: pist_boga2013
+  tier: sourced
+- component: condensed tannin
+  value: 2.0-2.6
+  basis: dry
+  source_id: pist_boga2013
+  tier: sourced
+- component: ME MJ per kg
+  value: 9.8-11.1
+  basis: dry
+  source_id: pist_boga2013
+  tier: sourced
+quality_notes:
+- Wet hulls are ~72% water and ferment/mold fast; spoilage window is placeholder (days, not sourced).
+- Shell contamination in hull feed has killed dairy cattle (UCCE/CAHFS case; reported only in a search
+  snippet, page could not be loaded). Treat as a real risk; ask for UCCE page confirmation.
+- Hull damage and navel orangeworm are linked to aflatoxin entry into pistachios; screen for aflatoxin
+  before feed or food use. [pist_michailides2017]
+- Condensed tannins ~2-2.6% of DM may limit feeding rates. [pist_boga2013]
+- Plants are moving from wet to dry hulling (less wastewater, drier hull solids). [pist_wdr_monarch2017]
+caveats:
+- Almond-shell prices ($0-20/ton) rest on 2018 sources (West Biofuels, CeresAI). Giannini 2026 gives no
+  current shell price and calls shell markets 'less transparent'. Treat as stale.
+- 'Pistachio hull data are thin: no CA volume (tons), no price, no CA composition. Hull moisture/composition
+  are Turkish varieties (Boga 2013), ~72% moisture derived from DM 26-29%. All hull prices, volumes, N-P-K,
+  spoilage time are placeholders.'
+- Pistachio baseline (cattle feed) rests on four Water Board permits (2009-2020), not a survey; land application
+  is also common, and several plants moved to dry hulling.
+- Biogas evidence (154-305 mL CH4/g COD) is for Turkish pistachio WASTEWATER, not hulls. Extraction (phenolic/pectin)
+  has no loaded evidence or price; user-supplied Springer/PubMed/ScienceDirect/ResearchGate links could
+  not be loaded.
+source_ids:
+- pist_boga2013
+directory_groups:
+- key: feed
+  title: Feed buyers
+  outlet: pistachio_cattle_feed
+  outlets:
+  - pistachio_cattle_feed
+  blurb: Companies that take pistachio hulls for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: soil
+  title: Composters and soil
+  outlet: pistachio_land_application
+  outlets:
+  - pistachio_land_application
+  - pistachio_compost
+  blurb: Companies that take pistachio hulls for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: energy
+  title: Energy, biochar and digesters
+  outlet: pistachio_biochar_energy
+  outlets:
+  - pistachio_biogas
+  - pistachio_biochar_energy
+  blurb: Companies that take pistachio hulls for these uses.
+  empty: ''
+- key: chemicals
+  title: Extract and ingredient makers
+  outlet: pistachio_extraction
+  outlets:
+  - pistachio_extraction
+  blurb: Companies that take pistachio hulls for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+outlets:
+- id: pistachio_cattle_feed
+  name: Sell wet hulls to dairies/feedlots as cattle feed
+  description: Screened hull solids trucked fresh to nearby farms and dairies for ruminant feed.
+  status: established
+  market: feed
+  price_low: 0
+  price_high: 10
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 25
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Keep shell contamination out of feed (dairy deaths reported; UCCE page not loaded)
+  - 'Use quickly: ~72% moisture [pist_boga2013]'
+  - Aflatoxin screening advisable [pist_michailides2017]
+  risks:
+  - Tannins ~2-2.6% DM limit inclusion [pist_boga2013]
+  - Seasonal 30-45 day glut [pist_wdr_horizon2020]
+  source_ids:
+  - pist_wdr_king2015
+  - pist_wdr_monarch2017
+  - pist_wdr_setton2009
+  - pist_boga2013
+  - pist_michailides2017
+- id: pistachio_land_application
+  name: Land application on own or neighbouring acreage
+  description: Hull solids spread thinly and incorporated into soil under a Water Board permit.
+  status: established
+  market: soil
+  pathway: land_application
+  price_low: -10
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 5
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - land_applied
+  nutrient_credit: true
+  requirements:
+  - WDR permit with loading limits; example 400 acres [pist_wdr_horizonlh2013]
+  - Apply outside rainy season
+  risks:
+  - Odor/nitrogen/salt loading limits under WDR
+  - Acreage limits as crop grows [pist_westernag2025]
+  source_ids:
+  - pist_wdr_horizon2020
+  - pist_wdr_horizonlh2013
+- id: pistachio_compost
+  name: Compost feedstock
+  description: Hulls sent to a commercial composter, blended with dry woody material.
+  status: established
+  market: soil
+  pathway: compost
+  price_low: -30
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 40
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - compost_retained
+  requirements:
+  - Permits name compost feedstock as an off-site option [pist_wdr_horizon2020]
+  - Wet hulls need carbon-rich bulking agent
+  risks:
+  - Leachate and odor; seasonal peak
+  source_ids:
+  - pist_wdr_horizon2020
+- id: pistachio_biogas
+  name: Anaerobic digestion / biogas
+  description: Hulls and hulling wastewater digested for biogas and digestate.
+  status: experimental
+  market: energy
+  pathway: digestion
+  price_low: -15
+  price_high: 5
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 40
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - digestate_land_application
+  - struvite
+  requirements:
+  - Pistachio processing wastewater gave 154-305 mL CH4/g COD removed in a Turkish UASB study [pist_gur2016]
+  - 'Measured methane: 62.6 mL CH4 per g of hulls (134 mL biogas) [team_yields_2026]. The digester owner
+    keeps the gas; you get the gate fee.'
+  risks:
+  - Study is of wastewater, not CA hulls; seasonal feed; no CA operating plant found
+  source_ids:
+  - pist_gur2016
+- id: pistachio_biochar_energy
+  name: Dry and pyrolyse/gasify to biochar and power
+  description: Dried hull solids as fuel feedstock for gasification or pyrolysis (proven for pistachio
+    shells; hulls need drying).
+  status: experimental
+  market: energy
+  pathway: biochar
+  price_low: -20
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 40
+  processing_tier: placeholder
+  default_miles: 40
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Permits list 'fuel feedstock' as an off-site option [pist_wdr_horizon2020]
+  - Wonderful/NREL/VGrid demonstrated gasification for shells [pist_energygov_nrel]
+  risks:
+  - No confirmed hull-feed commercial plant; shells not hulls [pist_qcintel_vgrid]
+  source_ids:
+  - pist_energygov_nrel
+  - pist_wdr_horizon2020
+  - pist_qcintel_vgrid
+- id: pistachio_extraction
+  name: Phenolic / pectin extraction (nutraceutical, cosmeceutical)
+  description: Extract bioactives from hulls, then send residue to biogas/compost.
+  status: experimental
+  market: chemicals
+  price_low: 0
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 150
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts:
+  - name: Pistachio hull pectin (crude)
+    yield_low: 0.045
+    yield_high: 0.055
+    yield_tier: user
+    unit_price_per_lb: 1.0
+    unit_price_tier: placeholder
+    source_ids:
+    - team_yields_2026
+    - pist_boga2013
+  requirements:
+  - UC Davis byproduct database flags hull as the largest, often-discarded pistachio byproduct [pist_ucd_byproducts]
+  - Pectin yield 18.13% of dry hulls [team_yields_2026], about 4.5–5.5% of wet hulls at 26–29% dry matter
+    [pist_boga2013].
+  risks:
+  - User-supplied reviews (Springer, ScienceDirect, PubMed) could not be loaded, so no yield or price
+    evidence; no commercial CA extractor verified
+  source_ids:
+  - pist_ucd_byproducts

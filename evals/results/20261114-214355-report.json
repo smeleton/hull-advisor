@@ -1,0 +1,323 @@
+{
+  "report_model": "claude-sonnet-5-5",
+  "judge_model": "claude-opus-5-5",
+  "spent_usd": 0.4268,
+  "max_spend_usd": 0.8,
+  "scenarios": [
+    {
+      "scenario": "default",
+      "description": "Default 1,000 t lot, nothing measured.",
+      "status": "ok",
+      "report": "## Recommendation\n\nThe best-priced option is **Clean, recover kernels, then sell to local dairy**. It has an expected net of $98 per ton, or $98,000 for the 1,000-ton lot. That is $13 per ton ($13,000) more than the baseline, selling to the local dairy at $85 per ton ($85,000).\n\nThis edge rests on placeholder values. The hull price is sourced, but the cleaning cost ($10 per ton), the recovered-kernel value ($20\u2013$26 per ton) and the haul distance are all placeholders. Before switching, get a toll-cleaning or equipment quote and a buyer price for recovered kernels. Also confirm the cleaned hulls stay under the 15% crude fiber limit, since fiber has not been measured on this lot.\n\nOnly one option beats the baseline.\n\n## How the options compare\n\n| Outlet | Expected net $/ton | vs. baseline $/ton |\n|---|---|---|\n| Clean, recover kernels, sell to dairy | $98 | +$13 |\n| Local dairy (baseline) | $85 | $0 |\n| Distant dairy | $56 | -$29 |\n| Bioenergy | $17 | -$68 |\n| Compost or soil | $16 | -$69 |\n| Hull powder food ingredient | no price | n/a |\n\n- **Distant dairy:** the price is a placeholder ($116\u2013$146 per ton), and hauling 250 miles costs $75 per ton. To match the baseline, the buyer would need to pay $160 per ton.\n- **Bioenergy and compost:** both are well behind, and every value is a placeholder.\n- **Food ingredient:** it has no public price, so I can't recommend it. A buyer would have to quote $175 per ton to match the baseline. Processing cost is a placeholder.\n\n## What could change the answer\n\n- Hull prices swing widely, from about a $60 slump to $130 per ton in recent years [farmprogress_low, wcngg2022]. Because the cleaned-hull outlet sells to the same dairy, a price change moves it and the baseline together. Its edge comes only from its own costs and the kernel value.\n- Kernel recovery is the whole edge. If recovered kernels grade lower or sell for less, the $13 advantage could shrink or vanish.\n- Distant dairy would only win if a real quote came in near $160 per ton or higher.\n- About 97% of hulls already go to dairy rations, so local buyers have leverage [farmprogress_low].\n\n## Quality and risk checks\n\n- **Aflatoxin is untested.** Test before selling for feed or food. This applies to the baseline and to every feed outlet.\n- **Moisture and crude fiber are not entered.** Feed sales need crude fiber below 15% [wcngg2022].\n- Cleaning requires access to cleaning and kernel-recovery equipment.\n- Recovered kernels may grade lower than standard kernels. This is a general caution, not from a cited source.\n- Nutrient value is not counted for any outlet.\n\n## Assumptions and sources\n\n**Sourced:** the local dairy price range of $76\u2013$106 per ton and the haul rate of $0.30 per ton-mile [giannini2026]. Also sourced: the feed standard and price history [wcngg2022], the share of hulls that go to dairy [farmprogress_low], and recoverable kernel in the hull pile [abc_food2025].\n\n**Placeholder:** all haul distances, the cleaning and food-processing costs, the recovered-kernel value, and every price for distant dairy, bioenergy, compost and food. The ranking depends on placeholder values.\n\nSources:\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\": https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\": https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026): https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\": https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022): https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test the material's quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is clean_and_recover",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "517 words (limit 600)",
+          "score": 517.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 7.1 (limit 10)",
+          "score": 7.1
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 5,
+        "decision_clarity": 4,
+        "uncertainty_honesty": 5,
+        "risk_coverage": 5,
+        "plain_language": 5
+      },
+      "judge_issues": [
+        "\"Distant dairy would only win if a real quote came in near $160 per ton or higher.\" is slightly loose. $160 is the break-even with the baseline (price_to_match_baseline_per_ton), so the quote would have to be above $160 to win; 'near $160' could read as enough.",
+        "The Recommendation names the best-priced option and lists quotes to get before switching. It does not say plainly what to do with the lot in the meantime (keep selling to the local dairy). It also leaves the aflatoxin test, which applies to both top options, out of the Recommendation and covers it only under Quality and risk checks."
+      ],
+      "judge_pass": true,
+      "judge_model_pass": true,
+      "cost_usd": 0.0847
+    },
+    {
+      "scenario": "high_fiber",
+      "description": "Crude fiber 16%: every feed outlet fails the standard.",
+      "status": "ok",
+      "report": "## Recommendation\n\nThe baseline, selling to the local dairy, is not a safe reference point right now. The lot's crude fiber is 16%, and the feed standard requires below 15% [wcngg2022]. Every feed route (local dairy, cleaned-then-dairy, distant dairy) fails that check. Aflatoxin has also not been tested.\n\nAmong eligible priced outlets, the top-ranked and best-priced option is **bioenergy feedstock**, at about $17 per ton expected, or $17,000 for the lot. Compost or soil amendment is close behind at $16 per ton ($16,000). Both rest entirely on placeholder prices, processing costs, and distances. Before switching, get a written quote from a biomass facility, and a compost quote as a cross-check. The baseline's $85 per ton ($85,000) is a reference only, because it fails the feed standard.\n\nHull powder for food needs a buyer quote and is not recommended on current data.\n\n## How the options compare\n\n| Outlet | Eligible | Expected net per ton | Lot total | vs. baseline per ton |\n|---|---|---|---|---|\n| Bioenergy | Yes | $17 | $17,000 | -$68 |\n| Compost/soil | Yes | $16 | $16,000 | -$69 |\n| Clean, recover kernels, dairy | No (fiber) | $98 | $98,000 | +$13 |\n| Local dairy (baseline) | No (fiber) | $85 | $85,000 | $0 |\n| Distant dairy | No (fiber) | $56 | $56,000 | -$29 |\n| Food ingredient | Needs quote | none | none | none |\n\nTo match the baseline's net, bioenergy would need about $103 per ton and compost about $99 per ton. Food ingredient would need $175 per ton. These are comparisons with the baseline, not cost-recovery prices.\n\n## What could change the answer\n\n- **Fiber result.** If a retest, or a blend or cleaning step, brings crude fiber below 15%, the dairy routes become eligible and far outperform bioenergy and compost. The feed price range of $76\u2013$106 per ton is sourced [giannini2026].\n- **Placeholder values.** The two eligible options use placeholder prices ($25\u2013$45 and $20\u2013$40 per ton). The gap between them is only $1 per ton, so treat them as a tie.\n- **Food ingredient.** It has no public price [gras2026]. Only a real quote would show whether it competes.\n- **Dairy price swings.** Prices have ranged from about $60 to $130 per ton [farmprogress_low, wcngg2022].\n\n## Quality and risk checks\n\n- **Crude fiber:** 16% against a limit below 15% [wcngg2022]. This blocks all feed outlets.\n- **Aflatoxin:** untested. Test before any feed or food sale.\n- **Moisture:** not entered.\n- **Kernel recovery:** this option shows a higher net ($98 per ton), but it is ineligible as entered. Its kernel value is a placeholder, and the cleaned hulls would still need to meet the fiber standard. Recovered kernels may also grade lower (a general caution).\n- **Dairy market:** about 97% of hulls already go to dairy, so buyers have leverage [farmprogress_low].\n- **Distant dairy:** freight of $75 per ton can erase the premium.\n\n## Assumptions and sources\n\nSourced: hauling rate of $0.30 per ton-mile, dairy feed prices, the baseline processing cost, and the fiber standard. Placeholder: all prices for bioenergy, compost, distant dairy, and food; most processing costs; all distances; and the kernel coproduct value. Results for every outlet depend on placeholders.\n\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\" \u2014 https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\" \u2014 https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026) \u2014 https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\" \u2014 https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022) \u2014 https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test the material's quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is bioenergy",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "491 words (limit 600)",
+          "score": 491.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 7.5 (limit 10)",
+          "score": 7.5
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 5,
+        "decision_clarity": 4,
+        "uncertainty_honesty": 5,
+        "risk_coverage": 5,
+        "plain_language": 5
+      },
+      "judge_issues": [
+        "Recommendation: \"Before switching, get a written quote from a biomass facility\" is the only next step given. A fiber retest, or a cleaning or blending check, could unlock about $68 per ton more. That step appears only under 'What could change the answer', not as an action in the Recommendation.",
+        "Slight tension: the Recommendation calls bioenergy \"the top-ranked and best-priced option\", but the report later says to \"treat them as a tie\" with compost. It would be clearer to say up front that the two are effectively tied.",
+        "\"Distant dairy: freight of $75 per ton can erase the premium\" does not say that the $75 rests on a placeholder distance of 250 miles."
+      ],
+      "judge_pass": true,
+      "judge_model_pass": true,
+      "cost_usd": 0.0908
+    },
+    {
+      "scenario": "grape_default",
+      "description": "Grape pomace, 300 t at 58% moisture: mostly demo values.",
+      "status": "ok",
+      "report": "## Recommendation\n\nThe best-priced option is the seed oil, polyphenol extract and marc-powder food ingredients route. Its expected net is -$5 per ton (about -$1,350 for the 300 tons), which is $8.50 per ton (about $2,550 in total) better than the baseline, wet pomace to cattle feed, at -$13 per ton (-$3,900 total).\n\nThat edge rests entirely on placeholder values: the price, processing cost, distance and coproduct values are all made up for this demo. Only the haul rate is sourced. The ingredients buyer would only need to pay about $7 per ton of product to match the baseline, but its range runs from a $15,000 loss to a $12,300 gain. Before switching, get a written quote from an ingredients buyer or processor covering price, processing charge and coproduct terms. Also confirm they can take the volume.\n\nOnly one other option beats the baseline: none. The ingredients route is the only one ahead.\n\n## How the options compare\n\nAll figures are expected net per ton of pomace, and all results are placeholder-based.\n\n| Option | Net per ton | vs. baseline |\n|---|---|---|\n| Ingredients (oil, extract, powder) | -$5 | +$8.50 |\n| Wet cattle feed (baseline) | -$13 | 0 |\n| Distillation and tartrate | -$14 | -$1 |\n| Dried feed | -$20 | -$7.05 |\n| Compost | -$26 | -$13 |\n| Biogas (anaerobic digestion) | -$27 (-$26.50) | -$13.50 |\n| Biochar | -$102 | -$89 |\n\nEvery option is a net cost in the expected case. Distillation is close to the baseline. It would need a price of about $11 per ton of product to match it.\n\n## What could change the answer\n\n- **Prices:** All prices are placeholders. Dried feed would need about $93 per ton of product to match the baseline, against a placeholder range of $55 to $100. Biochar would need about $84.\n- **Gate fees:** Compost and biogas use negative placeholder prices, meaning you pay. A 2026 California source puts green-waste gate fees at about $35 to $115 per ton, and wet fruit residues may cost more [calrecycle_stanislaus_fees_2026]. Real fees could make these worse than shown.\n- **Distance:** Miles are placeholders. Ingredients and biochar assume 100 miles, the baseline 60. Haul is charged at $0.30 per ton-mile (sourced).\n- **Nutrients:** Compost and digestate have fertilizer value, but it is not counted in any net here. It is information only.\n\n## Quality and risk checks\n\n- All seven options are eligible, and none has a quality flag.\n- The baseline needs fresh delivery within one to two days of pressing, and a dairy within trucking range. Coastal wineries may not have one [grape_palatepress] [both_agproud_byproducts]. Feed digestibility is only about 30%, which caps its value, and residue limits (pesticide, sulfite) are not sourced.\n- Ingredients: few California buyers, small volumes, and the polyphenol market's current status is unverified (2016 source) [grape_nutraingredients_polyphenolics]. Pomace must be dried or separated before it molds.\n- Distillation: only small-scale California examples, and a distillery permit is required.\n- Biogas: the Napa digester is not yet operating per the source [grape_biocycle_napa_ad].\n- Compost: slow, and the August to November glut can fill stockpiles [grape_wastedive_napa].\n\n## Assumptions and sources\n\nSourced: the haul rate, moisture (58%), the dried-pomace yield, and the descriptions of requirements and risks. Placeholder: all prices, processing costs, miles and coproduct values, so every ranking here is provisional.\n\nSources cited:\n- [grape_palatepress] Pomace to Pours, Preservatives, and Power (Palate Press): https://www.palatepress.com/pomace-to-pours-preservatives-and-power-dealing-with-winery-waste/\n- [both_agproud_byproducts] The vital role of byproduct use in California dairy feed rations: https://agproud.com/topics/feed-nutrition/the-vital-role-of-byproduct-use-in-california-dairy-feed-rations\n- [grape_nutraingredients_polyphenolics] Polyphenolics delves into sports nutrition (NutraIngredients, 2016): https://www.nutraingredients.com/Article/2016/10/19/Polyphenolics-delves-into-sports-nutrition-with-its-grape-seed-extracts/\n- [grape_biocycle_napa_ad] Napa anaerobic digestion + composting project (BioCycle, April 2026): https://www.biocycle.net/?p=57005\n- [grape_wastedive_napa] Napa compost / Upper Valley grape pomace (Waste Dive): https://www.wastedive.com/news/napa-compost-upper-valley-grape-pomace-wine-country/634301/\n- [calrecycle_stanislaus_fees_2026] Stanislaus County Fee Schedule: https://www.stancounty.com/er/pdf/Current-Fee-Schedule-2026.pdf\n\nThese are estimates. Confirm prices with buyer quotes and test the material's quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is grape_ingredients",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "532 words (limit 600)",
+          "score": 532.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 7.3 (limit 10)",
+          "score": 7.3
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 3,
+        "decision_clarity": 4,
+        "uncertainty_honesty": 4,
+        "risk_coverage": 4,
+        "plain_language": 3
+      },
+      "judge_issues": [
+        "\"Only one other option beats the baseline: none. The ingredients route is the only one ahead.\" The first sentence contradicts itself and garbles the point. It should simply say no other option beats the baseline.",
+        "\"the polyphenol market's current status is unverified (2016 source)\" misreads the payload. The risk says \"Polyphenolics' current status unverified\", which refers to the company Polyphenolics (the Madera plant), not the polyphenol market as a whole.",
+        "\"Sourced: the haul rate, moisture (58%), the dried-pomace yield\" overstates support. The payload gives no sourced tier for lot moisture_pct 58, and the cited UC Davis source reports 55.61% moisture. Calling 58% sourced is not supported.",
+        "\"Biogas (anaerobic digestion) | -$27 (-$26.50)\" is a confusing table cell that shows two numbers. Other rows round to one value (e.g. -$4.50 shown as -$5). Pick one value.",
+        "\"Its expected net is -$5 per ton (about -$1,350 for the 300 tons)\": rounding -$4.50 to -$5 is inconsistent with the exact -$1,350 total and with the $8.50 edge, which is quoted to the cent.",
+        "The 'What could change the answer' section omits the prices needed to match the baseline for compost (-$7/ton) and biogas (-$4/ton). These matter because they show the largest gate fee each route could carry and still tie the baseline. That is directly relevant given the $35\u2013115/ton fee range cited."
+      ],
+      "judge_pass": false,
+      "judge_model_pass": false,
+      "cost_usd": 0.1339
+    },
+    {
+      "scenario": "orange_fees",
+      "description": "Orange peels, 1,000 t: several options charge a gate fee (negative prices).",
+      "status": "ok",
+      "report": "## Recommendation\n\nThe best-priced option is **recovering d-limonene / peel oil, with the residue going to feed**. Its expected net is about -$1 per ton (-$500 on the 1,000-ton lot). That is $12 per ton, or $12,000, better than the baseline of selling wet peel to cattle feeders, which nets about -$13 per ton (-$12,500).\n\nThat edge rests entirely on placeholder values. The d-limonene price comes from a 2012 trade article we could not reload [orange_limonene_price]. The price, processing cost and haul distance are all placeholders. Its range runs from -$17 to +$16 per ton, so it could lose money. Before switching, get a firm quote from a limonene recoverer, covering both the peel price and what the oil is worth to you.\n\nOnly two options beat the baseline: limonene recovery and drying into pellets (+$4 per ton, about $3,610). The pellet edge is small and also placeholder-based.\n\n## How the options compare\n\n| Option | Expected net per ton | vs. baseline per ton |\n|---|---|---|\n| Limonene recovery | -$0.50 | +$12 |\n| Dried pulp pellets | -$9 | +$4 |\n| Wet to cattle feed (baseline) | -$13 | $0 |\n| Anaerobic digestion | -$57 | -$44 |\n| Compost | -$78 | -$65 |\n| Pectin / fiber | needs quote | n/a |\n| Ethanol | needs quote | n/a |\n\nPectin/fiber and ethanol have no price, so they cannot be recommended. To match the baseline, a pectin buyer would need to pay about $153 per ton of product, and an ethanol buyer about $43 per ton.\n\nDigestion and compost are costly because you pay a fee. Nutrient value is shown for them but not counted in their net.\n\n## What could change the answer\n\n- **Limonene price:** it is cyclic and tied to crop size. A weak market would erase the edge.\n- **Pellet price:** the pellets need roughly $159 per ton of product to match the baseline, against a placeholder range of $150\u2013$200.\n- **Baseline price:** limonene recovery's price follows the baseline price, so a baseline price change moves both equally. Its edge comes from its own costs and oil value.\n- **Compost fees:** California gate fees for green waste run about $35\u2013$115 per ton, and wet fruit residue may cost more [calrecycle_stanislaus_fees_2026].\n\n## Quality and risk checks\n\n- All seven options passed their quality checks, including the baseline.\n- Every result is placeholder-based. Only the haul rate ($0.30 per ton-mile) is sourced.\n- Limonene recovery needs vapor recovery, since limonene is lost in drying without it.\n- Pellet drying needs an air permit, and California dryers were shut down for environmental reasons [orange_vincent_waste].\n- The baseline has concentrated buyers (one or two firms handle most peel) [orange_rwqcb_tipton]. Raw peel spoils, ensiling takes about a month, and press liquor needs wastewater handling [orange_vincent_waste].\n- Pectin: no operating US buyer was found [orange_vincent_pectin]. Ethanol: no California plant was found.\n- Few California digesters accept juice-plant peel.\n\n## Assumptions and sources\n\nSourced: the haul rate and the cited process facts. Placeholder: all prices, processing costs, and most distances. Moisture was not entered.\n\n- [orange_limonene_price] Asphalt Pro, Citrus availability could affect d-limonene costs: https://theasphaltpro.com/?p=7248\n- [orange_vincent_waste] Vincent Corp, Citrus waste disposal: https://vincentcorp.com/content/citrus-waste-disposal\n- [orange_vincent_pectin] Vincent Corp, Pectin peel: https://vincentcorp.com/content/pectin-peel\n- [orange_rwqcb_tipton] Central Valley Water Board Order R5-2015-0135: https://www.waterboards.ca.gov/rwqcb5/board_decisions/adopted_orders/tulare/r5-2015-0135.pdf\n- [calrecycle_stanislaus_fees_2026] Stanislaus County fee schedule: https://www.stancounty.com/er/pdf/Current-Fee-Schedule-2026.pdf\n\nThese are estimates. Confirm prices with buyer quotes and test the material's quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is orange_limonene_recovery",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "467 words (limit 600)",
+          "score": 467.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 6.6 (limit 10)",
+          "score": 6.6
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 4,
+        "decision_clarity": 5,
+        "uncertainty_honesty": 4,
+        "risk_coverage": 4,
+        "plain_language": 5
+      },
+      "judge_issues": [
+        "\"Every result is placeholder-based. Only the haul rate ($0.30 per ton-mile) is sourced.\" This is not quite right. In the payload, the haul distances for anaerobic digestion and compost are tier \"sourced\". The later line, \"most distances\" are placeholders, is the accurate one.",
+        "\"California gate fees for green waste run about $35\u2013$115 per ton ... [calrecycle_stanislaus_fees_2026]\" repeats the payload's risk text but cites a source that does not support it. That source gives a landfill normal-refuse fee of $49.68/ton and $120/ton for special handling, and \"no separate green waste line\". The source is also not among the compost outlet's source_ids. The citation implies stronger support than exists.",
+        "\"A weak market would erase the edge.\" This overstates the risk. At the low end of the placeholder d-limonene range (coproduct $12/ton), limonene recovery still beats the baseline by about $3/ton (net -$17 vs -$20). The edge narrows but does not vanish within the modeled range.",
+        "\"Its expected net is about -$1 per ton\" rounds -$0.50 up to -$1. The table then shows \"-$0.50\". This is a minor inconsistency in the same report."
+      ],
+      "judge_pass": true,
+      "judge_model_pass": true,
+      "cost_usd": 0.1173
+    }
+  ]
+}

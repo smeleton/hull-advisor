@@ -14,6 +14,7 @@ class Scenario:
     lot: Lot
     overrides: dict[str, Override] = field(default_factory=dict)
     market: bool = False  # use the refreshed USDA market snapshot instead of demo values
+    biomass: str = "almond_hulls"
 
 
 ALL_USER_INPUTS = {
@@ -43,4 +44,8 @@ SCENARIOS: tuple[Scenario, ...] = (
              Lot(tons=1200, aflatoxin_tested="yes"), ALL_USER_INPUTS),
     Scenario("market_default", "Default lot on real USDA prices and truck rates.",
              Lot(tons=1000), market=True),
+    Scenario("grape_default", "Grape pomace, 300 t at 58% moisture: mostly demo values.",
+             Lot(tons=300, moisture_pct=58.0), biomass="grape_pomace"),
+    Scenario("orange_fees", "Orange peels, 1,000 t: several options charge a gate fee "
+             "(negative prices).", Lot(tons=1000), biomass="orange_peels"),
 )

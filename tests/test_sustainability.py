@@ -85,7 +85,7 @@ def test_download_routes():
     form = default_form() + [("sus_outlet", "bioenergy")]
     pdf = client.post("/sustainability.pdf", content=urlencode(form), headers=headers)
     assert pdf.status_code == 200 and pdf.headers["content-type"] == "application/pdf"
-    assert "hull_sustainability_bioenergy.pdf" in pdf.headers["content-disposition"]
+    assert "almond_hulls_sustainability_bioenergy.pdf" in pdf.headers["content-disposition"]
     md = client.post("/sustainability.md", content=urlencode(form), headers=headers)
     assert md.status_code == 200 and "Bioenergy (combustion)" in md.text
     assert client.post("/sustainability.exe", content=urlencode(form),

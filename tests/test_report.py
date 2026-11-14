@@ -97,12 +97,12 @@ def test_payload_is_json_safe_and_complete(payload):
     assert payload["placeholder_affects_results"] is True
     food = next(o for o in payload["outlets"] if o["outlet_id"] == "food_ingredient")
     assert food["needs_quote"] is True and food["net_expected_per_ton"] is None
-    assert food["price_to_match_local_dairy_per_ton"] == 175.0
+    assert food["price_to_match_baseline_per_ton"] == 175.0
     local = next(o for o in payload["outlets"] if o["outlet_id"] == "local_dairy")
     clean = next(o for o in payload["outlets"] if o["outlet_id"] == "clean_and_recover")
-    assert local["price_to_match_local_dairy_per_ton"] is None
-    assert clean["price_to_match_local_dairy_per_ton"] is None and clean["price_follows_local_dairy"]
-    assert payload["local_dairy_eligible"] is True and "definitions" in payload
+    assert local["price_to_match_baseline_per_ton"] is None
+    assert clean["price_to_match_baseline_per_ton"] is None and clean["price_follows_baseline"]
+    assert payload["baseline_eligible"] is True and "definitions" in payload
     ids = {s["id"] for s in payload["sources"]}
     assert {"giannini2026", "abc_food2025", "gras2026"} <= ids
     assert all(s["url"].startswith("https://") for s in payload["sources"])

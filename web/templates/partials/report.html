@@ -13,7 +13,7 @@
   {% endif %}
   <article class="report-doc">{{ html }}</article>
   <p class="report-actions">
-    <a class="button" href="/report/{{ rid }}.md" download="hull_value_report.md">Download as Markdown</a>
+    <a class="button" href="/report/{{ rid }}.md" download="{{ report.payload.material.id }}_value_report.md">Download as Markdown</a>
     <span class="muted">Written by {{ report.llm.model }} · {{ "{:,}".format(report.llm.input_tokens) }} input / {{ "{:,}".format(report.llm.output_tokens) }} output tokens · est. ${{ "%.4f"|format(report.llm.cost_usd) }}</span>
   </p>
 </div>

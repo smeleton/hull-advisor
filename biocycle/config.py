@@ -32,7 +32,7 @@ TOKEN_PRICES_PER_MTOK: dict[str, tuple[float, float]] = {
     "claude-haiku-5-5": (0.10, 0.50),
 }
 
-# Units: US short tons of hulls as delivered.
+# Units: US short tons of material as delivered.
 LB_PER_TON = 2000
 
 # Hauling rate $/ton-mile. Default sits inside the sourced range (giannini2026).
@@ -46,6 +46,8 @@ CRUDE_FIBER_MAX = 15.0
 # Hulls are typically delivered at 88-91% dry matter, i.e. 9-12% moisture (wcngg2022).
 MOISTURE_TYPICAL_RANGE = (9.0, 12.0)
 
+# The default biomass and its usual route; every biomass names its own baseline.
+DEFAULT_BIOMASS = "almond_hulls"
 BASELINE_ID = "local_dairy"
 
 PLACEHOLDER_BANNER = "Demo data — verify with real buyer quotes before acting."

@@ -1,7 +1,23 @@
-buyer,outlet_id,price_per_ton,max_tons,miles,notes
-Example Dairy A,local_dairy,90,600,15,Fictional buyer for demo
-Example Dairy B,local_dairy,97,400,35,Fictional buyer for demo
-Example Feedlot C,distant_dairy,130,800,250,Fictional buyer for demo (long haul)
-Example Food Processor D,food_ingredient,180,150,100,Fictional buyer for demo; quote is a placeholder
-Example Compost Co. E,compost_soil,30,1000,25,Fictional buyer for demo
-Example Biomass Plant F,bioenergy,35,2000,60,Fictional buyer for demo
+buyer,outlet_id,price_per_ton,max_tons,miles,notes,biomass
+Example Dairy A,local_dairy,90,600,15,Fictional buyer for demo,almond_hulls
+Example Dairy B,local_dairy,97,400,35,Fictional buyer for demo,almond_hulls
+Example Feedlot C,distant_dairy,130,800,250,Fictional buyer for demo (long haul),almond_hulls
+Example Food Processor D,food_ingredient,180,150,100,Fictional buyer for demo; quote is a placeholder,almond_hulls
+Example Compost Co. E,compost_soil,30,1000,25,Fictional buyer for demo,almond_hulls
+Example Biomass Plant F,bioenergy,35,2000,60,Fictional buyer for demo,almond_hulls
+Example Dairy G,shells_bedding,12,500,20,Fictional buyer for demo,almond_shells
+Example Biomass Plant H,shells_power,15,2000,55,Fictional buyer for demo,almond_shells
+Example Orchard I,shells_orchard_mulch,8,300,25,Fictional buyer for demo,almond_shells
+Example Dairy J,pistachio_cattle_feed,5,300,20,Fictional buyer for demo,pistachio_hulls
+Example Composter K,pistachio_compost,-20,1000,35,Fictional buyer for demo (gate fee),pistachio_hulls
+Example Dairy L,grape_feed_wet,5,200,40,Fictional buyer for demo,grape_pomace
+Example Composter M,grape_compost,-25,500,15,Fictional buyer for demo (gate fee),grape_pomace
+Example Seed Presser N,grape_ingredients,15,60,90,Fictional buyer for demo,grape_pomace
+Example Dairy O,tomato_feed_wet,4,600,30,Fictional buyer for demo,tomato_pomace
+Example Digester P,tomato_ad_biogas,-20,1000,30,Fictional buyer for demo (gate fee),tomato_pomace
+Example Feed Mixer Q,orange_cattle_feed_wet,3,800,35,Fictional buyer for demo,orange_peels
+Example Composter R,orange_compost,-45,1000,45,Fictional buyer for demo (gate fee),orange_peels
+Example Composter S,mango_compost_greenbin,-50,100,25,Fictional buyer for demo (gate fee),mango_peels
+Example Digester T,mango_anaerobic_digestion,-40,100,20,Fictional buyer for demo (gate fee),mango_peels
+Example Composter U,kiwi_compost,-50,100,35,Fictional buyer for demo (gate fee),kiwi_peels
+Example Farm V,kiwi_land_application,-5,40,5,Fictional buyer for demo,kiwi_peels
