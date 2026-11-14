@@ -104,6 +104,10 @@ class Outlet:
     pathway: str = ""  # see PATHWAYS; "" = default for the market
     # Nutrient recovery routes (ids in data/nutrients.yaml) whose products add value here.
     nutrient_routes: tuple[str, ...] = ()
+    # True when the producer keeps the nutrients' fertilizer value (e.g. spreading on their own
+    # land), so it counts in the net. Otherwise recoverable nutrients are shown, not counted,
+    # because a composter's or digester's gate fee already reflects them.
+    nutrient_credit: bool = False
 
     @property
     def end_use(self) -> str:
@@ -287,6 +291,7 @@ def parse_outlet(raw: dict[str, Any], sources: dict[str, Source]) -> Outlet:
         haul_product=bool(raw.get("haul_product", False)),
         pathway=raw.get("pathway") or "",
         nutrient_routes=tuple(raw.get("nutrient_routes") or ()),
+        nutrient_credit=bool(raw.get("nutrient_credit", False)),
     )
     _check_choice(outlet.status, STATUSES, "status", owner)
     _check_choice(outlet.market, MARKETS, "market", owner)
@@ -456,6 +461,12 @@ def load_buyers(
         owner = f"buyer {b.buyer!r}"
         if b.outlet_id not in outlets:
             raise ValueError(f"{owner}: unknown outlet_id {b.outlet_id!r}")
-        for what in ("price_per_ton", "max_tons", "miles"):
+        for what in ("max_tons", "miles"):  # a negative price is a gate fee
             _check_non_negative(getattr(b, what), what, owner)
     return buyers
+
+
+def all_outlets(sources: dict[str, Source] | None = None) -> dict[str, Outlet]:
+    """Outlets of every biomass, keyed by id (ids are unique across biomasses)."""
+    bms = load_biomasses(sources or load_sources())
+    return {oid: o for bm in bms.values() for oid, o in bm.outlets.items()}

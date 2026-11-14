@@ -1,0 +1,243 @@
+# Kiwi peels: profile and outlets. Generated from verified research notes (scratchpad tools/build_biomass.py), then reviewed.
+# Prices are $/short ton as delivered (negative = you pay, e.g. a gate fee); for outlets with mass_yield < 1 the price is per ton of product.
+# Tiers: sourced (cited page we loaded), user (your team's figures, links pending), placeholder (demo value).
+
+id: kiwi_peels
+name: Kiwi peels
+noun: peel
+producers: Kiwifruit processors
+unit_label: short tons of kiwi peels as delivered
+season: Harvest ~Oct-Nov, storage fruit processed through spring (placeholder)
+ca_volume: Unknown; small (most kiwifruit is sold fresh).
+summary: Peel from the few kiwifruit processors; most California kiwifruit (about 40,600 tons in 2025)
+  is sold fresh, so peel volumes are small.
+baseline: kiwi_compost
+market_data: false
+must_place: true
+default_tons: 50
+moisture_default: 77
+ef_material: fruits_vegetables
+rules:
+  moisture_typical:
+  - 76.7
+  - 78
+  moisture_note: '[kiwi_pmc9914669]'
+  moisture_markets:
+  - feed
+nutrients_pct_dry:
+  N:
+    value: 1.2
+    tier: placeholder
+  P:
+    value: 0.2
+    tier: placeholder
+  K:
+    value: 2.5
+    tier: placeholder
+  Mg:
+    value: 0.1
+    tier: placeholder
+composition:
+- component: total fibre
+  value: '30.45'
+  basis: dry
+  source_id: kiwi_pmc9914669
+  tier: sourced
+- component: insoluble fibre
+  value: '29.68'
+  basis: dry
+  source_id: kiwi_pmc9914669
+  tier: sourced
+- component: potassium, mg/g
+  value: '93.94'
+  basis: dry
+  source_id: kiwi_pmc9914669
+  tier: sourced
+- component: hydroalcoholic extract yield
+  value: 7-7.5
+  basis: wet
+  source_id: kiwi_pmc8871187
+  tier: sourced
+- component: hexane (carotenoid/lipid) extract yield
+  value: '0.05'
+  basis: wet
+  source_id: kiwi_pmc8871187
+  tier: sourced
+- component: catechin, mg/g extract
+  value: 3-24
+  basis: dry
+  source_id: kiwi_pmc8871187
+  tier: sourced
+quality_notes:
+- Peel carries trichomes (fuzz); not palatable, fibrous; feed use not documented in sources loaded.
+- Spoilage and pesticide residue data not found (placeholder concern).
+caveats:
+- 'Directory is thin: 4 companies, all orange or generic organics. ZERO companies for mango and kiwi peel
+  specifically (no CA processor, flour maker or extractor found).'
+- 'Kiwi: CA grows 40,600 t (2025) but sells mostly fresh; the only UC page on processing (UC Small Farms,
+  1990) returned 403 and was NOT loaded. Peel volume is likely small; treat as pilot-scale.'
+- Kiwi K = 93.94 mg/g d.b. (9.4%) looks high; flagged. Mango N/K/Mg derived from fresh-basis values in
+  a 4-cultivar Mexican study.
+- PMC and several .gov PDFs were read via Europe PMC XML or downloaded PDF text; some tables were cut
+  off (kiwi P/Mg/Ca).
+source_ids: []
+directory_groups:
+- key: soil
+  title: Composters and soil
+  outlet: kiwi_compost
+  outlets:
+  - kiwi_compost
+  - kiwi_land_application
+  blurb: Companies that take kiwi peels for these uses.
+  empty: ''
+- key: energy
+  title: Energy, biochar and digesters
+  outlet: kiwi_anaerobic_digestion
+  outlets:
+  - kiwi_anaerobic_digestion
+  blurb: Companies that take kiwi peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: chemicals
+  title: Extract and ingredient makers
+  outlet: kiwi_polyphenol_fiber_extraction
+  outlets:
+  - kiwi_polyphenol_fiber_extraction
+  blurb: Companies that take kiwi peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: feed
+  title: Feed buyers
+  outlet: kiwi_feed
+  outlets:
+  - kiwi_feed
+  blurb: Companies that take kiwi peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+outlets:
+- id: kiwi_compost
+  name: Compost / green-bin organics
+  description: Baseline; haul to compost with other organics.
+  status: established
+  market: soil
+  pathway: compost
+  price_low: -90
+  price_high: -35
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 40
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - compost_retained
+  requirements:
+  - Bulking material for wet, fibrous peel (placeholder)
+  risks:
+  - Same fee caveats as orange_compost
+  - 2026 California gate fees for green waste run about $35–115/ton [calrecycle_stanislaus_fees_2026];
+    wet fruit residues may cost more. Get a quote from your composter.
+  source_ids:
+  - ca_anaergia
+  - ca_calrecycle_slcp
+- id: kiwi_anaerobic_digestion
+  name: Anaerobic digestion
+  description: Co-digest with other food waste.
+  status: emerging
+  market: energy
+  pathway: digestion
+  price_low: -55
+  price_high: -30
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 20
+  miles_tier: sourced
+  coproducts: []
+  nutrient_routes:
+  - digestate_land_application
+  requirements:
+  - Sorted, packaging-free stream
+  risks:
+  - Fibrous peel (30% fibre) may digest slowly [kiwi_pmc9914669]
+  source_ids:
+  - ca_anaergia
+  - kiwi_pmc9914669
+- id: kiwi_land_application
+  name: Return to orchard / farm soil as amendment
+  description: Spread fresh or windrow-composted peel on the farm; K-rich.
+  status: established
+  market: soil
+  pathway: land_application
+  price_low: -15
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 3
+  processing_tier: placeholder
+  default_miles: 5
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - land_applied
+  nutrient_credit: true
+  requirements:
+  - Central Valley water-quality rules on land application of food waste (not verified)
+  risks:
+  - Odor and fruit-fly attraction (placeholder)
+  source_ids:
+  - kiwi_pmc9914669
+- id: kiwi_polyphenol_fiber_extraction
+  name: Polyphenol / fibre extraction
+  description: Solvent extraction of polyphenols and carotenoids, insoluble fibre as by-product.
+  status: experimental
+  market: chemicals
+  price_low: 0
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 300
+  processing_tier: placeholder
+  default_miles: 200
+  miles_tier: placeholder
+  coproducts:
+  - name: Kiwi peel extract (crude, to a refiner)
+    yield_low: 0.07
+    yield_high: 0.075
+    yield_tier: sourced
+    unit_price_per_lb: 1.5
+    unit_price_tier: placeholder
+    source_ids:
+    - kiwi_pmc8871187
+  - name: Kiwi peel pectin (crude)
+    yield_low: 0.04
+    yield_high: 0.041
+    yield_tier: user
+    unit_price_per_lb: 1.0
+    unit_price_tier: placeholder
+    source_ids:
+    - team_yields_2026
+    - kiwi_pmc9914669
+  requirements:
+  - Solvent handling (ethanol/hexane) [kiwi_pmc8871187]
+  - Pectin yield 17.97% of dry peel [team_yields_2026] (about 4% of fresh peel at 22–23% dry matter [kiwi_pmc9914669]);
+    crude extract 7–7.5% of fresh peel [kiwi_pmc8871187].
+  risks:
+  - Lab scale only; tiny feedstock volume in CA
+  - Nanoparticle synthesis from peel extracts is research only; no market source found [kiwi_pmc8871187]
+  source_ids:
+  - kiwi_pmc8871187
+- id: kiwi_feed
+  name: Cattle or livestock feed (blend)
+  description: Fibrous peel as a minor roughage in a blend; not documented.
+  status: experimental
+  market: feed
+  price_low: 0
+  price_high: 5
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 30
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Feed-law status unverified
+  risks:
+  - No source loaded on kiwi peel as feed; Europe PMC paper does not mention feed [kiwi_pmc8871187]
+  source_ids:
+  - kiwi_pmc8871187

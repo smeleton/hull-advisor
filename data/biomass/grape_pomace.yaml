@@ -1,0 +1,354 @@
+# Grape pomace: profile and outlets. Generated from verified research notes (scratchpad tools/build_biomass.py), then reviewed.
+# Prices are $/short ton as delivered (negative = you pay, e.g. a gate fee); for outlets with mass_yield < 1 the price is per ton of product.
+# Tiers: sourced (cited page we loaded), user (your team's figures, links pending), placeholder (demo value).
+
+id: grape_pomace
+name: Grape pomace
+noun: pomace
+producers: Wineries
+unit_label: short tons of grape pomace as delivered
+season: Aug-Nov (Upper Valley collects Aug to early Nov) [grape_wastedive_napa]; produced in a few short
+  fall weeks [grape_palatepress]
+ca_volume: About 385,000 tons a year (UC Davis estimate) [grape_ucdavis_allison2018].
+summary: Skins, seeds and stems left after pressing, about 55–60% water [grape_ucdavis_allison2018], produced
+  in a few weeks at crush.
+baseline: grape_feed_wet
+market_data: false
+must_place: true
+default_tons: 300
+moisture_default: 58
+ef_material: fruits_vegetables
+rules:
+  moisture_typical:
+  - 55.6
+  - 60.3
+  moisture_note: '[grape_ucdavis_allison2018]'
+  moisture_markets:
+  - feed
+nutrients_pct_dry:
+  N:
+    value: 1.9
+    tier: sourced
+    source_id: grape_feedipedia_fresh
+  P:
+    value: 0.25
+    tier: sourced
+    source_id: grape_feedipedia_fresh
+  K:
+    value: 1.4
+    tier: sourced
+    source_id: grape_feedipedia_dehydrated
+  Mg:
+    value: 0.08
+    tier: sourced
+    source_id: grape_feedipedia_dehydrated
+composition:
+- component: moisture
+  value: '55.61'
+  basis: wet
+  source_id: grape_ucdavis_allison2018
+  tier: sourced
+- component: crude protein
+  value: '11.8'
+  basis: dry
+  source_id: grape_feedipedia_fresh
+  tier: sourced
+- component: lipid (hexane-soluble; basis assumed dry)
+  value: '9.28'
+  basis: dry
+  source_id: grape_ucdavis_allison2018
+  tier: sourced
+- component: NDF (fiber)
+  value: '53.8'
+  basis: dry
+  source_id: grape_feedipedia_fresh
+  tier: sourced
+- component: lignin
+  value: '34.7'
+  basis: dry
+  source_id: grape_feedipedia_fresh
+  tier: sourced
+- component: ash
+  value: '8.4'
+  basis: dry
+  source_id: grape_feedipedia_fresh
+  tier: sourced
+- component: oil in seeds (of seed weight)
+  value: 10-20
+  basis: dry
+  source_id: grape_palatepress
+  tier: sourced
+quality_notes:
+- 'Feed only fresh: within a day or two of pressing [grape_palatepress]. Poorly digestible (~30% vs alfalfa
+  ~70%) [grape_palatepress].'
+- 'UC Davis trial: 10% and 15% of diet, methane -10 to -11%, milk unchanged [grape_ucdavis_methane_news].'
+- High-pomace compost is acidic; Upper Valley blends rice hulls [grape_wastedive_napa]. Phenols slow composting
+  [grape_palatepress].
+- 'Sulfite and pesticide residue limits for feed: no sourced number found (placeholder concern; confirm
+  with buyer).'
+- Dried product must contain seeds, skins and stems per Feedipedia description [grape_feedipedia_dehydrated].
+caveats: []
+source_ids:
+- grape_ucdavis_allison2018
+directory_groups:
+- key: feed
+  title: Feed buyers
+  outlet: grape_feed_wet
+  outlets:
+  - grape_feed_wet
+  - grape_feed_dried
+  blurb: Companies that take grape pomace for these uses.
+  empty: ''
+- key: soil
+  title: Composters and soil
+  outlet: grape_compost
+  outlets:
+  - grape_compost
+  - grape_biochar
+  blurb: Companies that take grape pomace for these uses.
+  empty: ''
+- key: energy
+  title: Energy, biochar and digesters
+  outlet: grape_ad_biogas
+  outlets:
+  - grape_ad_biogas
+  blurb: Companies that take grape pomace for these uses.
+  empty: ''
+- key: chemicals
+  title: Extract and ingredient makers
+  outlet: grape_ingredients
+  outlets:
+  - grape_ingredients
+  - grape_distill_tartrate
+  blurb: Companies that take grape pomace for these uses.
+  empty: ''
+outlets:
+- id: grape_feed_wet
+  name: Wet pomace to dairy/beef cattle feed
+  description: Fresh pomace trucked within a day or two to dairies or a feed processor and blended into
+    rations at roughly 10-15% of diet.
+  status: established
+  market: feed
+  price_low: 0
+  price_high: 10
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 60
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Deliver fresh, within 1-2 days of pressing [grape_palatepress]
+  - Dairy/feed buyer within trucking distance; commercial-feed licensing and tonnage tax apply to feed
+    firms [both_cdfa_tonnage2022]
+  - Tested inclusion 10-15% of diet [grape_ucdavis_methane_news]
+  risks:
+  - Poor digestibility (~30%) caps value [grape_palatepress]
+  - Coastal wineries lack nearby dairies, so route may be unavailable [both_agproud_byproducts]
+  - Residue (pesticide, sulfite) limits not sourced
+  source_ids:
+  - both_agproud_byproducts
+  - both_cdfa_tonnage2022
+  - grape_ucdavis_methane_news
+  - grape_pressdemocrat2015
+  - grape_palatepress
+- id: grape_compost
+  name: Compost (on site or at a commercial facility) and return to vineyard
+  description: Pomace composted on the winery, or hauled to a commercial composter such as the Napa facility,
+    then applied back to vineyards or sold as compost.
+  status: established
+  market: soil
+  pathway: compost
+  price_low: -40
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 20
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - compost_retained
+  requirements:
+  - High pomace share makes compost acidic; carbon source (e.g. rice hulls) needed [grape_wastedive_napa]
+  - Vineyard compost rates 1 ton/acre established, 2-3 tons/acre new plantings [grape_winemakermag]
+  - 'Large volumes: many vineyards compost on site [grape_zerowastesonoma_pomace]'
+  risks:
+  - Slow because phenols resist composting [grape_palatepress]
+  - Compost stockpiles seasonal glut (Aug-Nov) [grape_wastedive_napa]
+  - 2026 California gate fees for green waste run about $35–115/ton [calrecycle_stanislaus_fees_2026];
+    wet fruit residues may cost more. Get a quote from your composter.
+  source_ids:
+  - grape_wastedive_napa
+  - grape_napagreen_2022
+  - grape_naparecycling_winery
+  - grape_zerowastesonoma_pomace
+  - grape_californiabountiful2024
+  - grape_winemakermag
+- id: grape_feed_dried
+  name: Dried pomace as stable feed ingredient
+  description: Pomace dried to ~9% moisture (seeds, skins, stems) and sold as a storable feed ingredient.
+  status: established
+  market: feed
+  price_low: 55
+  price_high: 100
+  price_tier: placeholder
+  mass_yield: 0.46
+  haul_product: true
+  processing_cost_per_ton: 35
+  processing_tier: placeholder
+  default_miles: 150
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Dryer (gas or solar), target DM ~91% [grape_feedipedia_dehydrated]
+  - Drying from about 58% to 9% moisture leaves about 0.46 t of dried pomace per wet ton [grape_ucdavis_allison2018];
+    the price is per ton of dried product.
+  risks:
+  - Small market [both_agproud_byproducts]
+  - Drying energy can exceed product value
+  source_ids:
+  - both_agproud_byproducts
+  - grape_feedipedia_dehydrated
+  - grape_ucdavis_allison2018
+- id: grape_ad_biogas
+  name: Anaerobic digestion (biogas / RNG)
+  description: Wet pomace co-digested in a high-solids digester; Napa's composting site is adding one
+    but has no confirmed start date.
+  status: emerging
+  market: energy
+  pathway: digestion
+  price_low: -35
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 30
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - digestate_land_application
+  - struvite
+  - ammonia_stripping
+  requirements:
+  - High-solids AD capacity within haul distance [grape_biocycle_napa_ad]
+  - 'Feedstock acceptable to operator (Napa: food/green waste base, ~44,000 t/yr design) [grape_biocycle_napa_ad]'
+  - 'Measured methane: 0.125 Nm³ CH4 per kg of COD [team_yields_2026]. The digester owner keeps the gas;
+    you get the gate fee.'
+  risks:
+  - Napa digester not yet operating per sources [grape_biocycle_napa_ad]
+  - Extraction before AD lowers methane ~11% [grape_ucdavis_allison2018]
+  source_ids:
+  - grape_biocycle_napa_ad
+  - grape_ucdavis_allison2018
+  - both_biocycle_foodres
+- id: grape_ingredients
+  name: Seed oil, polyphenol extract and marc-powder food ingredients
+  description: Seeds pressed for oil (Napa), seeds extracted for polyphenols (Madera), or dried and milled
+    marc sold as a food powder (Sonoma).
+  status: established
+  market: chemicals
+  price_low: 0
+  price_high: 30
+  price_tier: placeholder
+  processing_cost_per_ton: 60
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts:
+  - name: dried grape seed (feedstock for oil/extract)
+    yield_low: 0.08
+    yield_high: 0.15
+    yield_tier: placeholder
+    unit_price_per_lb: 0.15
+    unit_price_tier: placeholder
+    source_ids:
+    - grape_palatepress
+  - name: polyphenol extract (seed/skin)
+    yield_low: 0.0002
+    yield_high: 0.0007
+    yield_tier: placeholder
+    unit_price_per_lb: 40
+    unit_price_tier: placeholder
+    source_ids:
+    - grape_winespectator
+    - grape_polyphenolics_site
+  requirements:
+  - Pomace delivered promptly and dried/separated before it molds [grape_palatepress]
+  - Seeds are ~10-20% oil [grape_palatepress]
+  - 'Phenolic content measured at 63.3 mg gallic-acid equivalents per g of dry pomace [team_yields_2026]:
+    a lab measure, not the mass of sellable extract.'
+  risks:
+  - Few CA buyers; volumes small vs 385,000 t/yr [grape_ucdavis_allison2018]
+  - Polyphenolics' current status unverified (2016 source) [grape_nutraingredients_polyphenolics]
+  source_ids:
+  - grape_salutesante
+  - grape_nutraingredients_polyphenolics
+  - grape_polyphenolics_site
+  - grape_californiabountiful2024
+  - grape_winespectator
+  - grape_palatepress
+- id: grape_distill_tartrate
+  name: Distillation (grappa/spirit) and tartrate recovery
+  description: Fermented pomace distilled to spirit, with cream of tartar recovered from skins; in California
+    only small craft and third-party examples were found.
+  status: experimental
+  market: chemicals
+  price_low: 0
+  price_high: 20
+  price_tier: placeholder
+  processing_cost_per_ton: 25
+  processing_tier: placeholder
+  default_miles: 80
+  miles_tier: placeholder
+  coproducts:
+  - name: cream of tartar (potassium bitartrate)
+    yield_low: 0.005
+    yield_high: 0.02
+    yield_tier: placeholder
+    unit_price_per_lb: 1.0
+    unit_price_tier: placeholder
+    source_ids:
+    - grape_winemakermag
+  requirements:
+  - Unfermented (white) pomace must be fermented first (general knowledge; not sourced)
+  - Distillery permit and wet-pomace handling
+  risks:
+  - Only small-scale CA examples (grappa) in sources [grape_pressdemocrat2015]
+  - Pomace must be fresh or silaged to avoid spoilage [grape_palatepress]
+  source_ids:
+  - grape_winemakermag
+  - grape_pressdemocrat2015
+  - grape_palatepress
+- id: grape_biochar
+  name: Biochar by pyrolysis
+  description: Dried pomace pyrolyzed to biochar for soil use; lignin-rich so char yield is high in lab
+    studies, but no CA operator found.
+  status: experimental
+  market: soil
+  pathway: biochar
+  price_low: -20
+  price_high: 10
+  price_tier: placeholder
+  processing_cost_per_ton: 90
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts:
+  - name: biochar
+    yield_low: 0.08
+    yield_high: 0.15
+    yield_tier: placeholder
+    unit_price_per_lb: 0.1
+    unit_price_tier: placeholder
+    source_ids:
+    - grape_feedipedia_fresh
+    - grape_foods2019_europepmc
+  requirements:
+  - Drying to low moisture before pyrolysis
+  - Lignin is a major component [grape_foods2019_europepmc]
+  risks:
+  - No local buyer or price loaded; drying cost dominates
+  source_ids:
+  - grape_foods2019_europepmc
+  - grape_feedipedia_fresh

@@ -1,0 +1,42 @@
+{% from "macros.html" import tier %}
+<section class="block material" aria-labelledby="material-h">
+  <h3 class="block-h" id="material-h">About {{ biomass.name|lower }}</h3>
+  <p class="block-sub">{{ biomass.summary }}</p>
+  <dl class="facts">
+    <div><dt>Who has it</dt><dd>{{ biomass.producers }}</dd></div>
+    {% if biomass.season %}<div><dt>Season</dt><dd>{{ biomass.season }}</dd></div>{% endif %}
+    {% if biomass.ca_volume %}<div><dt>California volume</dt><dd>{{ biomass.ca_volume }}</dd></div>{% endif %}
+    <div><dt>Today's usual route</dt><dd>{{ baseline_name }}</dd></div>
+    {% if biomass.must_place %}<div><dt>Shelf life</dt><dd>Perishable: the whole lot has to go somewhere, so options that charge a fee still count.</dd></div>{% endif %}
+  </dl>
+
+  {% if biomass.composition %}
+  <div class="table-wrap">
+  <table class="data compact">
+    <caption class="sr-only">Composition of {{ biomass.name|lower }}</caption>
+    <thead><tr><th scope="col">Component</th><th scope="col" class="num">Value</th><th scope="col">Basis</th><th scope="col">Data</th></tr></thead>
+    <tbody>
+    {% for c in biomass.composition %}
+      <tr><td class="opt">{{ c.component[:1]|upper }}{{ c.component[1:] }}</td><td class="num">{{ c.value }}</td><td>{{ "% of dry matter" if c.basis == "dry" else ("as delivered" if c.basis == "wet" else c.basis) }}</td>
+        <td>{{ tier(c.tier) }}{% if c.source_id %} <span class="muted small">[{{ c.source_id }}]</span>{% endif %}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% endif %}
+
+  {% if biomass.nutrients %}
+  <p class="tiers"><span class="label">Nutrients, % of dry matter:</span>
+    {% for k, n in biomass.nutrients.items() %}<span class="tier-item">{{ k }} {{ '%g'|format(n.pct_dry) }}% {{ tier(n.tier) }}</span>{% endfor %}
+  </p>
+  {% endif %}
+
+  {% if biomass.quality_notes %}
+  <h4 class="sub-h">Handling and quality</h4>
+  <ul>{% for q in biomass.quality_notes %}<li>{{ q }}</li>{% endfor %}</ul>
+  {% endif %}
+  {% if biomass.caveats %}
+  <h4 class="sub-h">Gaps in the data</h4>
+  <ul class="muted">{% for q in biomass.caveats %}<li>{{ q }}</li>{% endfor %}</ul>
+  {% endif %}
+</section>

@@ -22,3 +22,25 @@ treatment_proxies:
   landfilled_t_co2e_per_short_ton: 0.36
   tier: placeholder
   source_id: epa_ghg_hub2025
+
+materials:
+  # Table 9 rows used as end-of-use proxies, by biomass (ef_material in data/biomass/*.yaml),
+  # metric tons CO2e per short ton. EPA has no rows for these residues, so every value is a
+  # labelled stand-in (demo value). Checked against the Hub 2025 spreadsheet on 2026-11-14.
+  # Factors exclude avoided emissions (energy or fertilizer displaced).
+  yard_trimmings:
+    material: Yard Trimmings
+    composted: 0.14
+    combusted: 0.05
+    landfilled: 0.36
+    digested: 0.11      # anaerobic digestion, dry
+    tier: placeholder
+    source_id: epa_ghg_hub2025
+  fruits_vegetables:
+    material: Fruits and Vegetables
+    composted: 0.11
+    combusted: 0.05
+    landfilled: 0.28
+    digested: 0.11      # anaerobic digestion, wet
+    tier: placeholder
+    source_id: epa_ghg_hub2025

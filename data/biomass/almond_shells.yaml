@@ -1,0 +1,263 @@
+# Almond shells: profile and outlets. Generated from verified research notes (scratchpad tools/build_biomass.py), then reviewed.
+# Prices are $/short ton as delivered (negative = you pay, e.g. a gate fee); for outlets with mass_yield < 1 the price is per ton of product.
+# Tiers: sourced (cited page we loaded), user (your team's figures, links pending), placeholder (demo value).
+
+id: almond_shells
+name: Almond shells
+noun: shells
+producers: Almond hullers and shellers
+unit_label: short tons of almond shells as delivered
+season: 'Aug-Nov hulling peak; shells accumulate and are shipped Sep-Mar (placeholder: season not stated
+  in loaded sources)'
+ca_volume: About 875,500 tons a year (2024–25) [shells_giannini2026].
+summary: 'The hard shell around the almond kernel: dry, woody and energy-dense, so it suits bedding, fuel,
+  biochar and materials rather than feed [shells_abc_emerging].'
+baseline: shells_bedding
+market_data: false
+must_place: false
+default_tons: 1000
+moisture_default: 4.2
+ef_material: yard_trimmings
+rules:
+  moisture_typical:
+  - 3.3
+  - 5.0
+  moisture_note: '[shells_chen2010]'
+  moisture_markets:
+  - energy
+nutrients_pct_dry:
+  N:
+    value: 0.21
+    tier: sourced
+    source_id: shells_chen2010
+  P:
+    value: 0.03
+    tier: placeholder
+  K:
+    value: 1.7
+    tier: sourced
+    source_id: shells_giannini2026
+  Mg:
+    value: 0.05
+    tier: placeholder
+composition:
+- component: ash
+  value: '0.6'
+  basis: dry
+  source_id: shells_chen2010
+  tier: sourced
+- component: HHV MJ per kg
+  value: '18.2'
+  basis: dry
+  source_id: shells_chen2010
+  tier: sourced
+- component: carbon
+  value: '50.5'
+  basis: dry
+  source_id: shells_chen2010
+  tier: sourced
+- component: volatile matter
+  value: '80.3'
+  basis: dry
+  source_id: shells_chen2010
+  tier: sourced
+- component: fixed carbon
+  value: '15.8'
+  basis: dry
+  source_id: shells_chen2010
+  tier: sourced
+quality_notes:
+- Shells foul and slag in conventional combustion (high-fouling ash). [shells_westbio2018, shells_chen2010]
+- 'Debris: up to 20% of incoming load weight at one processor once came from sticks, rocks and other debris.
+  [shells_abc_emerging]'
+- Shell K is largely water-soluble, available within days to weeks, so ~$35-38/ton K2O-equivalent value
+  if returned to orchards. [shells_giannini2026]
+- 'Aflatoxin/spoilage: not a recognised issue for dry shells in loaded sources (placeholder statement,
+  not sourced).'
+caveats:
+- Almond-shell prices ($0-20/ton) rest on 2018 sources (West Biofuels, CeresAI). Giannini 2026 gives no
+  current shell price and calls shell markets 'less transparent'. Treat as stale.
+- 'Pistachio hull data are thin: no CA volume (tons), no price, no CA composition. Hull moisture/composition
+  are Turkish varieties (Boga 2013), ~72% moisture derived from DM 26-29%. All hull prices, volumes, N-P-K,
+  spoilage time are placeholders.'
+source_ids:
+- shells_abc_emerging
+directory_groups:
+- key: soil
+  title: Composters and soil
+  outlet: shells_bedding
+  outlets:
+  - shells_bedding
+  - shells_orchard_mulch
+  blurb: Companies that take almond shells for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: energy
+  title: Energy, biochar and digesters
+  outlet: shells_biochar
+  outlets:
+  - shells_power
+  - shells_biochar
+  blurb: Companies that take almond shells for these uses.
+  empty: ''
+- key: materials
+  title: Materials makers
+  outlet: shells_polymers
+  outlets:
+  - shells_polymers
+  blurb: Companies that take almond shells for these uses.
+  empty: ''
+- key: chemicals
+  title: Extract and ingredient makers
+  outlet: shells_activated_carbon
+  outlets:
+  - shells_activated_carbon
+  blurb: Companies that take almond shells for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+outlets:
+- id: shells_bedding
+  name: Sell as dairy/livestock bedding
+  description: Dry shells sold to nearby dairies as bedding (the traditional shell outlet).
+  status: established
+  market: soil
+  pathway: materials
+  price_low: 0
+  price_high: 20
+  price_tier: sourced
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 30
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Dry, low-debris shells (rocks and sticks can reach 20% of loads) [shells_abc_emerging]
+  risks:
+  - Dairy herd decline pushing prices down [shells_ceres2018]
+  - Net value low after logistics [shells_giannini2026]
+  source_ids:
+  - shells_abc_emerging
+  - shells_ceres2018
+  - shells_westbio2018
+  - shells_giannini2026
+- id: shells_orchard_mulch
+  name: Return to orchards as potassium-rich mulch
+  description: Processor sells shells to nearby almond growers who spread ~4.5 tons/acre as K fertilizer
+    plus mulch.
+  status: emerging
+  market: soil
+  pathway: land_application
+  price_low: 0
+  price_high: 13
+  price_tier: placeholder
+  processing_cost_per_ton: 15
+  processing_tier: sourced
+  default_miles: 33
+  miles_tier: sourced
+  coproducts: []
+  requirements:
+  - Shell sampling/nutrient testing and application timing guidance still being developed [shells_giannini2026]
+  - Spreader equipment availability
+  risks:
+  - Not independently validated at scale as mulch beyond nutrients [shells_giannini2026]
+  - Shell supply covers only ~14% of bearing acreage [shells_giannini2026]
+  - The price is derived from the shells' potassium value ($35–38/ton) less spreading ($15/ton) [shells_giannini2026];
+    it is not a quoted price.
+  source_ids:
+  - shells_giannini2026
+- id: shells_power
+  name: Biomass power / thermal energy
+  description: Shells burned or gasified for electricity or heat (cogeneration, small-scale ORC systems).
+  status: established
+  market: energy
+  pathway: combustion
+  price_low: 0
+  price_high: 20
+  price_tier: sourced
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 60
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Large plants exist but many closed; shells slag/foul conventional boilers [shells_westbio2018, shells_wasteadv2016]
+  risks:
+  - No long-term offtake [shells_westbio2018]
+  - Plant closures (Delano, Rio Bravo) [shells_wasteadv2016]
+  source_ids:
+  - shells_westbio2018
+  - shells_wasteadv2016
+  - shells_chen2010
+- id: shells_biochar
+  name: Pyrolysis to biochar plus power
+  description: Slow pyrolysis at the sheller yields biochar for soil and ORC electricity.
+  status: emerging
+  market: energy
+  pathway: biochar
+  price_low: 0
+  price_high: 15
+  price_tier: placeholder
+  processing_cost_per_ton: 60
+  processing_tier: placeholder
+  default_miles: 20
+  miles_tier: placeholder
+  coproducts:
+  - name: biochar
+    yield_low: 0.3
+    yield_high: 0.33
+    yield_tier: sourced
+    unit_price_per_lb: 0.125
+    unit_price_tier: sourced
+    source_ids:
+    - shells_biochartoday_sitos
+    - shells_westbio2018
+  requirements:
+  - Facility sited at shelling operation to cut transport [shells_biochartoday_sitos]
+  - 'Measured biochar yields: 39.5 ± 5.5% at 525 °C (pilot) and 65% at 300 °C (lab, less carbonized) [team_yields_2026].'
+  risks:
+  - Wholesale biochar prices are from 2018 and wide ($250-2,000+/BDT) [shells_westbio2018]
+  - Project capacity (~24,000 t/yr) is ~3% of CA shells [shells_giannini2026]
+  - Pyrolysis operating cost is a demo value ($60 per ton of shells); get an operator's quote.
+  source_ids:
+  - shells_biochartoday_sitos
+  - shells_abc_emerging
+  - shells_westbio2018
+- id: shells_polymers
+  name: Torrefied shell filler for plastics/composites
+  description: Torrefied or ground shells as filler in wood-plastic composites and other polymers.
+  status: experimental
+  market: materials
+  pathway: materials
+  price_low: 5
+  price_high: 50
+  price_tier: placeholder
+  processing_cost_per_ton: 60
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Torrefaction to improve stiffness and handling [shells_ceres2018]
+  risks:
+  - 2018 pre-commercial dry runs; no confirmed commercial offtake found [shells_ceres2018]
+  source_ids:
+  - shells_ceres2018
+  - shells_abc_emerging
+- id: shells_activated_carbon
+  name: Activated carbon / absorbents
+  description: Shells converted to activated carbon or filter media.
+  status: experimental
+  market: chemicals
+  pathway: materials
+  price_low: null
+  price_high: null
+  price_tier: placeholder
+  processing_cost_per_ton: 200
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Chen et al. list 43 papers on activated carbon/biochar from almond residues [shells_chen2010]
+  risks:
+  - Research literature only; no California commercial buyer verified
+  source_ids:
+  - shells_chen2010

@@ -21,7 +21,7 @@ from typing import Any
 import pandas as pd
 
 from biocycle.config import BASELINE_ID, DEFAULT_HAUL_RATE, LB_PER_TON
-from biocycle.data import HULL_RULES, Outlet, QualityRules, worst_tier
+from biocycle.data import HULL_RULES, NutrientContent, Outlet, QualityRules, worst_tier
 
 NAN = float("nan")
 
@@ -137,9 +137,25 @@ def quality_flags(outlet: Outlet, lot: Lot,
     return flags, eligible
 
 
+def nutrient_values(outlet: Outlet, lot: Lot, nutrients: dict[str, NutrientContent] | None,
+                    moisture_default: float | None) -> list[Any]:
+    """Fertilizer value of the lot's nutrients for each of the outlet's recovery routes."""
+    if not outlet.nutrient_routes or not nutrients:
+        return []
+    from biocycle.nutrients import route_value
+
+    moisture = lot.moisture_pct if lot.moisture_pct is not None else moisture_default
+    if moisture is None:
+        return []
+    tier = "user" if lot.moisture_pct is not None else "sourced"
+    dry = max(0.0, 1 - moisture / 100)
+    return [route_value(r, nutrients, dry, tier) for r in outlet.nutrient_routes]
+
+
 def _value_outlet(
     outlet: Outlet, lot: Lot, outlets: dict[str, Outlet], overrides: dict[str, Override],
-    rules: QualityRules = HULL_RULES,
+    rules: QualityRules = HULL_RULES, nutrients: dict[str, NutrientContent] | None = None,
+    moisture_default: float | None = None,
 ) -> dict[str, Any]:
     ov = overrides.get(outlet.id, Override())
     price = resolve_price(outlet, outlets, overrides)
@@ -150,6 +166,11 @@ def _value_outlet(
     y, h = outlet.mass_yield, outlet.haul_tons_per_ton
     haul_cost = lot.haul_cost(miles) * h  # $ per ton of input
     cp_low, cp_high = coproduct_range(outlet, ov)
+    nvals = nutrient_values(outlet, lot, nutrients, moisture_default)
+    credited = nvals[0] if outlet.nutrient_credit and nvals else None
+    if credited is not None:  # the producer keeps the fertilizer value: count it like a coproduct
+        cp_low += credited.value_low
+        cp_high += credited.value_high
 
     input_tiers = {
         "price": price.tier,
@@ -160,6 +181,8 @@ def _value_outlet(
     for c in outlet.coproducts:
         price_tier = "user" if c.name in ov.coproduct_prices else c.unit_price_tier
         input_tiers[f"coproduct: {c.name}"] = worst_tier(c.yield_tier, price_tier)
+    if credited is not None:
+        input_tiers["nutrients"] = credited.tier
 
     flags, eligible = quality_flags(outlet, lot, rules)
     if price.missing:
@@ -173,6 +196,7 @@ def _value_outlet(
         set(outlet.source_ids)
         | set(price.source_ids)
         | {s for c in outlet.coproducts for s in c.source_ids}
+        | (set(credited.source_ids) if credited is not None else set())
     )
     return {
         "outlet_id": outlet.id,
@@ -196,6 +220,9 @@ def _value_outlet(
         "net_expected": (net_low + net_high) / 2,
         "net_high": net_high,
         "flags": flags,
+        "nutrients": [vars(v) | {"value_expected": v.value_expected} for v in nvals],
+        "nutrient_credit": credited is not None,
+        "nutrient_value": credited.value_expected if credited is not None else 0.0,
         "requirements": list(outlet.requirements),
         "risks": list(outlet.risks),
         "input_tiers": input_tiers,
@@ -213,12 +240,15 @@ def evaluate(
     overrides: dict[str, Override] | None = None,
     baseline_id: str = BASELINE_ID,
     rules: QualityRules = HULL_RULES,
+    nutrients: dict[str, NutrientContent] | None = None,
+    moisture_default: float | None = None,
 ) -> pd.DataFrame:
     """One row per outlet, ranked: eligible by expected net, then ineligible, then needs-quote."""
     overrides = overrides or {}
     if baseline_id not in outlets:
         raise ValueError(f"baseline outlet {baseline_id!r} not found")
-    rows = [_value_outlet(o, lot, outlets, overrides, rules) for o in outlets.values()]
+    rows = [_value_outlet(o, lot, outlets, overrides, rules, nutrients, moisture_default)
+            for o in outlets.values()]
     df = pd.DataFrame(rows)
 
     base = df.loc[df.outlet_id == baseline_id].iloc[0]
@@ -251,3 +281,10 @@ def evaluate(
 def any_placeholder(results: pd.DataFrame) -> bool:
     """True if any placeholder value affects a shown result (drives the demo-data banner)."""
     return bool((results.result_tier == "placeholder").any())
+
+
+def evaluate_biomass(lot: Lot, bm: Any, overrides: dict[str, Override] | None = None,
+                     outlets: dict[str, Outlet] | None = None) -> pd.DataFrame:
+    """evaluate() with a biomass profile's outlets, baseline, quality rules and nutrients."""
+    return evaluate(lot, outlets or bm.outlets, overrides, baseline_id=bm.baseline, rules=bm.rules,
+                    nutrients=bm.nutrients, moisture_default=bm.moisture_default)

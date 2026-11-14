@@ -18,6 +18,11 @@ must_place: false
 default_tons: 1000
 moisture_default: 10.5
 ef_material: yard_trimmings
+nutrients_pct_dry:  # Feedipedia almond hulls; N = crude protein 5.7% / 6.25
+  N: {value: 0.91, tier: sourced, source_id: nutr_feedipedia_almond_hulls}
+  P: {value: 0.18, tier: sourced, source_id: nutr_feedipedia_almond_hulls}
+  K: {value: 2.6, tier: sourced, source_id: nutr_feedipedia_almond_hulls}
+  Mg: {value: 0.14, tier: sourced, source_id: nutr_feedipedia_almond_hulls}
 rules:
   moisture_typical: [9, 12]
   moisture_note: "(88–91% dry matter) [wcngg2022]"

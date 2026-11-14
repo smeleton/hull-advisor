@@ -17,12 +17,12 @@
       <dd class="fig-note">after processing and hauling</dd>
     </div>
     <div>
-      <dt>Compared with selling locally</dt>
+      <dt>Compared with today's route</dt>
       {% if top["is_baseline"] %}
-      <dd><span class="fig fig-small">This is the local sale</span></dd>
+      <dd><span class="fig fig-small">This is today's route</span></dd>
       {% else %}
       <dd><span class="fig {{ 'pos' if top['vs_baseline_total'] > 0 else 'neg' }}">{{ money(top["vs_baseline_total"], true) }}</span></dd>
-      <dd class="fig-note">{{ money(top["vs_baseline_per_ton"], true) }} per ton</dd>
+      <dd class="fig-note">{{ money(top["vs_baseline_per_ton"], true) }} per ton {{ vs_label }}</dd>
       {% endif %}
     </div>
   </dl>
@@ -44,8 +44,8 @@
       <th scope="col">Option</th>
       <th scope="col" class="num">Expected net<br><span class="th-unit">$/ton · range</span></th>
       <th scope="col" class="num">Lot total</th>
-      <th scope="col" class="num">vs. selling locally<br><span class="th-unit">$/ton · lot</span></th>
-      <th scope="col" class="num">Price to match<br><span class="th-unit">local $/ton</span></th>
+      <th scope="col" class="num">vs. today's route<br><span class="th-unit">$/ton · lot</span></th>
+      <th scope="col" class="num">Price to match<br><span class="th-unit">today's route, $/ton</span></th>
       <th scope="col">Data</th>
       <th scope="col">Checks</th>
     </tr>
@@ -67,9 +67,9 @@
   </tbody>
 </table>
 </div>
-<p class="footnote"><strong>Price to match local</strong> is what that option's buyer would have to pay per ton for its expected net to equal selling to the local dairy. It is blank for the local dairy itself and for options sold at the local dairy's price, where a price change moves both equally. <strong>Expected</strong> is the midpoint of the low–high range. Net = price − processing − hauling + any coproduct value.</p>
+<p class="footnote"><strong>Today's route</strong> is {{ baseline_name|lower }}. <strong>Price to match today's route</strong> is what that option's buyer would have to pay per ton of product for its expected net to equal it. It is blank for today's route itself and for options sold at its price, where a price change moves both equally. <strong>Expected</strong> is the midpoint of the low–high range. Net = price × product per ton − processing − hauling + any coproduct value; a negative net means the lot costs you money to move.</p>
 
 <figure class="chart-figure">
   {{ chart }}
-  <figcaption>Bars: expected net per ton. Whiskers: low to high. Dashed line: selling to the local dairy. Grey bars fail a quality check.</figcaption>
+  <figcaption>Bars: expected net per ton. Whiskers: low to high. Dashed line: today's route ({{ baseline_name|lower }}). Grey bars fail a quality check.</figcaption>
 </figure>

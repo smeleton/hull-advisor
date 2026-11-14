@@ -87,13 +87,15 @@ def test_buyers_from_rows_tiers_and_validation(real_outlets):
     rows.append({c: "" for c in BUYER_FIELDS})  # blank new row -> skipped
     rows.append({"buyer": "My Buyer", "outlet_id": "nope", "price_per_ton": "1",
                  "max_tons": "1", "miles": "1", "notes": ""})
-    rows.append({"buyer": "Neg", "outlet_id": "bioenergy", "price_per_ton": "-1",
-                 "max_tons": "1", "miles": "1", "notes": ""})
+    rows.append({"buyer": "Fee", "outlet_id": "bioenergy", "price_per_ton": "-1",
+                 "max_tons": "1", "miles": "1", "notes": ""})  # a gate fee: allowed
+    rows.append({"buyer": "Neg", "outlet_id": "bioenergy", "price_per_ton": "1",
+                 "max_tons": "-1", "miles": "1", "notes": ""})
     buyers, tiers, errors = buyers_from_rows(rows, real_outlets, sample)
-    assert len(buyers) == 6
-    assert tiers == ["user"] + ["placeholder"] * 5
+    assert len(buyers) == 7 and buyers[-1].price_per_ton == -1
+    assert tiers == ["user"] + ["placeholder"] * 5 + ["user"]
     assert len(errors) == 2
-    assert "Row 8" in errors[0] and "Row 9 (Neg)" in errors[1]
+    assert "Row 8" in errors[0] and "Row 10 (Neg)" in errors[1]
 
 
 def test_form_strings_for_sample_buyers_stay_placeholder(real_outlets):

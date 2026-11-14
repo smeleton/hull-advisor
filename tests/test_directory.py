@@ -7,7 +7,7 @@ from urllib.parse import unquote
 
 import pytest
 
-from biocycle.data import load_outlets, load_sources
+from biocycle.data import all_outlets, load_sources
 from biocycle.directory import (
     by_outlet,
     load_directory,
@@ -21,7 +21,7 @@ from biocycle.valuation import Lot
 
 @pytest.fixture(scope="module")
 def outlets():
-    return load_outlets(load_sources())
+    return all_outlets(load_sources())
 
 
 def raw(**changes):

@@ -66,3 +66,416 @@
   title: "Almond Board of California, \"Almond Hulls Get GRAS Status: What It Means\" (2026)"
   url: https://www.almonds.org/almond-industry/industry-news/almond-hulls-get-gras-status-whats-mean
   what_it_supports: "Most hulls end up in livestock rations; almond hulls now recognized as safe for human food."
+
+# ---- Multi-biomass research (checked 2026-11-14) ----
+
+- id: both_agproud_byproducts
+  title: The vital role of byproduct use in California dairy feed rations (Progressive Dairy / AgProud,
+    UC Davis-based)
+  url: https://agproud.com/topics/feed-nutrition/the-vital-role-of-byproduct-use-in-california-dairy-feed-rations
+  what_it_supports: Grape pomace ~25% of fresh grape weight; 90-95% of large San Joaquin Valley winery
+    pomace sold wet as dairy feed; coastal pomace may go to landfill; tomato pomace named as CA dairy
+    byproduct feed (no tonnage)
+- id: both_biocycle_foodres
+  title: Bioenergy potential in California's food processing residues (BioCycle)
+  url: https://www.biocycle.net/bioenergy-potential-in-californias-food-processing-residues/
+  what_it_supports: Grape pomace mostly composted as soil amendment or bedding; rural F&V wet solids land-applied
+    or fed; urban facilities pay discharge and landfill tipping fees
+- id: both_cdfa_tonnage2022
+  title: California Commercial Feed Tonnage Report 2022 (CDFA)
+  url: https://www.cdfa.ca.gov/is/ffldrs/docs/2022_tonnage_report_by-products_only.pdf
+  what_it_supports: Grape Pomace 152,158 tons reported as commercial feed in 2022; Wet Fruit/Vegetable
+    Pomace/Pulp 155,464 tons (not tomato-specific); $0.10/ton feed tonnage tax, $0.05/ton for diverted
+    human-food by-products
+- id: ca_agproud_byproducts
+  title: Ag Proud / Progressive Dairy - Vital role of byproduct use in California dairy rations
+  url: https://www.agproud.com/articles/54889-the-vital-role-of-byproduct-use-in-california-dairy-feed-rations
+  what_it_supports: Names citrus pulp as a CA food-manufacturing byproduct fed to dairy; byproducts ~38.2%
+    of ration DM. No citrus price.
+- id: ca_anaergia
+  title: 'Anaergia - SB 1383 compliance: organic waste to renewable fuel and fertilizer'
+  url: https://www.anaergia.com/sb-1383-compliance-organic-waste-to-renewable-fuel-and-fertilizer
+  what_it_supports: 'Vendor planning assumption: $55/ton tip fee for compost and AD; haul $20/ton at 50
+    miles (compost), $10/ton <20 miles (AD). Not a market survey.'
+- id: ca_biocycle_midvalley
+  title: BioCycle (Dec 2016) - Mid Valley Disposal food scrap composting, Kerman CA
+  url: https://www.biocycle.net/?p=27055
+  what_it_supports: Fresno County compost site designed for 60,000 tons/yr of pre- and postconsumer food
+    scraps and yard trimmings. 2016 article; current status unverified.
+- id: ca_calrecycle_slcp
+  title: CalRecycle - California's Organic Waste Reduction (SB 1383)
+  url: https://calrecycle.ca.gov/Organics/SLCP/
+  what_it_supports: 'SB 1383 2025 targets: cut organics to landfill by three-quarters; recover a fifth
+    of edible food.'
+- id: calrecycle_stanislaus_fees_2026
+  title: Stanislaus County Dept of Environmental Resources Fee Schedule (fees effective 07/14/26; landfill
+    fees effective 7/1/25)
+  url: https://www.stancounty.com/er/pdf/Current-Fee-Schedule-2026.pdf
+  what_it_supports: Fink Road landfill Normal Refuse (includes garden refuse) $49.68/ton (adopted 2025);
+    Special Handling $120/ton; no separate green waste line
+- id: epa_ghg_hub_2025_xlsx
+  title: EPA GHG Emission Factors Hub, January 2025 spreadsheet (Table 9, rows 432-499)
+  url: https://www.epa.gov/system/files/other-files/2025-01/ghg-emission-factors-hub-2025.xlsx
+  what_it_supports: 'Table 9 Scope 3 Cat 5 and 12 waste factors, MT CO2e per short ton; source note: EPA
+    ORCR Dec 2023 WARM documentation'
+- id: grape_biocycle_napa_ad
+  title: Napa anaerobic digestion + composting project (BioCycle, April 2026)
+  url: https://www.biocycle.net/?p=57005
+  what_it_supports: High-solids AD being added to Napa composting site; ~44,000 t/yr design; grape pomace
+    named as suitable feedstock; owned by City of Napa, operated by Napa Recycling; no start date
+- id: grape_californiabountiful2024
+  title: Healthy promise (California Bountiful, Fall 2024)
+  url: https://www.californiabountiful.com/magazine-features/magazine-issues/fall-2024/healthy-promise/
+  what_it_supports: '2023: ~3.9M tons crushed, ~975,000 tons pomace (20-30%); ~60% of CSWA-reporting wineries
+    compost onsite; Sonomaceuticals / WholeVine marc powder; Vine to Bar chocolate with 15% marc'
+- id: grape_feedipedia_dehydrated
+  title: Grape pomace, dehydrated (Feedipedia)
+  url: https://feedipedia.org/node/12133
+  what_it_supports: Dried pomace DM 91.2%; CP 13.6; P 2.7, K 14, Mg 0.8 g/kg DM; ash 7.4; lignin 33.7
+- id: grape_feedipedia_fresh
+  title: Grape pomace or grape pulp, fresh (Feedipedia)
+  url: https://feedipedia.org/node/22988
+  what_it_supports: Fresh pomace DM 39.7% (27.3-59.5); CP 11.8, fat 5.8, NDF 53.8, lignin 34.7, ash 8.4
+    %DM; P 2.5 g/kg DM
+- id: grape_foods2019_europepmc
+  title: Compositional Characterization of Different Industrial White and Red Grape Pomaces in Virginia
+    (Foods 2019, 8:667) via Europe PMC record
+  url: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:31835812%20AND%20SRC:MED&resultType=core&format=json
+  what_it_supports: 'Identity and abstract summary of user''s PubMed 31835812: polyphenols, lipids (linoleic),
+    lignin, glucan, xylan, ash; biorefinery framing. Numeric tables not loaded.'
+- id: grape_napagreen_2022
+  title: Napa Recycling compost presentation, Napa Green 2022
+  url: https://napagreen.org/wp-content/uploads/2022/05/Compost-Presentation-2022-Napa-Green.pdf
+  what_it_supports: Napa Recycling composts 5,000-8,000 tons/yr of grape pomace and lees; CASP composting
+    system operational Jan 2020
+- id: grape_naparecycling_winery
+  title: Zero Waste Winery (Napa Recycling & Waste Services)
+  url: https://naparecycling.com/zero-waste-winery/
+  what_it_supports: Pomace collection by debris box; composted or reused as animal feed; no fees published
+- id: grape_nutraingredients_polyphenolics
+  title: Polyphenolics delves into sports nutrition with its grape seed extracts (NutraIngredients, 2016)
+  url: https://www.nutraingredients.com/Article/2016/10/19/Polyphenolics-delves-into-sports-nutrition-with-its-grape-seed-extracts/
+  what_it_supports: Polyphenolics plant in Madera, CA makes grape seed extracts from wine-production waste
+    stream (2016 article)
+- id: grape_palatepress
+  title: Pomace to Pours, Preservatives, and Power (Palate Press)
+  url: https://www.palatepress.com/pomace-to-pours-preservatives-and-power-dealing-with-winery-waste/
+  what_it_supports: Seeds ~10-20% oil; pomace only ~30% digestible vs alfalfa ~70%; feed only fresh within
+    a day or two; pomace produced in a few fall weeks; AD, distillation, extracts discussed generally
+    (mostly non-CA)
+- id: grape_polyphenolics_site
+  title: Polyphenolics (company site)
+  url: https://www.polyphenolics.com
+  what_it_supports: Company markets MegaNatural grape seed extract ingredients
+- id: grape_pressdemocrat2015
+  title: Sonoma County winemakers find uses for pomace (Press Democrat, 2015)
+  url: https://www.pressdemocrat.com/lifestyle/4009143-181/sonoma-county-winemakers-find-uses?page=0
+  what_it_supports: '>100,000 tons/yr CA pomace (UC Davis-cited, dated); 1 ton pomace per 5 tons crushed;
+    winery exec says waste needs value ''greater than $10 a ton for cattle feed''; small-scale grappa,
+    compost, spa uses'
+- id: grape_salutesante
+  title: A fruit oil from grapes (Salute Sante / Food & Vine)
+  url: https://grapeseedoil.com/fruit-oil/
+  what_it_supports: Cold-pressed grapeseed oil from winery pomace seeds, pressing in Napa, CA since 2010
+- id: grape_ucdavis_allison2018
+  title: Obtaining Multiple Coproducts from Red Grape Pomace via Anthocyanin Extraction and Biogas Production
+    (Allison & Simmons, J. Agric. Food Chem. 2018)
+  url: https://simmons.ucdavis.edu/sites/g/files/dgvnsk866/files/2018-10/allison%202018.pdf
+  what_it_supports: ~385,000 tons grape pomace/yr in CA; moisture 55.61% wet; hexane lipid 9.28%; methane
+    213.6 mL/g VS (literature range 110-360); biogas 57% CH4
+- id: grape_ucdavis_methane_news
+  title: Grape seeds, stems and skins in feed can reduce dairy cattle emissions (UC Davis, 2024)
+  url: https://www.ucdavis.edu/index.php/climate/news/grape-seeds-stems-and-skins-feed-can-reduce-dairy-cattle-emissions
+  what_it_supports: 'Pomace fed at 10% and 15% of diet: methane -10 to -11%, no change in milk yield or
+    composition'
+- id: grape_wastedive_napa
+  title: Napa compost / Upper Valley grape pomace (Waste Dive)
+  url: https://www.wastedive.com/news/napa-compost-upper-valley-grape-pomace-wine-country/634301/
+  what_it_supports: Pomace ~60% of Upper Valley compost feedstock, collected Aug to early Nov; high-pomace
+    compost is acidic (rice hulls blended); American Canyon feedstock 7-8% pomace, sold as cattle feed;
+    Napa facility permitted 500 t/day
+- id: grape_winemakermag
+  title: The Pomace Predicament (WineMaker)
+  url: https://winemakermag.com/678-the-pomace-predicament
+  what_it_supports: Third-party plants grind seeds for oil and mine skins for cream of tartar; vineyard
+    compost 1 ton/acre established, 2-3 tons/acre new plantings
+- id: grape_winespectator
+  title: From Compost to Cosmetics to Cupcakes (Wine Spectator)
+  url: https://www.winespectator.com/articles/from-compost-to-cosmetics-to-cupcakes-what-to-do-with-a-giant-pile-of-grape-pulp-48175
+  what_it_supports: Polyphenol extraction yield example 1,482 kg skins per 1 kg extract (Spanish producer,
+    not CA); no CA buyer named
+- id: grape_zerowastesonoma_pomace
+  title: Grape pomace (Zero Waste Sonoma)
+  url: https://zerowastesonoma.gov/materials/grape-pomace
+  what_it_supports: 'Large quantities: many vineyards compost on site; small quantities: hauler or drop-off'
+- id: kiwi_pmc8871187
+  title: Kiwi peel extraction technology (PMC8871187, via Europe PMC XML)
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8871187/
+  what_it_supports: Peel ~10% of production discarded (Italy); moisture ~78%; hydroalcoholic extract 7-7.5%
+    of fresh weight; hexane extract ~0.05%; catechin 3-24 mg/g extract.
+- id: kiwi_pmc9914669
+  title: Kiwi peel composition (PMC9914669, via Europe PMC XML)
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9914669/
+  what_it_supports: Peel moisture 76.74%; total fiber 30.45% (insoluble 29.68%; basis likely dry); K 93.94
+    mg/g d.b.
+- id: mango_auctores
+  title: 'Mango peel: an eminent food source (Auctores)'
+  url: https://auctoresonline.org/article/mango-peel-an-eminent-food-source
+  what_it_supports: Peel ~15-25% of fruit weight; peel powder tested in biscuits (10%), macaroni (5%),
+    yogurt; small human study. Does NOT report glycemic-index data.
+- id: mango_pmc11336421
+  title: Mango peel composition, 4 Mexican cultivars (PMC11336421, read via Europe PMC XML)
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11336421/
+  what_it_supports: Peel 13.9-16.9% of fruit; moisture 67-75%; TDF 37-45% DM; pectin 17-23% DM (high-methoxyl);
+    phenols 2,123-4,851 mg GAE/100 g DM; protein 0.8-2.6% fresh; K, Mg.
+- id: mango_ufifas_hs1443
+  title: UF/IFAS HS1443 - Fresh-cut mango best practices (PDF)
+  url: https://ask.ifas.ufl.edu/publication/HS1443/pdf
+  what_it_supports: Fresh-cut processors peel/de-pit mangos (mostly manually); peel and seed disposal
+    must follow local environmental law. No waste volume.
+- id: nutr_dtn_retail_2026_11_11
+  title: DTN Retail Fertilizer Trends, published 2026-11-11 (week of Nov 2-6, 2026)
+  url: https://www.dtnpf.com/agriculture/web/AG/crops/article/2026/11/11/retail-fertilizer-prices-mixed-first
+  what_it_supports: 'US avg retail $/ton Nov 2-6 2026: anhydrous 1003, urea 662, DAP 950, MAP 991, potash
+    504, UAN28 428, UAN32 484, 10-34-0 704'
+- id: nutr_ed_digestate_2025
+  title: Nutrient Recovery from Anaerobic Digestate Liquor Using Intermittent Electrodialysis (2025)
+  url: https://library.kab.ac.ug/Record/doaj-art-2173dbabb5fa4305a8534ccbc0e7f987/Description
+  what_it_supports: 'Lab ED recovery from digestate liquor: ammonium-N ~70%, K ~63%, phosphate ~40% (abstract
+    record only; not full text)'
+- id: nutr_eghball_1997_composting
+  title: Eghball et al. 1997, Nutrient, Carbon, and Mass Loss During Composting of Beef Cattle Feedlot
+    Manure (J. Environ. Qual. 26:189-193)
+  url: https://digitalcommons.unl.edu/biosysengfacpub/130
+  what_it_supports: Compost N loss 19-42% of initial N; P runoff loss <2%; K runoff loss >6.5% in wet
+    years, <2% in dry year. Manure feedstock, not fruit residues.
+- id: nutr_feedipedia_citrus_pulp_dried
+  title: Feedipedia, Citrus pulp, dried (proxy for orange peel; mostly peel/pulp/seeds)
+  url: https://feedipedia.org/node/11987
+  what_it_supports: CP 7% DM (n=349); Ca 17, P 1.0, K 9.4, Mg 1.3 g/kg DM
+- id: nutr_folino_2020_stripping
+  title: 'Folino, Zema, Calabro 2020, Ammonia stripping and AD of swine wastewater: short review (Sustainability
+    12:4971)'
+  url: https://iris.unirc.it/retrieve/e2047586-dd8b-7e24-e053-6605fe0afb29/Folino_%202020_SUSTAINABILITY%20_Environmental%20and%20Economic_editor.pdf
+  what_it_supports: Stripping removal efficiency generally does not exceed 90% (RECOV'AMMONIA >92%); acid
+    trap gives ~30% ammonium sulphate solution sold at EUR 90-120/t vs crystallised ~EUR 140/t (EU, ~2020);
+    crystalliser capex is the barrier
+- id: nutr_muys_2021_struvite
+  title: Muys et al. 2021, A systematic comparison of commercially produced struvite (Sci. Total Environ.)
+  url: https://arpi.unipi.it/retrieve/e0d6c931-e544-fcf8-e053-d805fe0aa794/STOTEN_struvite.pdf
+  what_it_supports: Struvite sold at EUR 0-100/t mostly, up to EUR 350 (Phoshorgreen) to EUR 1000 (Pearl)
+    per ton; macronutrient value EUR 250-412/t; 5.7% N in struvite; 24 EU plants sampled (30% of 80 worldwide)
+- id: nutr_premalatha_2023_biochar
+  title: Premalatha et al. 2023, A review on biochar's effect on soil properties and crop growth (Front.
+    Energy Res. 11)
+  url: https://www.frontiersin.org/articles/10.3389/fenrg.2023.1092637/full
+  what_it_supports: 'Volatilization temps: N ~200 C, P and K ~700-800 C, S ~375 C; chars at 300-500 C
+    high in P, >500 C less labile P; no Mg retention data (first 100k chars read)'
+- id: orange_ad_ensiling
+  title: Optimization of orange peel waste ensiling for sustainable anaerobic digestion (AGRIS record)
+  url: https://agris.fao.org/search/en/records/65e013d20f3e94b9e5deff8e
+  what_it_supports: Ensiling removes up to >70% of d-limonene while keeping up to ~90% of biomethane yield.
+- id: orange_ad_limonene
+  title: Ruiz Fuertes & Flotats 2016, Effect of limonene on batch AD of citrus peel waste (AGRIS record)
+  url: https://agris.fao.org/search/en/records/6748865e7625988a371d02d4
+  what_it_supports: Citrus waste BMP 354-398 L CH4/kg VS; limonene IC50 423-669 (mg/L); inhibition reversible.
+- id: orange_ars_cows
+  title: USDA ARS - orange peel/pulp as cattle feed, pathogen reduction
+  url: https://agresearchmag.ars.usda.gov/2011/nov/cows
+  what_it_supports: Peel/pulp palatable to cattle, essential oils antimicrobial; pellets easier to ship
+    than heavy peel; no feeding rate given.
+- id: orange_feedipedia
+  title: Feedipedia - Citrus pulp, dried
+  url: https://www.feedipedia.org/Node/680
+  what_it_supports: Dried pulp 90.3% DM, CP 7% DM, Ca 17 g/kg, P 1 g/kg; drying 80% -> ~11% moisture;
+    inclusion limits (dairy <20% of DM, intake falls >24%).
+- id: orange_limonene_price
+  title: Asphalt Pro - Citrus availability could affect d-limonene costs
+  url: https://theasphaltpro.com/?p=7248
+  what_it_supports: d-limonene record ~US$5/lb in 2012, then ~$1.50/lb; made from orange oils/rinds. Trade
+    article, old.
+- id: orange_rwqcb_tipton
+  title: Central Valley Water Board Order R5-2015-0135, Ventura Coastal Tipton Citrus Juice Plant
+  url: https://www.waterboards.ca.gov/rwqcb5/board_decisions/adopted_orders/tulare/r5-2015-0135.pdf
+  what_it_supports: Tipton (Tulare Co.) plant processes 250,000-350,000 tons fruit/yr (oranges 150-215k
+    t, 2012-14); solids (culls, peels, seeds, pulp) hauled off-site for cattle feed; Sunkist merged with
+    Ventura Coastal Feb 2012.
+- id: orange_vincent_pectin
+  title: Vincent Corp - Pectin peel
+  url: https://vincentcorp.com/content/pectin-peel
+  what_it_supports: No US pectin-peel processors; Ventura Coastal and Sunkist (CA) discontinued peel washing
+    (wash-water disposal).
+- id: orange_vincent_waste
+  title: Vincent Corp - Citrus waste disposal
+  url: https://vincentcorp.com/content/citrus-waste-disposal
+  what_it_supports: Orange peel ~80% moisture; lime + screw press to ~74%; 1-ton bag ensiling; press liquor
+    ~1/3 of peel weight; CA drum dryers shut down. Vendor page (equipment maker).
+- id: pist_boga2013
+  title: Effect of Varieties on Potential Nutritive Value of Pistachio Hulls (Boga et al., Kafkas Univ
+    Vet Fak Derg 19(4), 2013) - Turkish varieties
+  url: https://vetdergikafkas.org/pdf.php?id=136
+  what_it_supports: hull DM 26.45-29.25% (so ~71-74% moisture), ash 8.5-19.9%, CP 7.3-15.0%, NDF 18-22%,
+    condensed tannin 2.0-2.6%, ME 9.8-11.1 MJ/kg DM
+- id: pist_energygov_nrel
+  title: 'Hey Ho, Pistachio: NREL scientists help transform nut shells into carbon-negative electricity
+    (DOE)'
+  url: https://www.energy.gov/cmei/fuels/articles/hey-ho-pistachio-nrel-scientists-help-transform-nut-shells-carbon-negative?blaid=3565027
+  what_it_supports: Wonderful Co. + NREL + VGrid shell gasification; ~15% of shell weight as biochar;
+    700-hour demo; ~100,000 t/yr US pistachio waste
+- id: pist_gur2016
+  title: Anaerobic treatability and biogas production potential of pistachio processing wastewater with
+    UASB (E. Gur, METU thesis, 2016) - Turkey
+  url: https://open.metu.edu.tr/bitstream/handle/11511/25776/index.pdf
+  what_it_supports: pistachio processing WASTEWATER digested at 154-305 mL CH4 per g COD removed (not
+    hulls as such; evidence that AD is technically feasible)
+- id: pist_michailides2017
+  title: Aflatoxin and its Control in Pistachios (T. Michailides, UC Davis Kearney, Pistachio Short Course
+    2017 slides)
+  url: https://ucanr.edu/sites/default/files/2017-11/274461.pdf
+  what_it_supports: aflatoxin risk linked to hull damage / navel orangeworm; hull appearance table; hulls
+    are where mould enters
+- id: pist_qcintel_vgrid
+  title: Pistachio-derived biochar earns California organic certification (QCIntel, paywalled lead only)
+  url: https://www.qcintel.com/carbon/article/pistachio-derived-biochar-earns-california-organic-certification-41417.html
+  what_it_supports: VGrid Energy Systems (CA) biochar products from pistachio SHELLS certified; only the
+    lead was visible
+- id: pist_ucd_byproducts
+  title: Turning Food Scraps into Opportunities (UC Davis, Byproduct Database pilot)
+  url: https://www.ucdavis.edu/food/news/turning-food-scraps-opportunities
+  what_it_supports: pistachio hull is the largest pistachio byproduct and often discarded; no volume given
+- id: pist_wdr_horizon2020
+  title: Central Valley Water Board WDR R5-2020-0053, Horizon Nut Pistachio Huller, Firebaugh (Fresno
+    Co.)
+  url: https://www.waterboards.ca.gov/centralvalley/board_decisions/adopted_orders/fresno/r5-2020-0053_wdrs.pdf
+  what_it_supports: harvest 30-45 days Aug-Oct; ~50 M lb pistachios/yr; screened hull solids land-applied
+    or shipped for animal feed, compost feedstock, fuel feedstock
+- id: pist_wdr_horizonlh2013
+  title: WDR R5-2013-0006, Horizon Nut LLC / Global Ag Properties, Lost Hills (Kern Co.)
+  url: https://www.waterboards.ca.gov/rwqcb5/board_decisions/adopted_orders/kern/r5-2013-0006.pdf
+  what_it_supports: hulls settling in ponds thinly applied to up to 400 acres; ~500 tons sludge per pond
+    cleaning (every 2 yrs); pre-clean debris composted or sold as commodity
+- id: pist_wdr_king2015
+  title: WDR R5-2015-0082, Wonderful Pistachios & Almonds, King Pistachio Processing Plant, Lost Hills
+    (Kern Co.)
+  url: https://www.waterboards.ca.gov/rwqcb5/board_decisions/adopted_orders/kern/r5-2015-0082.pdf
+  what_it_supports: 150-200 M lb pistachios processed per harvest; screened hull solids shipped to local
+    farms as cattle feed
+- id: pist_wdr_monarch2017
+  title: WDR R5-2017-0079, Monarch Nut Company pistachio and blueberry facility, Delano (Tulare Co.)
+  url: https://www.waterboards.ca.gov/rwqcb5/board_decisions/adopted_orders/tulare/r5-2017-0079.pdf
+  what_it_supports: ~5-week harvest from early Sept; hull solids screened from wastewater and sold as
+    cattle feed; shift to dry hulling
+- id: pist_wdr_setton2009
+  title: WDR R5-2009-0050, Setton Properties Pistachio Processing Plant No. 2, near Terra Bella (Tulare
+    Co.)
+  url: https://www.waterboards.ca.gov/rwqcb5/board_decisions/adopted_orders/tulare/r5-2009-0050.pdf
+  what_it_supports: hulls/screenings/empty shells hauled to local dairies as cattle feed; operates mid-Aug
+    to mid-Oct
+- id: pist_westernag2025
+  title: U.S. Pistachio Industry Hits Record Highs with Massive 2025 Crop (Western Ag Network)
+  url: https://westernagnetwork.com/us-pistachio-industry-hits-record-highs-with-massive-2025-crop
+  what_it_supports: 2025 US crop ~1.57 B lb nuts, 520,000 bearing acres (US figure; nearly all CA)
+- id: shells_abc_emerging
+  title: Emerging markets and new uses generate value for hulls, shells (Almond Board of California)
+  url: https://www.almonds.org/almond-industry/industry-news/emerging-markets-and-new-uses-generate-value-hulls-shells
+  what_it_supports: 2020 shell volume 1.9B lb; shells traditionally dairy bedding; ~50% carbon; North
+    State Hulling biochar/pyrolysis; WPC composites; shell price not given
+- id: shells_biochartoday_sitos
+  title: The Sitos Group and Treehouse California Almonds establish biochar infrastructure to replace
+    agricultural burning (Biochar Today)
+  url: https://biochartoday.com/news/the-sitos-group-and-treehouse-california-almonds-establish-biochar-infrastructure-to-replace-agricultural-burning
+  what_it_supports: Tulare County slow pyrolysis ~24,000 t shells/yr -> ~8,000 t biochar/yr, $9M, ORC
+    power, biochar offtake secured
+- id: shells_ceres2018
+  title: 'Torrefaction: another word for a huge new market for almond shells (CeresAI, 2018-01-02)'
+  url: https://ceres.ai/blog/torrefaction-another-word-for-a-huge-new-market-for-almond-shells
+  what_it_supports: shells historically dairy bedding, price ~$5/ton (2018), target $50/ton, torrefied
+    shell plastics (USDA Chiou, Grow Plastics, FDS)
+- id: shells_chen2010
+  title: Utilization of almond residues (Chen et al., Int J Agric & Biol Eng 3(4), 2010)
+  url: https://ijabe.org/index.php/ijabe/article/download/348/pdf
+  what_it_supports: Table 2 shell C 50.5, N 0.21, ash 0.6, moisture 3.3, HHV 18.2 MJ/kg; hull HHV 16.2,
+    ash 3.6; shells high fouling; activated carbon/absorbent/composite uses
+- id: shells_giannini2026
+  title: Almond Shell Circularity in California's Bioeconomy (Khalsa, Zilberman, Brown), ARE Update 29(5),
+    2026
+  url: https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf
+  what_it_supports: 2024-25 CA shell/hull/kernel volumes; shell K content 1.7% dry; K fertilizer value
+    ~$35-38/ton; haul $0.20-0.40 per ton-mile; spreading $15/ton; shells "bedding or biomass" low net
+    value; hull feed price $76-106/ton
+- id: shells_wasteadv2016
+  title: Solar is in, biomass energy is out, and farmers are struggling to dispose of woody waste (Waste
+    Advantage, Jan 2016)
+  url: https://wasteadvantagemag.com/solar-is-in-biomass-energy-is-out-and-farmers-are-struggling-to-dispose-of-woody-waste/
+  what_it_supports: CA biomass plant closures (Delano, Rio Bravo); one grower had sent ~50,000 t/yr of
+    shells to those plants
+- id: shells_westbio2018
+  title: Pros and Cons of Thermal Technologies for Almond Biomass Conversion (West Biofuels, M. Summers,
+    June 2018), Almond Board
+  url: https://www.almonds.org/sites/default/files/6.%20WB_Bioenergy_Presentation_Matt_Summers.pdf
+  what_it_supports: 650,000 t/yr shell potential; current markets "<$20/ton"; shell ash 3.6%; biochar
+    $250-2,000+/BDT wholesale; BioMAT $187/MWh; slagging risk of shells in combustion; no long-term offtake
+- id: team_yields_2026
+  title: BioCycle team literature review of measured process yields (Nov 14, 2026); paper links pending
+  url: ''
+  what_it_supports: 'Measured yields: shell biochar 39.5±5.5% (525 °C pilot), 65% (300 °C lab); grape
+    pomace phenolics 63.3 mg GAE/g dry, methane 0.125 Nm³ CH4/kg COD; tomato pomace lycopene 84.6% extracted
+    (48.4% recovered), methane 320 NmL CH4/g VS; pistachio hull pectin 18.13%, methane 62.6 mL CH4/g;
+    mango peel butanol 15.42 g/L broth, biochar 43.2% (300 °C) to 27.0% (700 °C); kiwi peel pectin 17.97%,
+    crude extract 7–7.5% fresh; orange peel pectin 32.8%, ethanol 0.495 g/g sugar.'
+- id: tomato_agalert2022
+  title: 'Ag Alert, May 18 2022 (California Farm Bureau): CDFA by-product diversion'
+  url: https://california-farm-bureau-publications.cfbf.com/view/936343037/6
+  what_it_supports: Tomato pomace listed as eligible by-product; reduced commercial feed license fee for
+    firms diverting human-food by-products to feed
+- id: tomato_feedipedia_689
+  title: Tomato pomace, tomato skins and tomato seeds (Feedipedia, dehydrated entry)
+  url: https://feedipedia.org/node/689
+  what_it_supports: Dehydrated pomace DM 92.7%; CP 20.5, fat 11, NDF 55.3, lignin 26.3, ash 4.8 %DM; P
+    5.2, K 10.1, Mg 2.2 g/kg; ensiled up to 12% of dairy diet DM; fresh pomace spoils in <2 days, 'often
+    over 80%' moisture
+- id: tomato_foods2022_europepmc
+  title: A Comprehensive Overview of Tomato Processing By-Product Valorization (Foods 2022, 12:166) via
+    Europe PMC record
+  url: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.3390/foods12010166&resultType=core&format=json
+  what_it_supports: 'Identity/abstract summary of user''s MDPI link: lycopene, polyphenols, cutin, pectin,
+    oil, protein targets; biogas from residual biomass. Numeric tables not loaded.'
+- id: tomato_morningstar_pomace_brochure
+  title: Tomato Pomace brochure (Morning Star)
+  url: https://www.morningstarco.com/wp-content/uploads/2019/08/High-Fiber-Tomato-Pulp-and-Tomato-Pomace_Morning-Star.pdf
+  what_it_supports: Morning Star sells wet pomace (65% moisture avg), dry/ground/extruded (<10%), seed
+    meal (cold pressed of oil); ~30% of CA processed tomato tonnage; plants in Santa Nella, Los Banos,
+    Williams
+- id: tomato_morningstar_powders_brochure
+  title: Dehydrated Fruit and Vegetable Powders brochure (Morning Star)
+  url: https://www.morningstarco.com/wp-content/uploads/2023/05/Pomace-Sales-Brochure-2023.pdf
+  what_it_supports: Morning Star runs mechanical and solar drying and a triple-pass natural-gas drum dryer;
+    peel and seed separation available
+- id: tomato_pmc8928129
+  title: Enhancing bioaccessibility of lycopene from tomato processing byproducts via supercritical CO2
+    extraction (Ubeyitogullari & Ciftci 2022)
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8928129
+  what_it_supports: Peel+seed byproducts ~3-5% of tomato weight; peel lycopene 2.4 mg/g (hexane), none
+    in seed; seed oil 8.2% (intro) vs 25.9% (results) conflict; byproducts disposed or fed to animals
+- id: tomato_tomatonews2025
+  title: California 2025 forecast (Tomato News)
+  url: https://tomatonews.com/california-2025-forecast-rises-to-10-million-tonnes/
+  what_it_supports: NASS forecast 11.0M short tons contracted CA processing tomatoes 2025 (forecast, not
+    final); harvest began first week of July
+- id: tomato_ucdavis_allison2017
+  title: Valorization of tomato pomace by sequential lycopene extraction and anaerobic digestion (Allison
+    & Simmons, Biomass & Bioenergy 2017)
+  url: https://simmons.ucdavis.edu/sites/g/files/dgvnsk866/files/2018-10/allison%20simmons%202017.pdf
+  what_it_supports: At least 60 kt pomace/season (2007 basis), much to landfill or animal feed; paste
+    output +15%/yr avg since; fresh pomace 56.12% moisture; VS 97.1%; lycopene 293-476 ug/g dry (frozen
+    vacuum-dried only); hexane extractives 13.55% of dry mass; methane 108 mL/g VS raw; extraction lowers
+    CH4 ~27%
+- id: tomato_wikipedia
+  title: Tomato pomace (Wikipedia; uncited claims, corroboration only)
+  url: https://en.wikipedia.org/wiki/Tomato_pomace
+  what_it_supports: 'In California most pomace goes to dairies as cattle feed (Midwest: landfill); ~75%
+    water, shipping cost high; skin-heavy so pesticide residue potential'
+- id: nutr_feedipedia_almond_hulls
+  title: Feedipedia, Almond hulls
+  url: https://feedipedia.org/node/11756
+  what_it_supports: CP 5.7% DM; Ca 3.2, P 1.8 (SD 3.2, noisy), K 26, Mg 1.4 g/kg DM

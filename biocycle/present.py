@@ -87,10 +87,24 @@ def slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
 
 
-def lot_from_form(form: Mapping[str, Any]) -> Lot:
+def vs_label(baseline_name: str) -> str:
+    """Column/figure label comparing with the baseline, e.g. 'vs. selling to local dairy'."""
+    name = baseline_name[0].lower() + baseline_name[1:] if baseline_name else "today's route"
+    return f"vs. {name}"
+
+
+def short_label(baseline_name: str, width: int = 28) -> str:
+    """The baseline's name, shortened for the chart's reference line ('Sell to local dairy' ->
+    'Local dairy')."""
+    name = re.sub(r"^(sell (to (the )?)?)", "", baseline_name, flags=re.I) or baseline_name
+    name = name[0].upper() + name[1:]
+    return name if len(name) <= width else name[:width - 1] + "…"
+
+
+def lot_from_form(form: Mapping[str, Any], default_tons: float = 1000.0) -> Lot:
     tons = parse_number(form.get("tons"))
     haul = parse_number(form.get("haul_rate"))
-    tons = 1000.0 if tons is None or tons < 1 else tons
+    tons = default_tons if tons is None or tons < 1 else tons
     haul = DEFAULT_HAUL_RATE if haul is None or haul < 0 else haul
     afla = str(form.get("aflatoxin") or "unknown").lower()
     return Lot(
@@ -138,8 +152,7 @@ def overrides_from_form(form: Mapping[str, Any], outlets: dict[str, Outlet]) -> 
             cp_prices[name] = v
     overrides: dict[str, Override] = {}
     for o in outlets.values():
-        price = parse_number(form.get(f"price__{o.id}"))
-        price = None if price is None or price < 0 else price
+        price = parse_number(form.get(f"price__{o.id}"))  # negative = a fee you pay
         miles = edited_value(form.get(f"miles__{o.id}"), o.default_miles)
         processing = edited_value(form.get(f"processing__{o.id}"), o.processing_cost_per_ton)
         cps = {n: p for n, p in cp_prices.items() if any(c.name == n for c in o.coproducts)}
@@ -175,8 +188,9 @@ def buyers_from_rows(
                           "to include them.")
             continue
         price, max_tons, miles = nums
-        if min(price, max_tons, miles) < 0:
-            errors.append(f"Row {i} ({name}): price, max tons and miles can't be negative.")
+        if min(max_tons, miles) < 0:
+            errors.append(f"Row {i} ({name}): max tons and miles can't be negative "
+                          "(a negative quote is fine: it's a fee you pay).")
             continue
         b = Buyer(name, str(r["outlet_id"]), price, max_tons, miles, str(r.get("notes") or ""))
         buyers.append(b)
@@ -326,8 +340,8 @@ def _nice_step(span: float) -> float:
     return 10 * mag
 
 
-def chart_svg(df: pd.DataFrame) -> str:
-    """Horizontal bars of expected net $/ton with low–high whiskers and a local-dairy line.
+def chart_svg(df: pd.DataFrame, baseline_label: str = "Local dairy", noun: str = "hulls") -> str:
+    """Horizontal bars of expected net $/ton with low–high whiskers and a baseline line.
 
     One series, so no legend; the ranked table is the table view. Bars for outlets that fail
     a quality check are drawn in the muted color and labelled; outlets needing a quote get a
@@ -351,8 +365,8 @@ def chart_svg(df: pd.DataFrame) -> str:
         f'aria-labelledby="chart-title chart-desc" preserveAspectRatio="xMinYMin meet">',
         '<title id="chart-title">Expected net value per ton, by option</title>',
         '<desc id="chart-desc">Bars show expected net dollars per ton after processing and '
-        'hauling; whiskers show the low-to-high range; the dashed line is selling to the local '
-        'dairy. The same numbers are in the table above.</desc>',
+        'hauling; whiskers show the low-to-high range; the dashed line is today\'s usual route '
+        f'({escape(baseline_label)}). The same numbers are in the table above.</desc>',
     ]
     # grid + ticks
     t = lo
@@ -365,7 +379,7 @@ def chart_svg(df: pd.DataFrame) -> str:
                      f'text-anchor="middle">{escape(money(t))}</text>')
         t += step
     parts.append(f'<text class="axis-title" x="{LABEL_W + plot_w / 2:.1f}" y="{height - 6}" '
-                 'text-anchor="middle">Expected net $ per ton of hulls</text>')
+                 f'text-anchor="middle">Expected net $ per ton of {escape(noun)}</text>')
 
     bar_h = 18
     for i, r in enumerate(df.to_dict("records")):
@@ -379,7 +393,7 @@ def chart_svg(df: pd.DataFrame) -> str:
                      f'text-anchor="end">{label}</text>')
         if r["needs_quote"]:
             parts.append(f'<text class="note" x="{x(0) + 8:.1f}" y="{cy + 4:.1f}">Needs a quote '
-                         f'· beats local dairy above {escape(money(r["break_even_price"]))}/t'
+                         f'· beats today\'s route above {escape(money(r["break_even_price"]))}/t'
                          '</text>')
             continue
         v = r["net_expected"]
@@ -409,6 +423,6 @@ def chart_svg(df: pd.DataFrame) -> str:
     parts.append(f'<line class="baseline" x1="{bx:.1f}" x2="{bx:.1f}" y1="{TOP - 10}" '
                  f'y2="{height - BOTTOM}"/>')
     parts.append(f'<text class="baseline-label" x="{bx:.1f}" y="{TOP - 16}" '
-                 f'text-anchor="middle">Local dairy {escape(money(base))}/t</text>')
+                 f'text-anchor="middle">{escape(baseline_label)} {escape(money(base))}/t</text>')
     parts.append("</svg>")
     return "".join(parts)

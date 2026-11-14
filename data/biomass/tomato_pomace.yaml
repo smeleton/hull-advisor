@@ -1,0 +1,353 @@
+# Tomato pomace: profile and outlets. Generated from verified research notes (scratchpad tools/build_biomass.py), then reviewed.
+# Prices are $/short ton as delivered (negative = you pay, e.g. a gate fee); for outlets with mass_yield < 1 the price is per ton of product.
+# Tiers: sourced (cited page we loaded), user (your team's figures, links pending), placeholder (demo value).
+
+id: tomato_pomace
+name: Tomato pomace
+noun: pomace
+producers: Tomato processors
+unit_label: short tons of tomato pomace as delivered
+season: July-Oct (harvest began first week of July in 2025 [tomato_tomatonews2025]; end month placeholder)
+ca_volume: Not published; roughly 3–5% of the processing-tomato crop.
+summary: Peels and seeds from processing tomatoes, sold wet at about 65% moisture [tomato_morningstar_pomace_brochure];
+  spoils in under two days [tomato_feedipedia_689].
+baseline: tomato_feed_wet
+market_data: false
+must_place: true
+default_tons: 1000
+moisture_default: 65
+ef_material: fruits_vegetables
+rules:
+  moisture_typical:
+  - 56
+  - 65
+  moisture_note: '[tomato_ucdavis_allison2017]'
+  moisture_markets:
+  - feed
+nutrients_pct_dry:
+  N:
+    value: 3.3
+    tier: sourced
+    source_id: tomato_feedipedia_689
+  P:
+    value: 0.52
+    tier: sourced
+    source_id: tomato_feedipedia_689
+  K:
+    value: 1.0
+    tier: sourced
+    source_id: tomato_feedipedia_689
+  Mg:
+    value: 0.22
+    tier: sourced
+    source_id: tomato_feedipedia_689
+composition:
+- component: moisture (wet pomace as sold)
+  value: '65'
+  basis: wet
+  source_id: tomato_morningstar_pomace_brochure
+  tier: sourced
+- component: crude protein (dehydrated)
+  value: '20.5'
+  basis: dry
+  source_id: tomato_feedipedia_689
+  tier: sourced
+- component: fat (ether extract, dehydrated)
+  value: '11'
+  basis: dry
+  source_id: tomato_feedipedia_689
+  tier: sourced
+- component: NDF
+  value: '55.3'
+  basis: dry
+  source_id: tomato_feedipedia_689
+  tier: sourced
+- component: ash
+  value: '4.8'
+  basis: dry
+  source_id: tomato_feedipedia_689
+  tier: sourced
+- component: volatile solids (of total solids)
+  value: '97.1'
+  basis: dry
+  source_id: tomato_ucdavis_allison2017
+  tier: sourced
+- component: lycopene (ug/g dry; lab, frozen vacuum-dried sample)
+  value: 293-476
+  basis: dry
+  source_id: tomato_ucdavis_allison2017
+  tier: sourced
+- component: seed oil (of seed weight; two values in same paper)
+  value: 8.2 or 25.9
+  basis: dry
+  source_id: tomato_pmc8928129
+  tier: sourced
+quality_notes:
+- Fresh pomace spoils in under 2 days; must be fed, dried or ensiled quickly [tomato_feedipedia_689].
+  Molds if stored more than several days (search summary only, not cited).
+- Ensiled pomace tested up to 12% of dairy diet DM with no change in intake or milk yield [tomato_feedipedia_689].
+- Skin-rich, so potential pesticide residues higher than the fruit (uncited Wikipedia claim) [tomato_wikipedia].
+- Shipping cost high because of water weight [tomato_wikipedia].
+- Lycopene is lost by oven/solar drying (below detection in solar-dried samples) [tomato_ucdavis_allison2017].
+caveats: []
+source_ids:
+- tomato_feedipedia_689
+- tomato_morningstar_pomace_brochure
+directory_groups:
+- key: feed
+  title: Feed buyers
+  outlet: tomato_feed_wet
+  outlets:
+  - tomato_feed_wet
+  - tomato_feed_dried
+  blurb: Companies that take tomato pomace for these uses.
+  empty: ''
+- key: energy
+  title: Energy, biochar and digesters
+  outlet: tomato_ad_biogas
+  outlets:
+  - tomato_ad_biogas
+  blurb: Companies that take tomato pomace for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: food
+  title: Food ingredient makers
+  outlet: tomato_extraction
+  outlets:
+  - tomato_extraction
+  blurb: Companies that take tomato pomace for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: soil
+  title: Composters and soil
+  outlet: tomato_compost
+  outlets:
+  - tomato_compost
+  - tomato_biochar
+  blurb: Companies that take tomato pomace for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: materials
+  title: Materials makers
+  outlet: tomato_cutin_materials
+  outlets:
+  - tomato_cutin_materials
+  blurb: Companies that take tomato pomace for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+outlets:
+- id: tomato_feed_wet
+  name: Wet pomace to dairy cattle feed
+  description: Pomace sold direct off the factory line (about 65% moisture) to nearby dairies and blended
+    or ensiled into rations.
+  status: established
+  market: feed
+  price_low: 0
+  price_high: 8
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 40
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Feed within ~2 days or ensile [tomato_feedipedia_689]
+  - Ensiled pomace tested to 12% of dairy diet DM [tomato_feedipedia_689]
+  - Feed license/tonnage tax apply to feed firms; tomato pomace eligible for reduced fee [tomato_agalert2022]
+  risks:
+  - Spoilage and mold in storage [tomato_feedipedia_689]
+  - Value drops with distance because of water weight [tomato_wikipedia]
+  - Seasonal glut July-Oct
+  source_ids:
+  - tomato_morningstar_pomace_brochure
+  - tomato_ucdavis_allison2017
+  - tomato_feedipedia_689
+  - tomato_agalert2022
+  - tomato_wikipedia
+- id: tomato_feed_dried
+  name: Dried / ground / extruded pomace ingredient
+  description: Pomace dried (sun or gas drum dryer) to <10% moisture, ground or extruded, sold as shelf-stable
+    feed or food fiber and protein ingredient.
+  status: established
+  market: feed
+  price_low: 60
+  price_high: 100
+  price_tier: placeholder
+  mass_yield: 0.39
+  haul_product: true
+  processing_cost_per_ton: 38
+  processing_tier: placeholder
+  default_miles: 120
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Dryer capacity; Morning Star runs solar and gas drum dryers [tomato_morningstar_powders_brochure]
+  - 'Specs: dry <10% moisture, extruded gives kill step [tomato_morningstar_pomace_brochure]'
+  - Drying from about 65% to 10% moisture leaves about 0.39 t of dried pomace per wet ton [tomato_morningstar_pomace_brochure];
+    the price is per ton of dried product.
+  risks:
+  - Drying cost vs price
+  - Largest processor sells the same product directly, so competition [tomato_morningstar_pomace_brochure]
+  source_ids:
+  - tomato_morningstar_pomace_brochure
+  - tomato_morningstar_powders_brochure
+  - tomato_feedipedia_689
+- id: tomato_ad_biogas
+  name: Anaerobic digestion (biogas)
+  description: Pomace (alone or after lycopene extraction) digested for methane; only lab results found,
+    no CA tomato-pomace digester.
+  status: emerging
+  market: energy
+  pathway: digestion
+  price_low: -35
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 30
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - digestate_land_application
+  - struvite
+  - ammonia_stripping
+  requirements:
+  - Digester with solids handling; lab digestion at 55 C for 90 days [tomato_ucdavis_allison2017]
+  - 'Measured methane: 320 NmL CH4 per g of volatile solids; alkaline pretreatment did not raise it [team_yields_2026].
+    Volatile solids are 97% of dry matter [tomato_ucdavis_allison2017]. The digester owner keeps the gas;
+    you get the gate fee.'
+  risks:
+  - No operating CA example found
+  - Lycopene extraction first lowers CH4 ~27% unless extract aqueous fraction is added back [tomato_ucdavis_allison2017]
+  source_ids:
+  - tomato_ucdavis_allison2017
+  - tomato_foods2022_europepmc
+  - both_biocycle_foodres
+- id: tomato_extraction
+  name: Lycopene colorant and seed-oil / seed-meal extraction
+  description: Peels give lycopene oleoresin (natural red colorant), seeds give oil and a protein-rich
+    meal; Morning Star sells cold-pressed seed meal.
+  status: emerging
+  market: food
+  pathway: extraction
+  price_low: 0
+  price_high: 10
+  price_tier: placeholder
+  processing_cost_per_ton: 90
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts:
+  - name: lycopene (extract-basis)
+    yield_low: 0.00013
+    yield_high: 0.00021
+    yield_tier: sourced
+    unit_price_per_lb: 300
+    unit_price_tier: placeholder
+    source_ids:
+    - tomato_ucdavis_allison2017
+    - tomato_pmc8928129
+  - name: tomato seed oil
+    yield_low: 0.005
+    yield_high: 0.02
+    yield_tier: placeholder
+    unit_price_per_lb: 2.0
+    unit_price_tier: placeholder
+    source_ids:
+    - tomato_pmc8928129
+    - tomato_morningstar_pomace_brochure
+  requirements:
+  - Fresh or frozen/vacuum-dried feed; oven or solar drying destroys lycopene [tomato_ucdavis_allison2017]
+  - Lycopene food additive approval covers tomato-derived lycopene [tomato_ucdavis_allison2017]
+  - Supercritical CO2 extracted 84.6% of the lycopene, and 48.4% of that was recovered in the extract
+    [team_yields_2026].
+  risks:
+  - Reported lycopene content varies ~100x between studies [tomato_ucdavis_allison2017]
+  - No independent CA buyer found; Morning Star is captive producer
+  source_ids:
+  - tomato_ucdavis_allison2017
+  - tomato_pmc8928129
+  - tomato_morningstar_pomace_brochure
+  - tomato_foods2022_europepmc
+- id: tomato_compost
+  name: Compost / land application
+  description: Pomace composted or spread on ag land; used where no dairy is nearby.
+  status: established
+  market: soil
+  pathway: compost
+  price_low: -40
+  price_high: 0
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 25
+  miles_tier: placeholder
+  coproducts: []
+  nutrient_routes:
+  - compost_retained
+  requirements:
+  - Rural F&V solids often land-applied [both_biocycle_foodres]
+  risks:
+  - Urban sites pay landfill/discharge fees [both_biocycle_foodres]
+  - Wet, odorous in summer heat
+  - 2026 California gate fees for green waste run about $35–115/ton [calrecycle_stanislaus_fees_2026];
+    wet fruit residues may cost more. Get a quote from your composter.
+  source_ids:
+  - both_biocycle_foodres
+  - tomato_ucdavis_allison2017
+- id: tomato_cutin_materials
+  name: Cutin and pectin biomaterials (films, coatings)
+  description: Peel cutin and pectin extracted for biodegradable coatings; research stage, no CA buyer
+    found.
+  status: experimental
+  market: materials
+  pathway: materials
+  price_low: null
+  price_high: null
+  price_tier: placeholder
+  processing_cost_per_ton: 120
+  processing_tier: placeholder
+  default_miles: 150
+  miles_tier: placeholder
+  coproducts:
+  - name: cutin / pectin concentrate
+    yield_low: 0.003
+    yield_high: 0.01
+    yield_tier: placeholder
+    unit_price_per_lb: 1.0
+    unit_price_tier: placeholder
+    source_ids:
+    - tomato_foods2022_europepmc
+  requirements:
+  - Peel separated from seeds (Morning Star offers peel/seed separation) [tomato_morningstar_powders_brochure]
+  risks:
+  - No commercial CA demand identified
+  source_ids:
+  - tomato_foods2022_europepmc
+  - tomato_morningstar_powders_brochure
+- id: tomato_biochar
+  name: Biochar / fertilizer by pyrolysis
+  description: Dried pomace pyrolyzed to biochar; named as a product in the user's review, no CA operator
+    found.
+  status: experimental
+  market: soil
+  pathway: biochar
+  price_low: -20
+  price_high: 10
+  price_tier: placeholder
+  processing_cost_per_ton: 90
+  processing_tier: placeholder
+  default_miles: 100
+  miles_tier: placeholder
+  coproducts:
+  - name: biochar
+    yield_low: 0.06
+    yield_high: 0.12
+    yield_tier: placeholder
+    unit_price_per_lb: 0.1
+    unit_price_tier: placeholder
+    source_ids:
+    - tomato_foods2022_europepmc
+  requirements:
+  - Drying before pyrolysis
+  risks:
+  - No price or buyer loaded; high-VS (97%) feed leaves little ash [tomato_ucdavis_allison2017]
+  source_ids:
+  - tomato_foods2022_europepmc
+  - tomato_ucdavis_allison2017

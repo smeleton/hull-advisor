@@ -1,0 +1,315 @@
+# Orange peels: profile and outlets. Generated from verified research notes (scratchpad tools/build_biomass.py), then reviewed.
+# Prices are $/short ton as delivered (negative = you pay, e.g. a gate fee); for outlets with mass_yield < 1 the price is per ton of product.
+# Tiers: sourced (cited page we loaded), user (your team's figures, links pending), placeholder (demo value).
+
+id: orange_peels
+name: Orange peels
+noun: peel
+producers: Citrus juice plants and packers
+unit_label: short tons of orange peels as delivered
+season: 'Nov-Oct, plants run most of the year: navel (winter-spring) then valencia; Tipton plant ''operations
+  change throughout the year'' [orange_rwqcb_tipton]. Month detail is placeholder.'
+ca_volume: Not published statewide; the Tipton juice plant alone processes 250,000–350,000 tons of fruit
+  a year [orange_rwqcb_tipton].
+summary: Peel, pulp and seeds from juice plants, about 80% water [orange_vincent_waste]. California juice-plant
+  peel goes to cattle feed [orange_rwqcb_tipton].
+baseline: orange_cattle_feed_wet
+market_data: false
+must_place: true
+default_tons: 1000
+moisture_default: 78
+ef_material: fruits_vegetables
+rules:
+  moisture_typical:
+  - 74
+  - 80
+  moisture_note: '[orange_vincent_waste]'
+  moisture_markets:
+  - feed
+nutrients_pct_dry:
+  N:
+    value: 1.1
+    tier: sourced
+    source_id: orange_feedipedia
+  P:
+    value: 0.1
+    tier: sourced
+    source_id: orange_feedipedia
+  K:
+    value: 0.94
+    tier: sourced
+    source_id: nutr_feedipedia_citrus_pulp_dried
+  Mg:
+    value: 0.13
+    tier: sourced
+    source_id: nutr_feedipedia_citrus_pulp_dried
+composition:
+- component: dry matter, dried pulp
+  value: '90.3'
+  basis: wet
+  source_id: orange_feedipedia
+  tier: sourced
+- component: crude protein
+  value: '7'
+  basis: dry
+  source_id: orange_feedipedia
+  tier: sourced
+- component: NDF (fibre)
+  value: '21.6'
+  basis: dry
+  source_id: orange_feedipedia
+  tier: sourced
+- component: total sugars
+  value: '24.4'
+  basis: dry
+  source_id: orange_feedipedia
+  tier: sourced
+- component: ether extract (fat)
+  value: '2.5'
+  basis: dry
+  source_id: orange_feedipedia
+  tier: sourced
+- component: ash
+  value: '6.9'
+  basis: dry
+  source_id: orange_feedipedia
+  tier: sourced
+- component: press liquor, fraction of peel weight
+  value: '0.33'
+  basis: wet
+  source_id: orange_vincent_waste
+  tier: sourced
+quality_notes:
+- Spoils quickly raw; the same vendor page describes lime + pressing + sealed 1-ton bags and ~1 month
+  ensiling for storage [orange_vincent_waste].
+- Ensiling removes up to >70% of d-limonene and keeps up to ~90% of biomethane yield [orange_ad_ensiling].
+- 'd-limonene inhibits anaerobic digestion: IC50 423-669 mg/L, reversible [orange_ad_limonene].'
+- 'Cattle: dairy diet inclusion <20% of DM, intake drops >24%; beef 20-30% DM [orange_feedipedia].'
+- 'Pesticide residue and mold not documented in sources loaded (placeholder concern: confirm with buyer).'
+caveats:
+- 'Directory is thin: 4 companies, all orange or generic organics. ZERO companies for mango and kiwi peel
+  specifically (no CA processor, flour maker or extractor found).'
+- 'Kiwi: CA grows 40,600 t (2025) but sells mostly fresh; the only UC page on processing (UC Small Farms,
+  1990) returned 403 and was NOT loaded. Peel volume is likely small; treat as pilot-scale.'
+- 'Orange: statewide peel tonnage is unknown. 285,000 t/yr (Ventura Coastal to dairies) rests on a search-result
+  excerpt only (page 403); the Tipton fruit throughput (250-350k t) is from a loaded 2012-14 order and
+  likely outdated.'
+- 'Orange baseline price is a placeholder: no loaded page gives a CA wet-peel price. Dried pulp pellet
+  price is placeholder too (trade-site 2026 quotes of $210-295/MT seen only in an unloaded excerpt).'
+source_ids:
+- orange_rwqcb_tipton
+- orange_vincent_waste
+directory_groups:
+- key: feed
+  title: Feed buyers
+  outlet: orange_cattle_feed_wet
+  outlets:
+  - orange_cattle_feed_wet
+  - orange_dried_pulp_pellets
+  blurb: Companies that take orange peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: chemicals
+  title: Extract and ingredient makers
+  outlet: orange_limonene_recovery
+  outlets:
+  - orange_limonene_recovery
+  blurb: Companies that take orange peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: food
+  title: Food ingredient makers
+  outlet: orange_pectin_fiber
+  outlets:
+  - orange_pectin_fiber
+  blurb: Companies that take orange peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: energy
+  title: Energy, biochar and digesters
+  outlet: orange_anaerobic_digestion
+  outlets:
+  - orange_anaerobic_digestion
+  - orange_ethanol
+  blurb: Companies that take orange peels for these uses.
+  empty: No verified California company listed yet (checked Nov 14, 2026). Ask local operators directly.
+- key: soil
+  title: Composters and soil
+  outlet: orange_compost
+  outlets:
+  - orange_compost
+  blurb: Companies that take orange peels for these uses.
+  empty: ''
+outlets:
+- id: orange_cattle_feed_wet
+  name: Sell pressed/ensiled peel wet to dairies and cattle feeders
+  description: Baseline route; peel is limed, pressed and hauled (or bagged) to dairies and feed mixers.
+  status: established
+  market: feed
+  price_low: -5
+  price_high: 10
+  price_tier: placeholder
+  processing_cost_per_ton: 3
+  processing_tier: placeholder
+  default_miles: 40
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Dairy inclusion below ~20% of ration DM; intake falls above ~24% [orange_feedipedia]
+  - Press liquor is about 1/3 of peel weight and needs wastewater handling [orange_vincent_waste]
+  risks:
+  - Raw peel spoils; ensiling needs ~1 month [orange_vincent_waste]
+  - 'Buyer concentration: one or two firms handle most juice-plant peel [orange_rwqcb_tipton]'
+  source_ids:
+  - orange_rwqcb_tipton
+  - orange_vincent_waste
+  - orange_feedipedia
+  - orange_ars_cows
+  - ca_agproud_byproducts
+- id: orange_dried_pulp_pellets
+  name: Dry and pelletize into citrus pulp pellets
+  description: Press, dry from ~80% to ~11% moisture and pellet for storage and shipping.
+  status: emerging
+  market: feed
+  price_low: 150
+  price_high: 200
+  price_tier: placeholder
+  mass_yield: 0.23
+  haul_product: true
+  processing_cost_per_ton: 45
+  processing_tier: placeholder
+  default_miles: 60
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Air permit for dryer; California dryers were shut down for environmental reasons [orange_vincent_waste]
+  - Drying from about 80% to 11% moisture leaves 0.20–0.26 t of pellets per wet ton [orange_feedipedia];
+    the price is per ton of pellets (demo value).
+  risks:
+  - 'At placeholder prices ~$36/wet ton gross vs ~$45 drying cost: likely negative. This is consistent
+    with CA plants not drying [orange_vincent_waste].'
+  source_ids:
+  - orange_feedipedia
+  - orange_vincent_waste
+- id: orange_limonene_recovery
+  name: Recover d-limonene / peel oil, residue to feed
+  description: Steam-distill or recover peel oil before feeding the residue; usually done inside the juice
+    plant.
+  status: established
+  market: chemicals
+  price_from: orange_cattle_feed_wet
+  processing_cost_per_ton: 12
+  processing_tier: placeholder
+  default_miles: 40
+  miles_tier: placeholder
+  coproducts:
+  - name: d-limonene
+    yield_low: 0.002
+    yield_high: 0.005
+    yield_tier: placeholder
+    unit_price_per_lb: 3.0
+    unit_price_tier: placeholder
+    source_ids:
+    - orange_limonene_price
+  requirements:
+  - Vapor recovery; d-limonene is volatilised in drying and lost without it (placeholder note)
+  risks:
+  - Price is cyclic and tied to citrus crop size [orange_limonene_price]
+  - The d-limonene price ($1.50–5/lb) comes from a 2012 trade article we could not reload; treat it as
+    a demo value.
+  source_ids:
+  - orange_limonene_price
+- id: orange_pectin_fiber
+  name: Pectin or citrus fiber extraction
+  description: Wash, dry and mill peel into pectin-grade peel or citrus fibre.
+  status: experimental
+  market: food
+  price_low: null
+  price_high: null
+  price_tier: placeholder
+  processing_cost_per_ton: 120
+  processing_tier: placeholder
+  default_miles: 150
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Wash-water disposal (sugar-laden) was the reason CA washers stopped [orange_vincent_pectin]
+  - Pectin yield 32.8% of dry peel [team_yields_2026].
+  risks:
+  - No operating US pectin-peel buyer found [orange_vincent_pectin]
+  source_ids:
+  - orange_vincent_pectin
+- id: orange_anaerobic_digestion
+  name: Anaerobic digestion (ensiled or limonene-stripped)
+  description: Digest peel for biogas at a food-waste or wastewater digester.
+  status: emerging
+  market: energy
+  pathway: digestion
+  price_low: -55
+  price_high: -30
+  price_tier: placeholder
+  processing_cost_per_ton: 8
+  processing_tier: placeholder
+  default_miles: 20
+  miles_tier: sourced
+  coproducts: []
+  nutrient_routes:
+  - digestate_land_application
+  - struvite
+  requirements:
+  - Limonene below inhibition range (IC50 423-669 mg/L) [orange_ad_limonene]; ensile first [orange_ad_ensiling]
+  risks:
+  - Methane potential 354-398 L CH4/kg VS [orange_ad_limonene], but few CA digesters accept juice-plant
+    peel
+  source_ids:
+  - orange_ad_ensiling
+  - orange_ad_limonene
+  - ca_anaergia
+- id: orange_compost
+  name: Compost / green-bin organics
+  description: Haul to a permitted compost site; fallback disposal.
+  status: established
+  market: soil
+  pathway: compost
+  price_low: -90
+  price_high: -35
+  price_tier: placeholder
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 50
+  miles_tier: sourced
+  coproducts: []
+  nutrient_routes:
+  - compost_retained
+  requirements:
+  - Acidic, wet peel needs bulking with carbon material (placeholder)
+  risks:
+  - 'Capacity: only a few Central Valley food-scrap sites (e.g., 60,000 t/yr design at Kerman) [ca_biocycle_midvalley]'
+  - 2026 California gate fees for green waste run about $35–115/ton [calrecycle_stanislaus_fees_2026];
+    wet fruit residues may cost more. Get a quote from your composter.
+  source_ids:
+  - ca_anaergia
+  - ca_biocycle_midvalley
+  - ca_calrecycle_slcp
+- id: orange_ethanol
+  name: Ferment peel sugars to ethanol
+  description: Hydrolyze and ferment the peel's sugars to fuel ethanol after removing the d-limonene that
+    inhibits yeast.
+  status: experimental
+  market: energy
+  pathway: digestion
+  price_low: null
+  price_high: null
+  price_tier: placeholder
+  processing_cost_per_ton: 40
+  processing_tier: placeholder
+  default_miles: 50
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+  - Measured 0.495 g ethanol per g of sugar [team_yields_2026], close to the theoretical maximum of about
+    0.51; peel is about 24% sugar on a dry basis [orange_feedipedia].
+  - Remove d-limonene first; it inhibits fermentation [orange_ad_limonene].
+  risks:
+  - No California peel-ethanol plant found; needs a quote from a developer.
+  source_ids:
+  - team_yields_2026
+  - orange_feedipedia
+  - orange_ad_limonene

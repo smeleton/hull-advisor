@@ -19,13 +19,16 @@
     <dd><span class="fig">{{ tons(alloc.tons_allocated) }}</span><span class="unit"> of {{ tons(lot.tons) }}</span></dd>
   </div>
   <div>
-    <dt>Value of one more ton of hulls</dt>
+    <dt>Value of one more ton of {{ biomass.noun }}</dt>
     <dd><span class="fig">{{ money(alloc.lot_marginal, decimals=2) }}</span><span class="unit">/ton</span></dd>
   </div>
 </dl>
-<p class="footnote">For comparison, selling the whole lot to the local dairy at its expected price earns {{ money(local_total) }}.</p>
+<p class="footnote">For comparison, sending the whole lot to today's route ({{ baseline_name|lower }}) at its expected price {{ "earns" if local_total >= 0 else "costs" }} {{ money(local_total|abs) }}.</p>
+{% if alloc.must_place %}
+<p class="footnote">{{ biomass.name }} spoils, so the whole lot is placed even where a buyer charges a fee.</p>
+{% endif %}
 {% if alloc.tons_unallocated > 0.000001 %}
-<p class="callout">{{ tons(alloc.tons_unallocated) }} tons are not allocated: no remaining buyer capacity pays a positive net value.</p>
+<p class="callout">{{ tons(alloc.tons_unallocated) }} tons are not allocated: {{ "the buyers listed can't take the whole lot; add capacity." if alloc.must_place else "no remaining buyer capacity pays a positive net value." }}</p>
 {% endif %}
 <div class="table-wrap">
 <table class="data">
