@@ -1,0 +1,45 @@
+<section class="block feedback" aria-labelledby="fb-h">
+  <h3 class="block-h" id="fb-h">How did this go?</h3>
+  <p class="block-sub">Your answers help us check the numbers against real sales. We save your answers and a copy of these results — no names or contact details.</p>
+  <div class="fb-grid">
+    <fieldset class="fb-q">
+      <legend>Was this useful for deciding what to do with the lot?</legend>
+      <div class="segmented">
+        {% for v, label in [("yes", "Yes"), ("somewhat", "Somewhat"), ("no", "No")] %}
+        <label><input type="radio" name="fb_useful" value="{{ v }}"><span>{{ label }}</span></label>
+        {% endfor %}
+      </div>
+    </fieldset>
+    <label class="field fb-q">
+      <span class="field-label">What will you do next?</span>
+      <select class="cell fb-select" name="fb_intent">
+        <option value="">Choose…</option>
+        {% for k, label in intent_choices.items() %}<option value="{{ k }}">{{ label }}</option>{% endfor %}
+      </select>
+    </label>
+  </div>
+
+  <details class="fb-outcome">
+    <summary>Already sold this lot? Record what you got</summary>
+    <div class="fb-grid fb-grid-4">
+      <label class="field"><span class="field-label">Sold to</span>
+        <select class="cell fb-select" name="fb_outcome_outlet">
+          <option value="">Choose…</option>
+          {% for o in outlets.values() %}<option value="{{ o.id }}">{{ o.name }}</option>{% endfor %}
+        </select></label>
+      <label class="field"><span class="field-label">Price received</span>
+        <span class="input-unit"><span>$</span><input type="number" name="fb_outcome_price" min="0" step="any" inputmode="decimal"><span>/ton</span></span></label>
+      <label class="field"><span class="field-label">Tons sold</span>
+        <span class="input-unit"><input type="number" name="fb_outcome_tons" min="0" step="any" inputmode="decimal"><span>tons</span></span></label>
+      <label class="field"><span class="field-label">One-way miles</span>
+        <span class="input-unit"><input type="number" name="fb_outcome_miles" min="0" step="any" inputmode="decimal"><span>mi</span></span></label>
+    </div>
+  </details>
+
+  <label class="field">
+    <span class="field-label">Anything we got wrong or missed? <span class="muted">(optional)</span></span>
+    <textarea class="fb-comment" name="fb_comment" rows="3" maxlength="2000"></textarea>
+  </label>
+  <p class="fb-actions"><button type="button" class="button" id="send-feedback">Send feedback</button>
+    <span id="feedback-status" role="status" aria-live="polite"></span></p>
+</section>

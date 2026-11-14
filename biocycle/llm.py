@@ -94,25 +94,34 @@ def complete(
     effort: str,
     purpose: str,
     client: anthropic.Anthropic | None = None,
+    model: str = MODEL,
+    json_schema: dict[str, Any] | None = None,
 ) -> LLMResult:
-    """Send one system + user message and return the text with token and cost accounting."""
+    """Send one system + user message and return the text with token and cost accounting.
+
+    `json_schema` turns on structured outputs: the text is then guaranteed to be JSON that
+    validates against the schema.
+    """
     client = client or make_client()
+    output_config: dict[str, Any] = {"effort": effort}
+    if json_schema is not None:
+        output_config["format"] = {"type": "json_schema", "schema": json_schema}
     try:
         response = client.beta.messages.create(
-            model=MODEL,
+            model=model,
             max_tokens=max_tokens,
             system=system,
             messages=[{"role": "user", "content": user}],
-            output_config={"effort": effort},
+            output_config=output_config,
             betas=[LLM_FALLBACK_BETA],
             fallbacks="default",
         )
     except anthropic.AuthenticationError as e:
         raise LLMError("Claude rejected the API key. Set ANTHROPIC_API_KEY in .env.") from e
     except anthropic.PermissionDeniedError as e:
-        raise LLMError(f"This API key can't use {MODEL}.") from e
+        raise LLMError(f"This API key can't use {model}.") from e
     except anthropic.NotFoundError as e:
-        raise LLMError(f"Model {MODEL} was not found.") from e
+        raise LLMError(f"Model {model} was not found.") from e
     except anthropic.RateLimitError as e:
         raise LLMError("Rate limited by the Claude API after retries. Try again shortly.") from e
     except anthropic.APIStatusError as e:
@@ -130,14 +139,15 @@ def complete(
         model=response.model,
         input_tokens=usage.input_tokens,
         output_tokens=usage.output_tokens,
-        cost_usd=estimate_cost(usage, MODEL),
+        cost_usd=estimate_cost(usage, model),
         stop_reason=response.stop_reason,
         request_id=getattr(response, "_request_id", None),
     )
     log_usage(result, purpose)
 
     if response.stop_reason == "refusal":
-        raise LLMError("Claude declined to write this report.")
+        what = "write this report" if purpose == "report" else f"this request ({purpose})"
+        raise LLMError(f"Claude declined to {what}.")
     if response.stop_reason == "max_tokens":
         raise LLMError("The report was cut off at the token limit. Try again.")
     if not result.text.strip():

@@ -74,8 +74,10 @@
       }
     }, 250);
   }
-  form.addEventListener("input", recalc);
-  form.addEventListener("change", recalc);
+  // Feedback fields (fb_*) don't change the results, so they don't trigger a recalculation.
+  const isFeedback = (e) => (e.target.name || "").startsWith("fb_");
+  form.addEventListener("input", (e) => { if (!isFeedback(e)) recalc(); });
+  form.addEventListener("change", (e) => { if (!isFeedback(e)) recalc(); });
   form.addEventListener("submit", (e) => { e.preventDefault(); recalc(); });
 
   // ---------- buyer rows ----------
@@ -90,6 +92,27 @@
     if (!btn) return;
     btn.closest("tr").remove();
     recalc();
+  });
+
+  // ---------- feedback ----------
+  const fbBtn = document.getElementById("send-feedback");
+  const fbStatus = document.getElementById("feedback-status");
+  fbBtn.addEventListener("click", async () => {
+    fbBtn.disabled = true;
+    fbStatus.textContent = "Sending…";
+    try {
+      const res = await fetch("/feedback", { method: "POST", body: new FormData(form) });
+      fbStatus.innerHTML = await res.text();
+      if (res.ok) {
+        form.querySelectorAll('[name^="fb_"]').forEach((el) => {
+          if (el.type === "radio") el.checked = false; else el.value = "";
+        });
+      }
+    } catch (e) {
+      fbStatus.textContent = "Couldn't reach the server. Try again.";
+    } finally {
+      fbBtn.disabled = false;
+    }
   });
 
   // ---------- report ----------

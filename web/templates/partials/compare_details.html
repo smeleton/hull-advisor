@@ -12,7 +12,7 @@
       − hauling {{ money(r.haul_cost) }} <span class="muted">({{ tons(r.miles) }} mi)</span>
       {% if r.coproduct_high > 0 %}+ coproducts {{ money(r.coproduct_low) }}–{{ money(r.coproduct_high) }}{% endif %}
       = <strong>{{ money(r.net_low) }}{% if r.net_high != r.net_low %} to {{ money(r.net_high) }}{% endif %} per ton</strong>.
-      Break-even price vs. local: {{ r.break_even_text }}/ton.
+      {% if r.has_break_even %}To match selling locally, this buyer must pay {{ r.break_even_text }}/ton.{% endif %}
     </p>
     {% endif %}
     {% if r.detail_flags %}

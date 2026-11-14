@@ -31,6 +31,16 @@ cp .env.example .env   # add ANTHROPIC_API_KEY (needed from Phase 3, the AI repo
 .venv/bin/pytest -q
 ```
 
+## Evaluation
+
+See [EVALUATION.md](EVALUATION.md). In short:
+
+```bash
+.venv/bin/python -m evals.run math       # golden cases, invariants, LP cross-check, backtest
+.venv/bin/python -m evals.run report     # AI report graders + LLM judge (calls Claude, capped)
+.venv/bin/python -m evals.run feedback   # in-app usefulness + reported sale outcomes
+```
+
 ## How the numbers work
 
 Per outlet, in $/ton of hulls (r = haul rate in $/ton-mile, miles one-way):

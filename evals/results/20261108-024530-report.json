@@ -1,0 +1,563 @@
+{
+  "report_model": "claude-sonnet-5-5",
+  "judge_model": "claude-opus-5-5",
+  "spent_usd": 0.5926,
+  "max_spend_usd": 1.5,
+  "scenarios": [
+    {
+      "scenario": "default",
+      "description": "Default 1,000 t lot, nothing measured.",
+      "status": "ok",
+      "report": "## Recommendation\n\nOn paper, the best option is to clean the hulls, recover kernels, and sell the cleaned hulls to the local dairy. It nets about $98,000 for the lot ($98 per ton), against $85,000 ($85 per ton) for selling straight to the local dairy. That is $13,000 more ($13 per ton).\n\nTreat this as a lean, not a decision. The gain depends on placeholder numbers for cleaning cost, kernel value, and distance. Selling to the local dairy is the safe fallback, since it is an established market and uses sourced prices.\n\n## How the options compare\n\nNet is per ton after hauling and processing, with kernel value included where it applies. The range runs low to high.\n\n| Option | Net per ton (low\u2013high) | Expected net, 1,000 tons |\n|---|---|---|\n| Clean, recover kernels, sell to local dairy | $80\u2013$116 | $98,000 |\n| Sell to local dairy (baseline) | $70\u2013$100 | $85,000 |\n| Distant dairy market | $41\u2013$71 | $56,000 |\n| Bioenergy feedstock | $7\u2013$27 | $17,000 |\n| Compost or soil amendment | $6\u2013$26 | $16,000 |\n| Hull powder food ingredient | No price | Not ranked |\n\nThe dairy feed price of $76\u2013$106 per ton is sourced [giannini2026], and so is the hauling rate of $0.30 per ton-mile. Distances, cleaning cost, and kernel value are placeholders. The distant dairy price, bioenergy, and compost values are placeholders too.\n\nThe food ingredient option has no price, so I have not ranked it. A buyer quote would need to beat $175 per ton to cover its processing and hauling costs. That is a placeholder-based figure. [gras2026] says hull powder is judged safe for human food but has no public price.\n\n## What could change the answer\n\n- **Cleaning cost.** The cleaning option beats the baseline only if its cost and kernel value hold up. It would still be worthwhile if the local dairy price were below $78 per ton, its break-even. Get an equipment or toll-cleaning quote.\n- **Dairy price swings.** Hull prices have ranged from about $60 per ton in a slump to $130 per ton [farmprogress_low, wcngg2022]. About 97% of hulls go to dairy rations, so buyers have leverage [farmprogress_low].\n- **Distant dairy.** It would need about $160 per ton to match the local dairy, well above its placeholder range. Freight can erase the premium.\n- **Bioenergy and compost.** Their placeholder prices are far below what they would need to compete, so they only make sense if a real quote is much higher.\n\n## Quality and risk checks\n\n- **Aflatoxin is untested.** Test before selling for feed or food. This applies to every option that goes to feed or food.\n- **Moisture and crude fiber are not entered.** Dairy buyers follow the CDFA standard of crude fiber below 15% [wcngg2022]. Test both before committing. Cleaned hulls must also still meet that standard.\n- **Kernel recovery.** Recovered kernels may grade lower than standard kernels. About 1\u20131.3% of hull-pile weight is recoverable kernel [abc_food2025].\n- **Equipment.** The cleaning option needs access to cleaning and kernel-recovery equipment.\n\n## Assumptions and sources\n\nSourced: the dairy feed price range, the hauling rate, the fiber standard, and the price history. Placeholder: all distances, cleaning and processing costs, kernel value, and the prices for distant dairy, bioenergy, compost, and food. Because of this, the ranking depends on placeholder values.\n\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\": https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\": https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026): https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\": https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022): https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test hull quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is clean_and_recover",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "524 words (limit 600)",
+          "score": 524.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 6.8 (limit 10)",
+          "score": 6.8
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 2,
+        "decision_clarity": 4,
+        "uncertainty_honesty": 5,
+        "risk_coverage": 2,
+        "plain_language": 4
+      },
+      "judge_issues": [
+        "\"It would still be worthwhile if the local dairy price were below $78 per ton, its break-even.\" This misstates the payload. The $78 break-even is the hull price at which the cleaning option's net equals the local dairy's expected $85/ton. The cleaning option matches or beats the baseline when its hull price is at least $78, not below it. The sentence is backwards and misleading.",
+        "\"A buyer quote would need to beat $175 per ton to cover its processing and hauling costs.\" This is wrong. Processing ($60) plus hauling ($30) is only $90. The $175 break-even is the price needed to match the local dairy's $85/ton net. A quote between $90 and $175 would cover costs but still lose to the baseline.",
+        "\"Hull powder food ingredient | No price | Not ranked\" and \"I have not ranked it.\" The payload lists it at rank 6, flagged \"needs quote.\" A better wording would be \"ranked last pending a buyer quote.\" This is a minor point.",
+        "\"**Cleaning cost.**\" The bullet mixes the cleaning-cost risk with a garbled break-even explanation, so the main sensitivity (cleaning cost and kernel value are placeholders) is muddled for the reader."
+      ],
+      "judge_pass": false,
+      "judge_model_pass": false,
+      "cost_usd": 0.0797
+    },
+    {
+      "scenario": "high_fiber",
+      "description": "Crude fiber 16%: every feed outlet fails the standard.",
+      "status": "ok",
+      "report": "## Recommendation\n\nDon't commit this lot to a feed buyer yet. At 16% crude fiber, the hulls fail the 15% feed standard [wcngg2022]. That rules out local dairy, distant dairy, and clean-and-recover as the lot stands. Aflatoxin has not been tested, and moisture is not entered.\n\nOf the options that pass the quality check, bioenergy ranks first at about $17 per ton expected, or $17,000 for the lot. Compost or soil amendment is close behind at $16 per ton, or $16,000. Both rest entirely on placeholder prices, so treat this as a fallback, not a plan. Hull powder for food is eligible but has no price, so it is not ranked.\n\nThe practical next step is to test the fiber, aflatoxin, and moisture. Then get quotes. If a re-test or cleaning brings fiber under 15%, local dairy becomes the benchmark again.\n\n## How the options compare\n\nNet is per short ton, after hauling and processing. Local dairy is the baseline.\n\n| Option | Eligible | Expected net/ton | Expected total | Price basis |\n|---|---|---|---|---|\n| Bioenergy | Yes | $17 | $17,000 | Placeholder |\n| Compost/soil | Yes | $16 | $16,000 | Placeholder |\n| Clean and recover | No (fiber) | $98 | $98,000 | Price sourced, cleaning and kernel value placeholder |\n| Local dairy | No (fiber) | $85 | $85,000 | Price sourced, miles placeholder |\n| Distant dairy | No (fiber) | $56 | $56,000 | Price placeholder |\n| Food ingredient | Yes | Needs quote | None | No price |\n\nThe feed options look better on paper, but they are not open to this lot at 16% fiber. The local dairy price range of $76\u2013106 per ton is sourced [giannini2026]. The hauling rate of $0.30 per ton-mile is also sourced. Distances are placeholders.\n\nFor food ingredient, a buyer would need to pay at least $175 per ton to break even. That is after $60 per ton processing and $30 per ton hauling, both placeholders. Hull powder is judged safe for human food, but there is no public price [gras2026].\n\n## What could change the answer\n\n- **Fiber result:** If a re-test or cleaning gets fiber below 15%, local dairy ($85 per ton expected) beats both eligible options by a wide margin. Clean-and-recover would show $98 per ton, but only if cleaned hulls pass and the kernel value holds up. That value is a placeholder.\n- **Buyer quotes:** Bioenergy would need to pay well above its $25\u201345 per ton placeholder range to compete with dairy. Its break-even against local dairy is $103 per ton. Compost is $99 per ton.\n- **Food quote:** Only a quote of $175 per ton or more would make food worth pursuing.\n- **Dairy price swings:** Prices have ranged from about $60 per ton to $130 per ton [farmprogress_low, wcngg2022]. About 97% of hulls go to dairy rations, so buyers have leverage [farmprogress_low].\n\n## Quality and risk checks\n\n- **Crude fiber:** 16% is at or above the 15% CDFA feed standard [wcngg2022]. All three feed options are flagged ineligible.\n- **Aflatoxin:** Untested. Test before selling for feed or food.\n- **Moisture:** Not entered. Hulls are typically delivered at 88\u201391% dry matter [wcngg2022].\n- **Placeholders:** Bioenergy and compost carry the warning that all values are demo placeholders. Both also need a willing local taker.\n- **Distant dairy:** Rail to Texas has precedent, but the premium is not guaranteed [farmprogress_low]. Freight can erase it.\n\n## Assumptions and sources\n\nSourced: the hauling rate, the local dairy price range, the feed fiber standard, and the price history. Placeholder: most miles, processing costs, kernel recovery value, and the bioenergy, compost, distant dairy, and food prices. Because of this, every ranked result depends on placeholder values.\n\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\": https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\": https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026): https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\": https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022): https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test hull quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": false,
+          "detail": "top option is bioenergy; not named first",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "564 words (limit 600)",
+          "score": 564.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 6.4 (limit 10)",
+          "score": 6.4
+        }
+      ],
+      "code_pass": false,
+      "judge_scores": {
+        "faithfulness": 3,
+        "decision_clarity": 4,
+        "uncertainty_honesty": 4,
+        "risk_coverage": 3,
+        "plain_language": 5
+      },
+      "judge_issues": [
+        "\"a buyer would need to pay at least $175 per ton to break even\" misstates the break-even. In the payload, $175 is the price needed to match local dairy's $85 expected net ($85 + $60 processing + $30 haul). Covering costs alone would take only $90 per ton. The bioenergy line labels its break-even correctly (\"against local dairy\"), but the food line does not.",
+        "\"Only a quote of $175 per ton or more would make food worth pursuing\" is misleading. Local dairy is ineligible for this lot, so the $175 benchmark does not apply while fiber is 16%. With current placeholders, a food quote above about $107 would already beat bioenergy's $17 per ton net. This claim could steer the manager away from a viable option.",
+        "\"Hull powder for food is eligible but has no price, so it is not ranked\" contradicts the payload. The payload ranks food ingredient 6th. It has no net value because it needs a quote, but it is still ranked.",
+        "\"Placeholder: most miles\" understates the placeholders. Every outlet's miles input is tier \"placeholder\" in the payload, so the report should say all miles.",
+        "\"Then get quotes\" is vague about whose quotes. The manager should know which buyers to call: bioenergy, compost and food buyers, plus a cleaning or toll-cleaning quote."
+      ],
+      "judge_pass": false,
+      "judge_model_pass": false,
+      "cost_usd": 0.092
+    },
+    {
+      "scenario": "food_quote",
+      "description": "A $200/t hull-powder buyer quote.",
+      "status": "ok",
+      "report": "## Recommendation\n\nOn paper, the hull powder food ingredient route comes out on top at $110 per ton net, or $110,000 for the lot. But I would not act on that yet. Its $200 price is a number the user entered, there is no public market price for it [gras2026], and its processing cost and distance are placeholders. It only wins if a buyer actually quotes about $175 per ton or more (the break-even).\n\nThe better-supported move is \"Clean, recover kernels, then sell to local dairy.\" It nets about $98 per ton ($98,000), which is $13 per ton ($13,000) more than selling straight to the local dairy. Its cleaning cost and kernel value are placeholders, so get an equipment or toll-cleaning quote first. Selling straight to the local dairy ($85 per ton, $85,000) is the safe fallback.\n\nDo not sell for feed or food until aflatoxin has been tested. Moisture and crude fiber are also unknown.\n\n## How the options compare\n\nAll figures are net per ton after hauling and processing, using expected prices. Every result depends on placeholder values.\n\n| Option | Net per ton | Lot total | vs. local dairy |\n|---|---|---|---|\n| Hull powder food ingredient | $110 | $110,000 | +$25 |\n| Clean, recover kernels, then local dairy | $98 | $98,000 | +$13 |\n| Sell to local dairy (baseline) | $85 | $85,000 | $0 |\n| Distant dairy market | $56 | $56,000 | -$29 |\n| Bioenergy feedstock | $17 | $17,000 | -$68 |\n| Compost or soil amendment | $16 | $16,000 | -$69 |\n\nThe local dairy price range of $76\u2013106 per ton is sourced [giannini2026]. The haul rate of $0.30 per ton-mile is also sourced. Distances are placeholders for every option.\n\n## What could change the answer\n\n- **Local dairy price.** The sourced range gives a net of $70,000 to $100,000 for the lot. Prices have swung from a slump near $60 per ton to $130 per ton in recent years [farmprogress_low, wcngg2022]. About 97% of hulls go to dairy rations, so buyers have leverage [farmprogress_low].\n- **Food buyer quote.** Below about $175 per ton, the food route falls behind the local dairy's expected result.\n- **Cleaning cost and kernel value.** The cleaning route's range runs from $80,000 to $116,000. Recovered kernels may grade lower than standard kernels. Its break-even hull price is $78 per ton.\n- **Distant dairy.** It would need roughly $160 per ton to beat the baseline's expected result. Freight can erase the premium, though rail shipments to Texas have happened [farmprogress_low].\n- **Bioenergy and compost.** These would need prices far above the placeholders ($103 and $99 per ton) to compete.\n\n## Quality and risk checks\n\n- **Aflatoxin:** Not tested. This flags the food, cleaning, local dairy and distant dairy options. Test first.\n- **Crude fiber:** Unknown. The feed options need it below 15% under the CDFA standard [wcngg2022]. The cleaned hulls must also meet it.\n- **Moisture:** Unknown. Delivered hulls are typically at 88\u201391% dry matter [wcngg2022].\n- **Food route:** Needs food-grade handling and processing, plus a buyer quote. The market is emerging.\n- **Bioenergy and compost:** All values are demo placeholders. Both need a willing nearby taker.\n\n## Assumptions and sources\n\nSourced: the local dairy price range, the haul rate, the feed fiber standard and the price history. User-entered: the food ingredient price. Placeholder: all distances, all processing costs, the kernel value, and the prices for distant dairy, bioenergy and compost. Because placeholders feed every result, treat the rankings as provisional.\n\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\": https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\": https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026): https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\": https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022): https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test hull quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is food_ingredient",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "550 words (limit 600)",
+          "score": 550.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 6.3 (limit 10)",
+          "score": 6.3
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 4,
+        "decision_clarity": 5,
+        "uncertainty_honesty": 4,
+        "risk_coverage": 5,
+        "plain_language": 5
+      },
+      "judge_issues": [
+        "\"Placeholder: all distances, all processing costs, the kernel value...\" is slightly wrong. The payload tags the processing cost for local_dairy and distant_dairy ($0) as \"sourced\", not placeholder. Only the food, cleaning, bioenergy and compost processing costs are placeholders.",
+        "\"The better-supported move is 'Clean, recover kernels, then sell to local dairy.'\" This route's +$13/ton edge comes entirely from a placeholder cleaning cost and a placeholder kernel value. The report says so, but calling it \"better-supported\" slightly overstates how solid the margin over the baseline is. The payload's result_tier for this route is \"placeholder\"."
+      ],
+      "judge_pass": true,
+      "judge_model_pass": true,
+      "cost_usd": 0.0781
+    },
+    {
+      "scenario": "worthless_kernels",
+      "description": "Kernel value $0: local dairy should win.",
+      "status": "ok",
+      "report": "## Recommendation\n\nSell the 1,000 tons to the local dairy. It has the best expected result: about $85 per ton, or $85,000 in total, after hauling. The range is $70,000 to $100,000. The local dairy is an established outlet and the other options don't beat it on the numbers we have.\n\nTwo caveats apply. This result depends on a placeholder assumption (the 20-mile haul distance). And aflatoxin has not been tested. Test before you sell for feed.\n\n## How the options compare\n\nNet figures are per ton after hauling and processing.\n\n| Option | Expected net/ton | Expected total | vs. local dairy |\n|---|---|---|---|\n| Local dairy | $85 | $85,000 | baseline |\n| Clean, recover kernels, sell to dairy | $75 | $75,000 | -$10,000 |\n| Distant dairy | $56 | $56,000 | -$29,000 |\n| Bioenergy | $17 | $17,000 | -$68,000 |\n| Compost/soil | $16 | $16,000 | -$69,000 |\n| Food ingredient | no price | no price | not ranked |\n\n- **Local dairy:** the price range of $76\u2013$106 per ton comes from a source [giannini2026]. Hauling uses a sourced rate of $0.30 per ton-mile [giannini2026].\n- **Clean and recover kernels:** it uses the same dairy price but adds a cleaning cost of $10 per ton. That cost is a placeholder, and so is the kernel value (user-entered). Break-even dairy price is $101 per ton.\n- **Distant dairy:** the $116\u2013$146 price is a placeholder. Freight of $75 per ton eats the premium. It would need $160 per ton to break even.\n- **Bioenergy and compost:** all values are placeholders, and both come in far behind.\n- **Food ingredient:** no public price exists [gras2026], so it is not ranked or recommended. A buyer quote would need to beat $175 per ton to break even. That figure includes a placeholder processing cost of $60 per ton.\n\n## What could change the answer\n\n- **Dairy price:** hull prices have swung from about $60 per ton to $130 per ton [farmprogress_low, wcngg2022]. Roughly 97% of hulls go to dairy rations, so buyers have leverage [farmprogress_low].\n- **Distance:** the 20-mile and 250-mile figures are placeholders. Real distances would shift the haul costs.\n- **Cleaning cost:** if a toll-cleaning quote comes in well under $10 per ton, or recovered kernels are worth more than assumed, cleaning could catch up. Get a quote.\n- **A food buyer quote above $175 per ton** would beat the local dairy's break-even. No such quote exists yet.\n\n## Quality and risk checks\n\n- **Aflatoxin:** untested. Every feed and food option carries this warning.\n- **Crude fiber and moisture:** not entered. The California feed standard requires crude fiber below 15% [wcngg2022]. Confirm your hulls meet it.\n- **Kernel quality:** recovered kernels may grade lower than standard kernels.\n- **Freight:** long hauls can erase any price premium. Rail shipments to Texas have happened, but a premium is not guaranteed [farmprogress_low].\n\n## Assumptions and sources\n\n**Sourced:** the local dairy price range, the hauling rate, and the feed fiber standard.\n\n**Placeholder:** all haul distances, the cleaning cost, the distant-dairy price, and every bioenergy, compost, and food value. Every outlet's result is marked placeholder-dependent, including the local dairy's because of the distance.\n\n**User-entered:** the recovered kernel value.\n\nSources:\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\": https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\": https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026): https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\": https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022): https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test hull quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is local_dairy",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "507 words (limit 600)",
+          "score": 507.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 6.1 (limit 10)",
+          "score": 6.1
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 3,
+        "decision_clarity": 5,
+        "uncertainty_honesty": 4,
+        "risk_coverage": 4,
+        "plain_language": 5
+      },
+      "judge_issues": [
+        "\"That cost is a placeholder, and so is the kernel value (user-entered).\" This calls the recovered-kernel value a placeholder, but the payload tiers it as \"user\". The sentence contradicts itself. The Assumptions section labels it correctly as user-entered.",
+        "\"so it is not ranked or recommended\" and the table entry \"not ranked\" contradict the payload, which gives the food ingredient outlet rank 6. It is ranked last and flagged \"needs quote\"; it is not unranked.",
+        "\"A food buyer quote above $175 per ton would beat the local dairy's break-even.\" This is wrong. The local dairy's break-even is $91/ton. $175/ton is the food outlet's own break-even price, the price at which it matches the local dairy's $85/ton net. A quote above $175 would beat the local dairy's net result, not its break-even.",
+        "\"cleaning could catch up\" if the cleaning cost comes in well under $10 per ton. The payload sets the recovered kernel value at $0. A lower cleaning cost alone can at best tie the local dairy (at $0 cost), so the claim needs a kernel value above zero to hold. The wording slightly overstates the upside.",
+        "\"Bioenergy and compost: all values are placeholders, and both come in far behind.\" The break-even prices in the payload are omitted: $103/ton for bioenergy and $99/ton for compost. Break-evens are given for the other options."
+      ],
+      "judge_pass": false,
+      "judge_model_pass": false,
+      "cost_usd": 0.0921
+    },
+    {
+      "scenario": "tested_wet_lot",
+      "description": "Aflatoxin tested, 14% moisture (outside typical range).",
+      "status": "ok",
+      "report": "## Recommendation\n\nClean the hulls, recover the kernels, then sell to the local dairy. It ranks first at an expected $98 per ton, or about $245,000 for the 2,500 tons. That is $13 per ton, or $32,500, more than selling straight to the local dairy ($85 per ton, about $212,500).\n\nThis result depends on placeholder values. The cleaning cost, the recovered-kernel value, and the haul distance are all placeholders. Get a toll-cleaning or equipment quote before committing. The lead over the baseline is modest, and the dairy price range is wide.\n\n## How the options compare\n\nAll figures are net $ per short ton, delivered, after hauling and processing.\n\n| Option | Low | Expected | High | Expected total |\n|---|---|---|---|---|\n| Clean, recover kernels, sell to local dairy | $80 | $98 | $116 | $245,000 |\n| Local dairy (baseline) | $70 | $85 | $100 | $212,500 |\n| Distant dairy | $41 | $56 | $71 | $140,000 |\n| Bioenergy | $7 | $17 | $27 | $42,500 |\n| Compost or soil | $6 | $16 | $26 | $40,000 |\n| Hull powder food ingredient | needs quote | needs quote | needs quote | needs quote |\n\n- **Local dairy price:** $76\u2013106 per ton is sourced [giannini2026]. The hauling rate of $0.30 per ton-mile is also sourced. The 20-mile distance is a placeholder.\n- **Distant dairy:** The $116\u2013146 price is a placeholder. Hauling 250 miles costs $75 per ton, which cancels the premium. Rail shipments to Texas have happened, but a premium is not guaranteed [farmprogress_low].\n- **Bioenergy and compost:** All values are placeholders, and both are far behind the dairy options.\n- **Food ingredient:** There is no public price, so it is not ranked [gras2026]. Processing and hauling cost $60 and $30 per ton, so a buyer would need to quote above $175 per ton to beat this outlet's break-even. That is the quote needed to compete with the local dairy.\n\n## What could change the answer\n\n- **Dairy price:** Hulls have swung from about $60 per ton to $130 per ton in recent years [farmprogress_low, wcngg2022]. Selling straight to the dairy only beats cleaning if its price reaches $91 per ton or more after hauling. Cleaning stays ahead until its own break-even of $78 per ton.\n- **Cleaning cost and kernel value:** Both are placeholders. Recovered kernels may grade lower than standard kernels. About 1\u20131.3% of hull-pile weight is recoverable kernel [abc_food2025].\n- **Distant dairy:** It would need a price of about $160 per ton to match the local dairy, well above the placeholder range.\n- **Buyer leverage:** About 97% of hulls already go to dairy rations, so local buyers have leverage [farmprogress_low].\n\n## Quality and risk checks\n\n- **Crude fiber:** At 12%, the lot is under the 15% feed standard [wcngg2022]. Cleaned hulls must still pass.\n- **Aflatoxin:** The lot has been tested.\n- **Moisture:** At 14%, it is outside the typical 9\u201312% range [wcngg2022]. This is only an informational flag, but confirm it won't affect a buyer's price or acceptance.\n- **Equipment:** Cleaning needs access to cleaning and kernel-recovery equipment.\n- **Placeholder-only outlets:** The bioenergy and compost outlets have no sources behind their numbers.\n\n## Assumptions and sources\n\n**Sourced:** the dairy feed price range, the hauling rate, the feed standard, and the price history.\n\n**Placeholder:** cleaning cost, recovered-kernel value, haul distances, and every price for the distant dairy, bioenergy, compost, and food outlets. The results are labeled placeholder because of these.\n\nSources:\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\": https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\": https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026): https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\": https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022): https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test hull quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is clean_and_recover",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "532 words (limit 600)",
+          "score": 532.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 7.2 (limit 10)",
+          "score": 7.2
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 2,
+        "decision_clarity": 4,
+        "uncertainty_honesty": 4,
+        "risk_coverage": 2,
+        "plain_language": 4
+      },
+      "judge_issues": [
+        "\"Selling straight to the dairy only beats cleaning if its price reaches $91 per ton or more after hauling.\" This is false. In the payload, $91 is the local-dairy price at which the baseline earns its own expected $85 net. Both options sell at the same dairy price, so cleaning stays $13/ton ahead at any dairy price. Straight sale never overtakes cleaning because of the dairy price alone.",
+        "\"Cleaning stays ahead until its own break-even of $78 per ton.\" This misreads the break-even. $78 is the dairy price at which the cleaning option nets the baseline's expected $85/ton. It is not a point where cleaning falls behind straight sale.",
+        "\"There is no public price, so it is not ranked [gras2026].\" This contradicts the payload, which ranks the food ingredient 6th (last), with needs_quote = true.",
+        "\"a buyer would need to quote above $175 per ton to beat this outlet's break-even\" is circular and confusing. The payload's $175 is the price needed to match the local dairy's expected net. The next sentence states this correctly, so the first should be cut.",
+        "The Assumptions section leaves out that the food ingredient's $60/ton processing cost is a placeholder. The report states the $60 and $30 costs as plain figures."
+      ],
+      "judge_pass": false,
+      "judge_model_pass": false,
+      "cost_usd": 0.087
+    },
+    {
+      "scenario": "expensive_haul_small_lot",
+      "description": "40 t at $0.60/ton-mile.",
+      "status": "ok",
+      "report": "## Recommendation\n\nFor this 40-ton lot, the best-looking option is to clean the hulls, recover kernels, then sell to the local dairy. The expected net is $92 per ton, or $3,680 total. That is $13 per ton ($520 total) better than selling straight to the local dairy, which nets $79 per ton ($3,160).\n\nThis result depends on placeholder numbers, mainly the cleaning cost, the distance, and the value of recovered kernels. The edge over the dairy is small. Selling to the local dairy is the safe, established fallback. Get a cleaning quote before committing.\n\n## How the options compare\n\n| Option | Expected net $/ton | Expected total | Note |\n|---|---|---|---|\n| Clean, recover kernels, sell to dairy | $92 | $3,680 | Placeholder cost and kernel value |\n| Local dairy (baseline) | $79 | $3,160 | Price is sourced |\n| Compost or soil | $7 | $280 | All placeholder |\n| Bioenergy | -$1 | -$40 | All placeholder |\n| Distant dairy | -$19 | -$760 | Freight erases the premium |\n| Food ingredient | No price | n/a | Needs a buyer quote |\n\nThe dairy price range of $76\u2013106 per ton is sourced [giannini2026]. Hauling at $0.60 per ton-mile is your entered rate. The sourced illustrative range is $0.20\u20130.40 [giannini2026], so your rate is higher than that.\n\nThe food ingredient (hull powder) has no public price, so it is not ranked or recommended [gras2026]. A buyer would need to offer more than $199 per ton to break even, using placeholder processing and haul costs.\n\n## What could change the answer\n\n- **Cleaning cost.** The clean-and-recover option beats the dairy as long as the cleaning cost and kernel value hold. Its break-even hull price is $78 per ton, against $91 for the dairy. Real quotes could shift this either way.\n- **Kernel value.** Recovered kernels are assumed to be worth $20\u201326 per ton of hulls, a placeholder. About 1\u20131.3% of hull-pile weight is recoverable kernel [abc_food2025], but they may grade lower.\n- **Dairy price swings.** Prices have gone from about $60 per ton to $130 [farmprogress_low, wcngg2022]. About 97% of hulls go to dairy rations, so buyers have leverage [farmprogress_low].\n- **Distant dairy.** It would need about $229 per ton to break even. Rail to Texas has precedent, but the premium isn't guaranteed [farmprogress_low].\n- **Compost and bioenergy.** They would need about $102 and $115 per ton to match the dairy, far above the placeholder prices.\n\n## Quality and risk checks\n\n- **Aflatoxin: not tested.** Test before selling for feed or food. This applies to every feed and food option.\n- **Crude fiber: not entered.** The CDFA feed standard is below 15% [wcngg2022]. Both dairy options and the cleaning option need to meet it, and cleaned hulls must still pass.\n- **Moisture: not entered.** Hulls are typically delivered at 88\u201391% dry matter [wcngg2022].\n- **Equipment.** Cleaning needs access to kernel-recovery equipment or a toll-cleaning service.\n\n## Assumptions and sources\n\n**Sourced:** the dairy price range, the feed standard, price history, and the dairy share of hulls. **User-entered:** the haul rate. **Placeholder:** distances, cleaning and processing costs, kernel value, and all compost, bioenergy, distant dairy, and food prices. Because of this, every result here is placeholder-dependent.\n\nSources:\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\": https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\": https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026): https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\": https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022): https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test hull quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is clean_and_recover",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "498 words (limit 600)",
+          "score": 498.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 6.7 (limit 10)",
+          "score": 6.7
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 3,
+        "decision_clarity": 5,
+        "uncertainty_honesty": 5,
+        "risk_coverage": 3,
+        "plain_language": 5
+      },
+      "judge_issues": [
+        "\"A buyer would need to offer more than $199 per ton to break even\": this misstates the figure. In the payload, break_even_price_per_ton is the price needed to match the local dairy's $79/ton net, not to reach zero net. For example, the dairy's own figure is $91, which equals its expected price. $199 = 79 + 60 haul + 60 processing. Actual zero-profit break-even would be about $120/ton.",
+        "\"Distant dairy. It would need about $229 per ton to break even.\": same mislabel. $229 = 79 + 150 haul is the price needed to match the local dairy. Simple break-even would be $150/ton.",
+        "\"so it is not ranked or recommended\": the payload does rank the food ingredient (rank 6). It is flagged needs_quote, with no net values. Say it is ranked last because it has no price, not that it is unranked.",
+        "The break-even framing is inconsistent across the report. Compost and bioenergy are correctly described as needing $102/$115 \"to match the dairy\". Food ingredient and distant dairy use the same kind of figure but call it \"break even\". The clean-and-recover \"break-even hull price is $78 per ton, against $91 for the dairy\" never says what the figure means. A reader cannot interpret these prices consistently."
+      ],
+      "judge_pass": false,
+      "judge_model_pass": false,
+      "cost_usd": 0.0813
+    },
+    {
+      "scenario": "all_user_inputs",
+      "description": "Every placeholder replaced by an entered value.",
+      "status": "ok",
+      "report": "## Recommendation\n\nClean the hulls, recover the leftover kernels, then sell to the local dairy. This ranks first at about $94 per ton expected, or about $112,980 for the 1,200 tons. That is $8 per ton (about $9,060) more than selling straight to the local dairy at $87 per ton net ($103,920). The result rests on user-entered numbers, not sourced prices, and the kernel value and cleaning cost are the weakest inputs.\n\n## How the options compare\n\nAll figures are net per short ton after hauling and processing. Hauling uses $0.30 per ton-mile, which is within the sourced range [giannini2026].\n\n| Option | Net per ton | Total (expected) | vs. local dairy |\n|---|---|---|---|\n| Clean, recover kernels, local dairy | $94 | $112,980 | +$9,060 |\n| Local dairy (baseline) | $87 | $103,920 | none |\n| Distant dairy | $66 | $79,200 | -$24,720 |\n| Food ingredient powder | $53 | $63,600 | -$40,320 |\n| Compost or soil | $17 | $19,800 | -$84,120 |\n| Bioenergy | $14 | $16,200 | -$87,720 |\n\nFreight erases the distant dairy's higher $138 price. The food ingredient option has a $150 price, but processing and hauling leave it well behind. Compost and bioenergy are far behind on the numbers entered.\n\n## What could change the answer\n\n- **Kernel value.** The cleaning option's net ranges from $92 to $97 per ton, depending on the recovered kernel value. Even the low end beats the baseline's $87.\n- **Cleaning cost.** The option stays ahead as long as the dairy price holds. Its break-even price is $84 per ton, so it beats selling straight to the dairy at that price.\n- **Dairy price swings.** Hull prices have ranged from about $60 per ton to $130 [farmprogress_low, wcngg2022]. About 97% of hulls go to dairy rations, so buyers have leverage [farmprogress_low].\n- **Distant dairy.** It would need about $159 per ton delivered to match the local dairy. Rail shipments to Texas have happened, but the premium is not guaranteed [farmprogress_low].\n- **Food ingredient.** It would need about $184 per ton to match. It has no public price [gras2026], so only a buyer quote can settle it.\n\n## Quality and risk checks\n\n- Aflatoxin: tested, marked \"yes.\"\n- Moisture and crude fiber were not entered. The dairy feed standard requires crude fiber below 15% [wcngg2022]. Test before committing to any feed outlet, including after cleaning.\n- Recovered kernels may grade lower than standard kernels.\n- Cleaning needs equipment access or a toll-cleaning arrangement.\n- Compost and bioenergy have no sources, and their values are demo placeholders.\n\n## Assumptions and sources\n\nSourced: the hauling rate. The data note says placeholder values do not affect the ranking. Prices, processing costs, miles, and kernel value are user-entered, and the report did not independently verify them. The cleaning cost is described as a demo placeholder, so get a real quote.\n\nSources:\n- [abc_food2025] Almond Board of California, \"Unlocking New Value: Commercializing Almond Hulls as Food Ingredients\" \u2014 https://www.almonds.org/almond-industry/industry-news/unlocking-new-value-commercializing-almond-hulls-food-ingredients\n- [farmprogress_low] Farm Progress, \"Almond hulls \u2013 Low prices call for expanded markets\" \u2014 https://www.farmprogress.com/tree-nuts/almond-hulls-low-prices-call-for-expanded-markets\n- [giannini2026] UC Giannini Foundation, \"Almond Shell Circularity in California's Bioeconomy\" (2026) \u2014 https://s.giannini.ucop.edu/uploads/pub/2026/06/26/v29n5_3_mg7Nqvg.pdf\n- [gras2026] AgInfo, \"Unlocking New Uses for Almond Hulls\" \u2014 https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls\n- [wcngg2022] WCNGG, \"Almond Hull Prices are a Bright Spot\" (2022) \u2014 https://wcngg.com/2022/04/18/almond-hull-prices-are-a-bright-spot-for-the-almond-industry/\n\nThese are estimates. Confirm prices with buyer quotes and test hull quality before deciding.",
+      "grades": [
+        {
+          "name": "numbers_traced",
+          "passed": true,
+          "detail": "every number is in the payload",
+          "score": null
+        },
+        {
+          "name": "sections_in_order",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "closing_line",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "recommends_top_option",
+          "passed": true,
+          "detail": "top option is clean_and_recover",
+          "score": null
+        },
+        {
+          "name": "placeholder_disclosed",
+          "passed": true,
+          "detail": "no placeholders in play",
+          "score": null
+        },
+        {
+          "name": "quality_flags_surfaced",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "citations_valid",
+          "passed": true,
+          "detail": "",
+          "score": null
+        },
+        {
+          "name": "within_length",
+          "passed": true,
+          "detail": "445 words (limit 600)",
+          "score": 445.0
+        },
+        {
+          "name": "plain_reading_level",
+          "passed": true,
+          "detail": "grade level 7.1 (limit 10)",
+          "score": 7.1
+        }
+      ],
+      "code_pass": true,
+      "judge_scores": {
+        "faithfulness": 3,
+        "decision_clarity": 4,
+        "uncertainty_honesty": 4,
+        "risk_coverage": 3,
+        "plain_language": 4
+      },
+      "judge_issues": [
+        "\"Its break-even price is $84 per ton, so it beats selling straight to the dairy at that price.\" This misreads the payload. A break-even price of $84.45 is the dairy price at which the cleaning option only matches the baseline's current $86.60 net. It ties at that price; it does not beat it.",
+        "The bullet headed \"Cleaning cost\" never discusses cleaning cost. It says \"The option stays ahead as long as the dairy price holds,\" but a dairy price drop lowers both feed options equally, so the $7.55/ton edge stays. The real risk is the cleaning cost, which the payload calls a demo placeholder. The report should say the option stays ahead only while cleaning plus lost margin stays under roughly $7.55/ton more than assumed.",
+        "\"The data note says placeholder values do not affect the ranking\" is followed directly by \"The cleaning cost is described as a demo placeholder.\" The report does not reconcile these two statements, which may confuse the reader about how solid the first-place result is.",
+        "Recommendation: \"That is $8 per ton\" is rounded from $7.55. It is acceptable, but the narrow margin should be stated precisely, since a small cost change could flip the result.",
+        "The Recommendation names the weakest inputs but does not give the next concrete step, such as getting a cleaning quote before committing. That step appears only later in the report."
+      ],
+      "judge_pass": false,
+      "judge_model_pass": false,
+      "cost_usd": 0.0824
+    }
+  ]
+}
