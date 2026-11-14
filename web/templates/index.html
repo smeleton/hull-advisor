@@ -136,7 +136,7 @@
           {% for o in outlets.values() %}
             <tr>
               <td class="opt">{{ o.name }}<div class="sub">{{ STATUS_LABEL[o.status] }}</div></td>
-              <td>{{ default_price_text(o) }} {% if o.price_low is not none or o.price_from %}{{ tier(default_price_tier(o)) }}{% endif %}</td>
+              <td>{{ default_price_text(o) }} </td>
               <td class="num"><input class="cell" type="number" name="price__{{ o.id }}" step="any" placeholder="{{ 'needed' if o.price_low is none and not o.price_from else 'default' }}" aria-label="Your quote for {{ o.name }}, $ per ton"></td>
               <td class="num"><input class="cell" type="number" name="miles__{{ o.id }}" value="{{ '%g'|format(o.default_miles) }}" min="0" step="any" aria-label="One-way miles for {{ o.name }}"></td>
               <td class="num"><input class="cell" type="number" name="processing__{{ o.id }}" value="{{ '%g'|format(o.processing_cost_per_ton) }}" min="0" step="any" aria-label="Processing cost for {{ o.name }}, $ per ton"></td>
@@ -149,8 +149,7 @@
         <label class="field field-inline">
           <span class="field-label">{{ name }} price</span>
           <span class="input-unit"><span>$</span><input type="number" name="coproduct__{{ slug(name) }}" value="{{ '%.2f'|format(c.unit_price_per_lb) }}" min="0" step="0.05" inputmode="decimal"><span>per lb</span></span>
-          {{ tier(c.unit_price_tier) }}
-          <span class="hint">Yield {{ '%g'|format(c.yield_low * 100) }}–{{ '%g'|format(c.yield_high * 100) }}% of the input weight {{ tier(c.yield_tier) }}{% if c.source_ids %} [{{ c.source_ids|join(", ") }}]{% endif %}.{% if c.name == "Recovered kernel" %} Recovered kernels may grade lower than standard kernels.{% endif %}</span>
+          <span class="hint">Yield {{ '%g'|format(c.yield_low * 100) }}–{{ '%g'|format(c.yield_high * 100) }}% of the input weight{% if c.source_ids %} [{{ c.source_ids|join(", ") }}]{% endif %}.{% if c.name == "Recovered kernel" %} Recovered kernels may grade lower than standard kernels.{% endif %}</span>
         </label>
         {% endfor %}
       </section>

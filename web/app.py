@@ -82,7 +82,6 @@ templates.env.globals.update(
     PLACEHOLDER_BANNER=PLACEHOLDER_BANNER, default_price_text=p.default_price_text,
     default_price_tier=p.default_price_tier, MARKET_LABEL=MARKET_LABEL,
     pretty_unit=p.pretty_unit, num=p.num,
-    SHOW_TIERS=False,  # data-source tags (Sourced / Your entry / Demo value) hidden for demos
     range_text=p.range_text, price_num=p.price_num, LEVEL_LABEL=LEVEL_LABEL,
 )
 

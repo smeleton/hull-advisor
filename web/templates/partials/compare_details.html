@@ -1,7 +1,7 @@
 {% from "macros.html" import tier %}
 {% for r in results %}
 <details class="detail">
-  <summary><span class="rank">{{ r["rank"] }}.</span> {{ r.name }} {{ tier(r.result_tier) }}</summary>
+  <summary><span class="rank">{{ r["rank"] }}.</span> {{ r.name }}</summary>
   <div class="detail-body">
     {% if r.needs_quote %}
     <p>{{ NO_QUOTE_TEXT }} {% if r.break_even_price < 0 %}It beats today's route unless the buyer charges more than <strong>{{ money(-r.break_even_price) }}/ton</strong>.{% else %}To beat today's route, a quote must exceed <strong>{{ r.break_even_text }}/ton</strong>.{% endif %}</p>

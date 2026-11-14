@@ -27,7 +27,7 @@
 
   {% if biomass.nutrients %}
   <p class="tiers"><span class="label">Nutrients, % of dry matter:</span>
-    {% for k, n in biomass.nutrients.items() %}<span class="tier-item">{{ k }} {{ '%g'|format(n.pct_dry) }}% {{ tier(n.tier) }}</span>{% endfor %}
+    {% for k, n in biomass.nutrients.items() %}<span class="tier-item">{{ k }} {{ '%g'|format(n.pct_dry) }}%</span>{% endfor %}
   </p>
   {% endif %}
 
