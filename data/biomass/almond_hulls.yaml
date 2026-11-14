@@ -79,10 +79,14 @@ outlets:
   coproducts: []
   requirements:
     - "Meets the CDFA hull feed standard: crude fiber below 15% [wcngg2022]."
+    - "Keep sticks and shells out: 39–62% of state samples in 2014–2018 failed the fiber limit [wcngg2022_fiber]."
   risks:
     - "Price volatility: from a ~$60/ton slump to $130/ton in recent years [farmprogress_low, wcngg2022]."
     - "About 97% of hulls already go to dairy rations, so buyers have leverage [farmprogress_low]."
-  source_ids: [giannini2026, wcngg2022, farmprogress_low]
+    - "Dairies can only use so much: up to ~20% of the diet with no loss of intake or milk in a UC Davis trial [heguy_ucce2022, robinson2017]; replacing forage instead of concentrate cut milk yield in another trial [williams2018]."
+    - "More hulls nudges milk protein % down and milk fat % up, which matters to dairies paid on components [depeters_ucanr_trial]."
+  source_ids: [giannini2026, wcngg2022, farmprogress_low, wcngg2022_fiber, heguy_ucce2022, robinson2017, williams2018, depeters_ucanr_trial]
+  evidence_ids: [inclusion_ucdavis_trial, inclusion_robinson_20, milk_loss_replacing_alfalfa, milk_components_ucdavis, inclusion_in_vitro_16, fiber_violation_rate]
 
 - id: distant_dairy
   name: Ship to a distant dairy market
@@ -103,7 +107,9 @@ outlets:
   risks:
     - "Precedent exists for rail shipments to Texas, but the premium is not guaranteed [farmprogress_low]."
     - "Freight cost can erase the premium."
-  source_ids: [farmprogress_low, wcngg2022]
+    - "Same feeding limits as the local dairy: up to ~20% of the diet [heguy_ucce2022, robinson2017]."
+  source_ids: [farmprogress_low, wcngg2022, heguy_ucce2022, robinson2017]
+  evidence_ids: [inclusion_ucdavis_trial, inclusion_robinson_20]
 
 - id: clean_and_recover
   name: Clean, recover kernels, then sell to local dairy
@@ -171,8 +177,8 @@ outlets:
   source_ids: []
 
 - id: bioenergy
-  name: Bioenergy feedstock
-  description: Sell hulls as fuel or feedstock for a biomass or bioenergy facility.
+  name: Bioenergy feedstock (biomass power plant)
+  description: Sell hulls as boiler fuel to a biomass power plant. Hulls carry about 16 GJ of energy per dry tonne [chen2010_review].
   status: experimental
   market: energy
   price_low: 25                 # PLACEHOLDER
@@ -184,7 +190,115 @@ outlets:
   miles_tier: placeholder
   coproducts: []
   requirements:
-    - "A biomass facility within hauling range."
+    - "A biomass facility within hauling range that accepts hulls, not only shells and wood."
+    - "Plant can handle high-potassium ash (blending limits) [aktas2015]."
   risks:
-    - "All values are demo placeholders."
-  source_ids: []
+    - "Price is a demo placeholder; plants price fuel per bone-dry ton, so wet hulls earn less."
+    - "Almond residue ash is 18–36% potassium, which can foul and corrode boilers, so plants may cap hull use [aktas2015]."
+    - "Burning is at the bottom of EPA's Wasted Food Scale [epa_wasted_food_scale]."
+  source_ids: [chen2010_review, aktas2015, epa_wasted_food_scale]
+  evidence_ids: [hull_hhv, hull_ash_potassium]
+
+- id: bioenergy_htl
+  name: Hydrothermal conversion to bio-oil and hydro-char
+  description: A processor heats hulls in pressurised water to make liquid bio-oil and a coal-like hydro-char. The default price is what such a processor could pay at break-even, from lab yields [htt_almondrefinery2021].
+  status: experimental
+  market: energy
+  price_model: htl
+  processing_cost_per_ton: 0    # the processor's cost is inside the model price
+  processing_tier: placeholder
+  default_miles: 100            # PLACEHOLDER
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "A hydrothermal processor willing to take hulls (none known to operate commercially on almond hulls)."
+  risks:
+    - "Lab results only: 11% bio-oil and 32% hydro-char at the best biofuel setting; yields swing widely with temperature and time [htt_almondrefinery2021, remon2022_cej, zhou2024_jclepro]."
+    - "Product prices and processing cost are demo values; at these values the processor would need a gate fee."
+  source_ids: [htt_almondrefinery2021, remon2022_cej, zhou2024_jclepro]
+  evidence_ids: [htt_biocrude_350c, htt_biocrude_300c]
+
+- id: fermentation_yeast_protein
+  name: Fermentation to high-protein yeast (feed protein)
+  description: A processor liquefies hulls with enzymes and grows yeast on the sugars to make a protein feed ingredient. The default price is what it could pay at break-even if the protein sells like soybean-meal protein [sitepu2023].
+  status: experimental
+  market: chemicals
+  pathway: feed
+  price_model: yeast_protein
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 60             # PLACEHOLDER
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "A fermentation partner with enzyme liquefaction (pectinase) and nitrogen supply."
+    - "Aflatoxin-tested hulls, since the product goes into feed."
+  risks:
+    - "Early lab work: the 72 mg protein per g of hull is a projection, and the largest sugar pool (galacturonic acid) was not consumed yet [sitepu2023]."
+    - "Valued as a soybean-meal substitute only; a specialty feed-yeast buyer could pay more. Processing cost is a demo value."
+  source_ids: [sitepu2023, wasde_nov2026, nrc2001]
+  evidence_ids: [yeast_biomass_per_sugar, hull_protein_sitepu]
+
+- id: fermentation_ethanol
+  name: Sugar extraction to ethanol and biogas
+  description: A processor washes the sugars out of the hulls, ferments them to ethanol and digests the leftovers to methane. The default price is what it could pay at break-even [holtman2015].
+  status: experimental
+  market: chemicals
+  pathway: extraction
+  price_model: ethanol_biogas
+  processing_cost_per_ton: 0
+  processing_tier: placeholder
+  default_miles: 60             # PLACEHOLDER
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "A sugar-extraction and ethanol facility (or a sugar-beet plant that can co-process hulls)."
+  risks:
+    - "Lab yields: at least 185 L ethanol and 75 m3 methane per dry tonne [holtman2015]."
+    - "Ethanol and methane prices and the processing cost are demo values; a stand-alone hull ethanol plant was judged hard to justify on capital cost."
+  source_ids: [holtman2015]
+  evidence_ids: [hull_soluble_sugar, sugar_recovery]
+
+- id: fermented_feed
+  name: Yeast-fermented hulls as low-methane cattle feed
+  description: Ferment wet hulls with yeast before feeding. One lab study found a large cut in methane from digestion; there is no market price yet [sechrist2022].
+  status: experimental
+  market: feed
+  price_low: null
+  price_high: null
+  price_tier: placeholder
+  processing_cost_per_ton: 15   # PLACEHOLDER fermentation/handling cost
+  processing_tier: placeholder
+  default_miles: 20             # PLACEHOLDER
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "A dairy or feed buyer willing to trial fermented hulls."
+    - "Buyer quote (no public price)."
+  risks:
+    - "One in vitro study (96% less methane at 20% inclusion over 72 h); not yet shown in cows [sechrist2022]."
+  source_ids: [sechrist2022]
+  evidence_ids: [fermented_hull_methane]
+
+- id: biomaterial_hydrochar
+  name: Hydrochar biomaterial (adsorbent precursor or soil amendment)
+  description: A processor carbonises hulls in hot pressurised water and sells the hydrochar as a material, not a fuel. No market price yet; the details show what hydrochar would have to sell for to beat selling locally [htt_almondrefinery2021].
+  status: experimental
+  market: materials
+  material_model: hydrochar_material
+  price_low: null
+  price_high: null
+  price_tier: placeholder
+  processing_cost_per_ton: 0    # the processor's cost is inside the material model
+  processing_tier: placeholder
+  default_miles: 100            # PLACEHOLDER
+  miles_tier: placeholder
+  coproducts: []
+  requirements:
+    - "A hydrochar or biochar processor and a buyer for the char (water treatment, soil products)."
+    - "Buyer quote for hulls, or for the hydrochar so the needed price can be checked."
+  risks:
+    - "Almond-hull evidence covers yield (32% at 256 °C) and fuel quality only; adsorption and surface-area results so far are for almond shells [htt_almondrefinery2021, ledesma2018, shell_htc_adsorption2024]."
+    - "Raw hydrochar has very low surface area; adsorbent markets need an extra activation step [masoumi2021_hydrochar]."
+  source_ids: [htt_almondrefinery2021, masoumi2021_hydrochar, ledesma2018, shell_htc_adsorption2024]
+  evidence_ids: [hydrochar_yield_range, hydrochar_low_surface_area, shell_hydrochar_surface_area, shell_hydrochar_adsorption]

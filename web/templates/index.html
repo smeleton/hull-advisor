@@ -166,6 +166,24 @@
         {% endfor %}
       </section>
 
+      {% if feed %}
+      <section class="block" aria-labelledby="feed-h">
+        <h3 class="block-h" id="feed-h">Feed value check: what the hulls' nutrients are worth</h3>
+        <p class="block-sub">What a dairy would pay for the same energy and protein in corn and soybean meal. Enter your own feed prices to replace the USDA ones.</p>
+        <div class="feed-inputs">
+          <label class="field field-inline">
+            <span class="field-label">Corn</span>
+            <span class="input-unit"><span>$</span><input type="number" name="corn_price" min="0" step="any" inputmode="decimal" placeholder="{{ '%.0f'|format(feed.corn_price_low) }}–{{ '%.0f'|format(feed.corn_price_high) }}" aria-label="Corn price, $ per ton"><span>per ton</span></span>
+          </label>
+          <label class="field field-inline">
+            <span class="field-label">Soybean meal</span>
+            <span class="input-unit"><span>$</span><input type="number" name="sbm_price" min="0" step="any" inputmode="decimal" placeholder="{{ '%.0f'|format(feed.sbm_price_low) }}" aria-label="Soybean meal price, $ per ton"><span>per ton</span></span>
+          </label>
+        </div>
+        <div id="feed-value">{% include "partials/feed_value.html" %}</div>
+      </section>
+      {% endif %}
+
       <section class="block">
         <h3 class="block-h">Details, risks and sources</h3>
         <div id="compare-details">{% include "partials/compare_details.html" %}</div>
@@ -262,6 +280,20 @@
           <figcaption>San Joaquin Valley delivered almond hull price, weekly average from {{ history_count }} USDA reports, {{ history_span[0].strftime('%b %Y') }}–{{ history_span[1].strftime('%b %Y') }} [ams_3512]. Hover a point for its value.</figcaption>
         </figure>
         {% endif %}
+      </section>
+      {% endif %}
+      {% if biomass.id == "almond_hulls" %}
+      <section class="block" aria-labelledby="evidence-h">
+        <h3 class="block-h" id="evidence-h">Research evidence</h3>
+        <p class="block-sub">Every number we took from a paper, with what was tested and where it appears ({{ evidence|length }} records in <code>data/evidence.yaml</code>). Lab and in vitro results are early signals, not farm-scale proof; results on almond <em>shells</em> are shown for context and never used in the math for hulls.</p>
+        {% for label, recs in evidence_groups %}
+        <details class="detail">
+          <summary>{{ label }} <span class="muted">· {{ recs|length }}</span></summary>
+          <div class="detail-body">
+            {% set ids = recs|map(attribute="id")|list %}{% set ev_heading = false %}{% include "partials/evidence_list.html" %}
+          </div>
+        </details>
+        {% endfor %}
       </section>
       {% endif %}
       <h3 class="block-h">Sources</h3>

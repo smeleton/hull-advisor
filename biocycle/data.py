@@ -108,6 +108,12 @@ class Outlet:
     # land), so it counts in the net. Otherwise recoverable nutrients are shown, not counted,
     # because a composter's or digester's gate fee already reflects them.
     nutrient_credit: bool = False
+    # Literature: a conversion model in data/models.yaml that sets the default price (what a
+    # processor could pay at break-even), a material model (no market price: the app shows what
+    # the product would have to sell for), and evidence records (data/evidence.yaml) to show.
+    price_model: str | None = None
+    material_model: str | None = None
+    evidence_ids: tuple[str, ...] = ()
 
     @property
     def end_use(self) -> str:
@@ -292,6 +298,9 @@ def parse_outlet(raw: dict[str, Any], sources: dict[str, Source]) -> Outlet:
         pathway=raw.get("pathway") or "",
         nutrient_routes=tuple(raw.get("nutrient_routes") or ()),
         nutrient_credit=bool(raw.get("nutrient_credit", False)),
+        price_model=raw.get("price_model"),
+        material_model=raw.get("material_model"),
+        evidence_ids=tuple(raw.get("evidence_ids") or ()),
     )
     _check_choice(outlet.status, STATUSES, "status", owner)
     _check_choice(outlet.market, MARKETS, "market", owner)
@@ -312,6 +321,8 @@ def parse_outlet(raw: dict[str, Any], sources: dict[str, Source]) -> Outlet:
             raise ValueError(f"{owner}: price_low > price_high")
     if outlet.price_from and outlet.price_low is not None:
         raise ValueError(f"{owner}: use either price_from or price_low/high, not both")
+    if outlet.price_model and (outlet.price_from or outlet.price_low is not None):
+        raise ValueError(f"{owner}: use price_model alone, without price_from or price_low/high")
     return outlet
 
 
@@ -324,7 +335,47 @@ def _parse_outlet_list(items: list[dict[str, Any]], sources: dict[str, Source]
             raise ValueError(f"duplicate outlet id {outlet.id!r}")
         outlets[outlet.id] = outlet
     validate_outlet_refs(outlets)
+    if any(o.price_model or o.material_model or o.evidence_ids for o in outlets.values()):
+        outlets = apply_literature(outlets, sources)
     return outlets
+
+
+def apply_literature(outlets: dict[str, Outlet], sources: dict[str, Source]) -> dict[str, Outlet]:
+    """Check evidence ids and fill price_model outlets' default price from the literature model.
+
+    The model's range is what a processor could pay at break-even; its tier is the worst of its
+    inputs (placeholder product prices or conversion costs make it placeholder).
+    """
+    from dataclasses import replace
+
+    from biocycle.evidence import load_models  # local import: evidence imports this module
+    from biocycle.pathways import value_material, value_model
+
+    models = load_models(sources)
+    out = dict(outlets)
+    for o in outlets.values():
+        owner = f"outlet {o.id!r}"
+        unknown = [e for e in o.evidence_ids if e not in models.evidence]
+        if unknown:
+            raise ValueError(f"{owner}: unknown evidence_ids {unknown}")
+        if o.material_model:
+            if o.material_model not in models.material:
+                raise ValueError(f"{owner}: unknown material_model {o.material_model!r}")
+            mat = value_material(models.material[o.material_model], models)
+            out[o.id] = replace(
+                o, source_ids=tuple(dict.fromkeys((*o.source_ids, *mat.source_ids))),
+                evidence_ids=tuple(dict.fromkeys((*o.evidence_ids, *mat.evidence_ids))))
+        if not o.price_model:
+            continue
+        if o.price_model not in models.conversion:
+            raise ValueError(f"{owner}: unknown price_model {o.price_model!r}")
+        mv = value_model(models.conversion[o.price_model], models)
+        out[o.id] = replace(
+            o, price_low=round(mv.price_low, 2), price_high=round(mv.price_high, 2),
+            price_tier=mv.tier,
+            source_ids=tuple(dict.fromkeys((*o.source_ids, *mv.source_ids))),
+            evidence_ids=tuple(dict.fromkeys((*o.evidence_ids, *mv.evidence_ids))))
+    return out
 
 
 def load_outlets(

@@ -1,0 +1,52 @@
+{% from "macros.html" import tier %}
+{% if r.price_model %}{% set mv = lit.conversion[r.price_model] %}
+<div class="lit">
+  <h4>Where the default price comes from: {{ mv.name }}</h4>
+  <p class="muted">{{ mv.summary }} The default price is what such a processor could pay at break-even; a real buyer would pay less.</p>
+  <div class="table-wrap">
+  <table class="data lit-table">
+    <thead><tr><th scope="col">Product</th><th scope="col" class="num">Made per dry ton of hulls</th><th scope="col" class="num">Price</th><th scope="col" class="num">Value per dry ton</th></tr></thead>
+    <tbody>
+    {% for pv in mv.products %}
+      <tr>
+        <td>{{ pv.name }}</td>
+        <td class="num">{{ range_text(pv.amount_low, pv.amount_high) }} {{ pretty_unit(pv.amount_unit).split(' per ')[0] }} {{ tier("sourced") }}</td>
+        <td class="num">${{ range_text(pv.price_low, pv.price_high, price_num) }} per {{ pretty_unit(pv.price_unit).split(' per ', 1)[1] }} {{ tier(pv.price_tier) }}</td>
+        <td class="num">{{ money(pv.value_low) }}{% if pv.value_high != pv.value_low %}–{{ money(pv.value_high) }}{% endif %}</td>
+      </tr>
+      {% if pv.note %}<tr class="note-row"><td colspan="4" class="muted small">{{ pv.note }}</td></tr>{% endif %}
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="calc">
+    Products {{ money(mv.gross_low) }}{% if mv.gross_high != mv.gross_low %}–{{ money(mv.gross_high) }}{% endif %}
+    − processing {{ money(mv.conversion_cost) }} {{ tier(mv.conversion_cost_tier) }}
+    = {{ money(mv.per_dry_low) }}{% if mv.per_dry_high != mv.per_dry_low %} to {{ money(mv.per_dry_high) }}{% endif %} per dry ton,
+    × {{ range_text(mv.dm_low * 100, mv.dm_high * 100) }}% dry matter
+    = <strong>{{ money(mv.price_low) }}{% if mv.price_high != mv.price_low %} to {{ money(mv.price_high) }}{% endif %} per ton delivered</strong>.
+    {% if mv.price_high < 0 %}At these values the processor would need a gate fee rather than paying for hulls.{% endif %}
+  </p>
+  {% set mult = mv.multiple_needed(r.break_even_price) %}
+  {% if mult is not none %}
+  <p class="calc">{% if mult > 1 %}To pay {{ r.break_even_text }}/ton (enough to match selling locally), the products would need to be worth about <strong>{{ '%.1f'|format(mult) }}×</strong> these prices, or processing would need to cost less.{% else %}The products are already worth enough to match selling locally.{% endif %}</p>
+  {% endif %}
+  {% if mv.conversion_cost_note %}<p class="muted small">Processing cost: {{ mv.conversion_cost_note }}</p>{% endif %}
+</div>
+{% endif %}
+{% if r.material_model %}{% set mat = lit.material[r.material_model] %}
+{% set need = mat.price_needed(r.break_even_price) %}
+<div class="lit">
+  <h4>What {{ mat.product|lower }} would have to sell for</h4>
+  <p class="muted">{{ mat.summary }}</p>
+  <p class="calc">
+    Yield {{ range_text(mat.yield_low * 100, mat.yield_high * 100) }}% of dry hulls {{ tier("sourced") }};
+    processing {{ money(mat.conversion_cost) }} per dry ton {{ tier(mat.conversion_cost_tier) }};
+    hulls {{ range_text(mat.dm_low * 100, mat.dm_high * 100) }}% dry matter.
+    For a processor to pay you {{ r.break_even_text }}/ton (enough to match selling locally) and break even,
+    {{ mat.product|lower }} would have to sell for about <strong>{{ money(need[0]) }}–{{ money(need[1]) }} per ton</strong>.
+    Compare that with real quotes for biochar, hydrochar or activated-carbon feedstock.
+  </p>
+  {% if mat.conversion_cost_note %}<p class="muted small">Processing cost: {{ mat.conversion_cost_note }}</p>{% endif %}
+</div>
+{% endif %}

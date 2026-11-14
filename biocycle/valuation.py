@@ -211,6 +211,11 @@ def _value_outlet(
         "processing_cost": processing,
         "miles": miles,
         "mass_yield": y,
+        # Literature: the conversion model behind the default price (None once the user enters
+        # a quote), the material model, and the evidence records shown with this outlet.
+        "price_model": None if ov.price is not None else outlet.price_model,
+        "material_model": outlet.material_model,
+        "evidence_ids": list(outlet.evidence_ids),
         "haul_tons_per_ton": h,
         "haul_cost": haul_cost,
         "coproduct_low": cp_low,

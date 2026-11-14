@@ -38,6 +38,11 @@ def is_missing(x: Any) -> bool:
     return x is None or (isinstance(x, float) and math.isnan(x))
 
 
+def opt_str(x: Any) -> str | None:
+    """A string cell from a DataFrame, or None for None/NaN (pandas turns None into NaN)."""
+    return None if is_missing(x) or x == "" else str(x)
+
+
 def money(x: float | None, signed: bool = False, decimals: int = 0) -> str:
     if is_missing(x):
         return "—"
@@ -51,6 +56,11 @@ def tons_fmt(x: float) -> str:
 
 
 def default_price_text(o: Outlet) -> str:
+    if o.price_model and o.price_low is not None:
+        high = o.price_high if o.price_high is not None else o.price_low
+        rng = (money(o.price_low) if math.isclose(o.price_low, high)
+               else f"{money(o.price_low)} to {money(high)}")
+        return f"{rng} (literature model)"
     if o.price_from:
         base = o.price_from.replace("_", " ")
         if o.price_premium:
@@ -64,6 +74,47 @@ def default_price_text(o: Outlet) -> str:
 
 def default_price_tier(o: Outlet) -> str:
     return o.premium_tier if o.price_from and o.price_premium else o.price_tier
+
+
+# ---------- literature units ----------
+
+_UNIT_WORDS = {
+    "GJ": "GJ", "L_ethanol": "L ethanol", "m3_methane": "m³ methane", "t_protein": "ton protein",
+    "t_char": "ton hydrochar", "t_biooil": "ton bio-oil", "t_dry": "dry ton", "usd": "$",
+    "Mcal": "Mcal", "kg_dm": "kg DM",
+}
+
+
+def pretty_unit(unit: str) -> str:
+    """'GJ/t_dry' -> 'GJ per dry ton'; 'usd/L_ethanol' -> '$ per L ethanol'."""
+    num, _, den = unit.partition("/")
+    words = [_UNIT_WORDS.get(t, t.replace("_", " ")) for t in num.split("*")]
+    text = " ".join(words)
+    if den:
+        text += " per " + " ".join(_UNIT_WORDS.get(t, t.replace("_", " ")) for t in den.split("*"))
+    return text
+
+
+def num(x: float, sig: int = 3) -> str:
+    """Compact number for literature values: 0.072, 2.99, 167.8, 1,234."""
+    if is_missing(x):
+        return "—"
+    ax = abs(x)
+    if ax >= 1000:
+        return f"{x:,.0f}"
+    if ax >= 100:
+        return f"{x:,.1f}".rstrip("0").rstrip(".")
+    return f"{x:.{sig}g}"
+
+
+def price_num(x: float) -> str:
+    """Unit prices: cents below $100 ($0.45, $6.00, $12.00), else at most one decimal."""
+    return f"{x:,.2f}" if abs(x) < 100 else num(x)
+
+
+def range_text(lo: float, hi: float, fmt=None) -> str:
+    fmt = fmt or num
+    return fmt(lo) if math.isclose(lo, hi, rel_tol=1e-9, abs_tol=1e-12) else f"{fmt(lo)}–{fmt(hi)}"
 
 
 # ---------- form parsing ----------
@@ -250,6 +301,8 @@ def result_rows(df: pd.DataFrame) -> list[dict[str, Any]]:
             "break_even_text": money(r["break_even_price"]) if has_break_even(r) else "—",
             "check": check_for(r),
             "detail_flags": [f for f in r["flags"] if f != "needs quote"],
+            "price_model": opt_str(r.get("price_model")),
+            "material_model": opt_str(r.get("material_model")),
         })
     return rows
 

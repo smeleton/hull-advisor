@@ -7,7 +7,7 @@
     <p>{{ NO_QUOTE_TEXT }} {% if r.break_even_price < 0 %}It beats today's route unless the buyer charges more than <strong>{{ money(-r.break_even_price) }}/ton</strong>.{% else %}To beat today's route, a quote must exceed <strong>{{ r.break_even_text }}/ton</strong>.{% endif %}</p>
     {% else %}
     <p class="calc">
-      Price {{ money(r.price_low) }}{% if r.price_high != r.price_low %}–{{ money(r.price_high) }}{% endif %}{% if r.mass_yield < 1 %} × {{ '%g'|format(r.mass_yield) }} t of product per ton{% endif %}
+      Price {{ money(r.price_low) }}{% if r.price_high != r.price_low %}{{ ' to ' if r.price_low < 0 else '–' }}{{ money(r.price_high) }}{% endif %}{% if r.mass_yield < 1 %} × {{ '%g'|format(r.mass_yield) }} t of product per ton{% endif %}
       − processing {{ money(r.processing_cost) }}
       − hauling {{ money(r.haul_cost) }} <span class="muted">({{ tons(r.miles) }} mi{% if r.haul_tons_per_ton < 1 %}, product only{% endif %})</span>
       {% if r.coproduct_high > 0 %}+ {{ "coproducts and nutrients" if r.nutrient_credit else "coproducts" }} {{ money(r.coproduct_low) }}–{{ money(r.coproduct_high) }}{% endif %}
@@ -31,6 +31,7 @@
       <p class="muted small">{% if r.nutrient_credit %}You keep these nutrients (they stay on your land), so the first route's value counts in the net.{% else %}Shown for information, not counted: the composter or digester keeps the nutrients, and its gate fee already reflects them.{% endif %} Pounds per ton of material at the lot's moisture; fertilizer prices from DTN retail, Nov 2026 [nutr_dtn_retail_2026_11_11].</p>
     </div>
     {% endif %}
+    {% include "partials/model_breakdown.html" %}
     {% if r.detail_flags %}
     <ul class="flags">{% for f in r.detail_flags %}<li>{{ f }}</li>{% endfor %}</ul>
     {% endif %}
@@ -38,6 +39,7 @@
       <div><h4>Requirements</h4><ul>{% for x in r.requirements %}<li>{{ x }}</li>{% endfor %}</ul></div>
       <div><h4>Risks</h4><ul>{% for x in r.risks %}<li>{{ x }}</li>{% endfor %}</ul></div>
     </div>
+    {% set ids = r.evidence_ids %}{% include "partials/evidence_list.html" %}
     <p class="tiers"><span class="label">Where each input comes from:</span>
       {% for k, v in r.input_tiers.items() %}<span class="tier-item">{{ k|replace("_", " ") }} {{ tier(v) }}</span>{% endfor %}
     </p>

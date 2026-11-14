@@ -154,7 +154,7 @@ def test_real_data_loads_and_evaluates():
     sources = load_sources()
     outlets = load_outlets(sources)
     assert {"giannini2026", "wcngg2022", "farmprogress_low", "abc_food2025", "gras2026"} <= set(sources)
-    assert len(outlets) == 6
+    assert len(outlets) == 11
     assert len(load_buyers(outlets)) == 6
     df = evaluate(Lot(tons=1_000), outlets)
     base = row(df, "local_dairy")
@@ -163,5 +163,6 @@ def test_real_data_loads_and_evaluates():
     assert row(df, "distant_dairy").break_even_price == pytest.approx(160)
     assert row(df, "food_ingredient").needs_quote
     assert row(df, "food_ingredient").break_even_price == pytest.approx(175)
-    assert df.iloc[-1].outlet_id == "food_ingredient"
+    assert list(df.outlet_id[-3:]) == ["food_ingredient", "fermented_feed",
+                                       "biomaterial_hydrochar"]  # needs-quote last
     assert any_placeholder(df)
