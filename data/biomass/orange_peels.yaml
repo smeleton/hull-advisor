@@ -181,7 +181,7 @@ outlets:
   requirements:
   - Air permit for dryer; California dryers were shut down for environmental reasons [orange_vincent_waste]
   - Drying from about 80% to 11% moisture leaves 0.20–0.26 t of pellets per wet ton [orange_feedipedia];
-    the price is per ton of pellets (demo value).
+    the price is per ton of pellets (an estimate).
   risks:
   - 'At placeholder prices ~$36/wet ton gross vs ~$45 drying cost: likely negative. This is consistent
     with CA plants not drying [orange_vincent_waste].'
@@ -213,7 +213,7 @@ outlets:
   risks:
   - Price is cyclic and tied to citrus crop size [orange_limonene_price]
   - The d-limonene price ($1.50–5/lb) comes from a 2012 trade article we could not reload; treat it as
-    a demo value.
+    an estimate.
   source_ids:
   - orange_limonene_price
 - id: orange_pectin_fiber

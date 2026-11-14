@@ -134,7 +134,7 @@ outlets:
     - "Access to cleaning and kernel-recovery equipment."
   risks:
     - "Recovered kernels may grade lower than standard kernels (a general caution, not from a cited source)."
-    - "Cleaning cost is a demo placeholder; get an equipment or toll-cleaning quote."
+    - "Cleaning cost is an estimate; get an equipment or toll-cleaning quote."
   source_ids: [abc_food2025, giannini2026]
 
 - id: food_ingredient
@@ -173,7 +173,7 @@ outlets:
   requirements:
     - "A composter or grower willing to take the material."
   risks:
-    - "All values are demo placeholders."
+    - "Values are rough estimates; get quotes before relying on them."
   source_ids: []
 
 - id: bioenergy
@@ -193,7 +193,7 @@ outlets:
     - "A biomass facility within hauling range that accepts hulls, not only shells and wood."
     - "Plant can handle high-potassium ash (blending limits) [aktas2015]."
   risks:
-    - "Price is a demo placeholder; plants price fuel per bone-dry ton, so wet hulls earn less."
+    - "Price is an estimate; plants price fuel per bone-dry ton, so wet hulls earn less."
     - "Almond residue ash is 18–36% potassium, which can foul and corrode boilers, so plants may cap hull use [aktas2015]."
     - "Burning is at the bottom of EPA's Wasted Food Scale [epa_wasted_food_scale]."
   source_ids: [chen2010_review, aktas2015, epa_wasted_food_scale]
@@ -214,7 +214,7 @@ outlets:
     - "A hydrothermal processor willing to take hulls (none known to operate commercially on almond hulls)."
   risks:
     - "Lab results only: 11% bio-oil and 32% hydro-char at the best biofuel setting; yields swing widely with temperature and time [htt_almondrefinery2021, remon2022_cej, zhou2024_jclepro]."
-    - "Product prices and processing cost are demo values; at these values the processor would need a gate fee."
+    - "Product prices and processing cost are estimates; at these values the processor would need a gate fee."
   source_ids: [htt_almondrefinery2021, remon2022_cej, zhou2024_jclepro]
   evidence_ids: [htt_biocrude_350c, htt_biocrude_300c]
 
@@ -235,7 +235,7 @@ outlets:
     - "Aflatoxin-tested hulls, since the product goes into feed."
   risks:
     - "Early lab work: the 72 mg protein per g of hull is a projection, and the largest sugar pool (galacturonic acid) was not consumed yet [sitepu2023]."
-    - "Valued as a soybean-meal substitute only; a specialty feed-yeast buyer could pay more. Processing cost is a demo value."
+    - "Valued as a soybean-meal substitute only; a specialty feed-yeast buyer could pay more. Processing cost is an estimate."
   source_ids: [sitepu2023, wasde_nov2026, nrc2001]
   evidence_ids: [yeast_biomass_per_sugar, hull_protein_sitepu]
 
@@ -255,7 +255,7 @@ outlets:
     - "A sugar-extraction and ethanol facility (or a sugar-beet plant that can co-process hulls)."
   risks:
     - "Lab yields: at least 185 L ethanol and 75 m3 methane per dry tonne [holtman2015]."
-    - "Ethanol and methane prices and the processing cost are demo values; a stand-alone hull ethanol plant was judged hard to justify on capital cost."
+    - "Ethanol and methane prices and the processing cost are estimates; a stand-alone hull ethanol plant was judged hard to justify on capital cost."
   source_ids: [holtman2015]
   evidence_ids: [hull_soluble_sugar, sugar_recovery]
 

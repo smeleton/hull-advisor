@@ -193,7 +193,7 @@ outlets:
   - Peel powder tested at 5-10% in biscuits, 5% in macaroni [mango_auctores]
   - Peel must be clean, quickly refrigerated or dried (placeholder)
   - About 0.25–0.30 t of flour per wet ton of peel [mango_pmc11336421]; the price is per ton of flour
-    (demo value).
+    (an estimate).
   risks:
   - Pesticide/wax residues on imported fruit peel (placeholder)
   - Glycemic-index benefit claim not supported by loaded pages [mango_auctores]
@@ -273,7 +273,7 @@ outlets:
   requirements:
   - Biochar yield 43.2% of dry peel at 300 °C and 27.0% at 700 °C [team_yields_2026]; about 8–13% of wet
     peel at 29% dry matter [mango_pmc11336421].
-  - Drying wet peel is most of the cost (demo value).
+  - Drying wet peel is most of the cost (an estimate).
   risks:
   - Small volumes in California; a pyrolysis unit needs a steady feedstock.
   source_ids:

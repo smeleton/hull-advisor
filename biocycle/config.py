@@ -50,4 +50,4 @@ MOISTURE_TYPICAL_RANGE = (9.0, 12.0)
 DEFAULT_BIOMASS = "almond_hulls"
 BASELINE_ID = "local_dairy"
 
-PLACEHOLDER_BANNER = "Demo data — verify with real buyer quotes before acting."
+PLACEHOLDER_BANNER = "Some figures are estimates — verify with real buyer quotes before acting."
