@@ -80,6 +80,13 @@
   form.addEventListener("change", (e) => { if (!isFeedback(e)) recalc(); });
   form.addEventListener("submit", (e) => { e.preventDefault(); recalc(); });
 
+  // ---------- hauling mode ----------
+  form.querySelectorAll('input[name="haul_mode"]').forEach((r) => r.addEventListener("change", () => {
+    const usda = form.querySelector('input[name="haul_mode"]:checked').value === "usda";
+    form.querySelectorAll(".haul-usda").forEach((el) => { el.hidden = !usda; });
+    form.querySelectorAll(".haul-flat").forEach((el) => { el.hidden = usda; });
+  }));
+
   // ---------- buyer rows ----------
   const buyerBody = document.querySelector("#buyer-table tbody");
   document.getElementById("add-buyer").addEventListener("click", () => {

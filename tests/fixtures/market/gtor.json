@@ -1,0 +1,56 @@
+[
+ {
+  "year": "2025",
+  "quarter": "4",
+  "region": "National",
+  "date": "2025-10-01T00:00:00.000",
+  "yearquarter": "2025Q4",
+  "rate_mile_trukload": "7.17",
+  "distance": "25 miles"
+ },
+ {
+  "year": "2025",
+  "quarter": "4",
+  "region": "National",
+  "date": "2025-10-01T00:00:00.000",
+  "yearquarter": "2025Q4",
+  "rate_mile_trukload": "3.98",
+  "distance": "100 miles"
+ },
+ {
+  "year": "2025",
+  "quarter": "4",
+  "region": "National",
+  "date": "2025-10-01T00:00:00.000",
+  "yearquarter": "2025Q4",
+  "rate_mile_trukload": "3.38",
+  "distance": "200 miles"
+ },
+ {
+  "year": "2026",
+  "quarter": "1",
+  "region": "National",
+  "date": "2026-03-01T00:00:00.000",
+  "yearquarter": "2026Q1",
+  "rate_mile_trukload": "6.83",
+  "distance": "25 miles"
+ },
+ {
+  "year": "2026",
+  "quarter": "1",
+  "region": "National",
+  "date": "2026-03-01T00:00:00.000",
+  "yearquarter": "2026Q1",
+  "rate_mile_trukload": "4.26",
+  "distance": "100 miles"
+ },
+ {
+  "year": "2026",
+  "quarter": "1",
+  "region": "National",
+  "date": "2026-03-01T00:00:00.000",
+  "yearquarter": "2026Q1",
+  "rate_mile_trukload": "2.94",
+  "distance": "200 miles"
+ }
+]

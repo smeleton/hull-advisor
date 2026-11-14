@@ -145,7 +145,9 @@ def build_payload(lot: Lot, results: pd.DataFrame, sources: dict[str, Source]) -
     return _clean({
         "lot": {
             "tons": lot.tons,
-            "haul_rate_per_ton_mile": lot.haul_rate,
+            "haul_rate_per_ton_mile": None if lot.haul_schedule else lot.haul_rate,
+            "haul_rate_by_distance": ([{"miles": m, "per_ton_mile": r}
+                                       for m, r in lot.haul_schedule] or None),
             "haul_rate_tier": lot.haul_rate_tier,
             "moisture_pct": lot.moisture_pct,
             "crude_fiber_pct": lot.crude_fiber_pct,

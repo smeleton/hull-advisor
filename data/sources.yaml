@@ -22,3 +22,25 @@
   title: "AgInfo, \"Unlocking New Uses for Almond Hulls\""
   url: https://www.aginfo.net/report/65481/32/Unlocking-New-Uses-for-Almond-Hulls
   what_it_supports: "Almond hull powder judged GRAS for human food (emerging market, no public price)."
+
+# ---- Market data refreshed by `python -m biocycle.refresh` (values live in data/market/) ----
+
+- id: ams_3512
+  title: "USDA AMS, \"National Mill-Feeds and Miscellaneous Feedstuff Report\" (weekly)"
+  url: https://mymarketnews.ams.usda.gov/viewReport/3512
+  what_it_supports: "Weekly almond hull asking prices ($/ton) by California region, delivered (DLVD) or at the seller (FOB); the market-data local and southern California dairy prices and the hull price history."
+
+- id: usda_gtor
+  title: "USDA AMS, \"Grain Truck and Ocean Rate Advisory\" truck rates (agtransport.usda.gov)"
+  url: https://agtransport.usda.gov/Truck/Grain-Truck-and-Ocean-Rate-Advisory-Truck-Rates/fxkn-2w9c
+  what_it_supports: "Quarterly truck rates per loaded mile at 25, 100 and 200 miles for a 55,000 lb (27.5 short ton) load; converted to $ per ton-mile for distance-based hauling."
+
+- id: eia_ca_diesel
+  title: "U.S. EIA, \"California No 2 Diesel Retail Prices\" (weekly)"
+  url: https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=PET&s=EMD_EPD2D_PTE_SCA_DPG&f=W
+  what_it_supports: "Weekly California diesel price, shown as context for hauling costs."
+
+- id: nass_ncit
+  title: "USDA NASS, \"Noncitrus Fruits and Nuts Annual Summary\" (May 2026)"
+  url: https://esmis.nal.usda.gov/sites/default/release-files/795891/ncit0526.txt
+  what_it_supports: "California shelled almond price per pound, all grades, by year; a ceiling for recovered-kernel value."

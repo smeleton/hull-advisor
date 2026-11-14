@@ -12,7 +12,7 @@ from __future__ import annotations
 import hashlib
 import json
 import secrets
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -38,6 +38,14 @@ from biocycle.config import (
 from biocycle import feedback
 from biocycle.data import Buyer, Outlet, Source, load_buyers, load_outlets, load_sources
 from biocycle.llm import LLMError, LLMResult
+from biocycle.market import (
+    LOCAL_REGION,
+    TRUCK_PAYLOAD_SHORT_TONS,
+    MarketSnapshot,
+    apply_snapshot,
+    load_hull_history,
+    load_snapshot,
+)
 from biocycle.report import NumberMatch, Report, build_payload, generate_report, report_download
 from biocycle.valuation import Lot, any_placeholder, evaluate
 
@@ -63,6 +71,11 @@ def load_data() -> tuple[dict[str, Source], dict[str, Outlet], tuple[Buyer, ...]
     sources = load_sources()
     outlets = load_outlets(sources)
     return sources, outlets, tuple(load_buyers(outlets))
+
+
+@lru_cache
+def load_hull_history_cached() -> tuple:
+    return tuple(load_hull_history())
 
 
 # ---------- per-session state ----------
@@ -108,6 +121,9 @@ class Computed:
     buyer_rows: list[dict[str, Any]]
     alloc: Allocation | None
     buyer_errors: list[str]
+    mode: str  # "market" (USDA data) or "demo" (outlets.yaml values)
+    haul_mode: str  # "usda" (rates by distance) or "flat"
+    outlets: dict[str, Outlet]
 
     @property
     def show_banner(self) -> bool:
@@ -115,20 +131,54 @@ class Computed:
             self.alloc is not None and self.alloc.result_tier == "placeholder")
 
 
+def market_snapshot() -> MarketSnapshot | None:
+    """The latest refreshed market data, or None if `python -m biocycle.refresh` never ran."""
+    return _cached_snapshot()
+
+
+@lru_cache
+def _cached_snapshot() -> MarketSnapshot | None:
+    return load_snapshot()
+
+
+def resolve_modes(mode: str | None, haul_mode: str | None) -> tuple[str, str]:
+    snap = market_snapshot()
+    mode = mode if mode in ("market", "demo") else ("market" if snap else "demo")
+    if mode == "market" and snap is None:
+        mode = "demo"
+    can_usda = snap is not None and bool(snap.truck_rates)
+    default_haul = "usda" if mode == "market" and can_usda else "flat"
+    haul_mode = haul_mode if haul_mode in ("usda", "flat") else default_haul
+    if haul_mode == "usda" and not can_usda:
+        haul_mode = "flat"
+    return mode, haul_mode
+
+
+def outlets_for(mode: str) -> dict[str, Outlet]:
+    outlets = load_data()[1]
+    snap = market_snapshot()
+    return apply_snapshot(outlets, snap) if mode == "market" and snap else outlets
+
+
 def sample_buyer_rows() -> list[dict[str, Any]]:
     return [{c: getattr(b, c) for c in p.BUYER_FIELDS} for b in load_data()[2]]
 
 
-def compute(form: Any | None) -> Computed:
-    sources, outlets, sample = load_data()
+def compute(form: Any | None, mode: str | None = None, haul_mode: str | None = None) -> Computed:
+    _, _, sample = load_data()
     form = form or {}
+    mode, haul_mode = resolve_modes(mode or form.get("data_mode"),
+                                    haul_mode or form.get("haul_mode"))
+    outlets = outlets_for(mode)
     lot = p.lot_from_form(form)
+    if haul_mode == "usda":
+        lot = replace(lot, haul_schedule=market_snapshot().truck_rates, haul_rate_tier="sourced")
     overrides = p.overrides_from_form(form, outlets)
     results = evaluate(lot, outlets, overrides, baseline_id=BASELINE_ID)
     rows = p.buyer_rows_from_form(form) if hasattr(form, "getlist") else sample_buyer_rows()
     buyers, tiers, errors = p.buyers_from_rows(rows, outlets, list(sample))
     alloc = allocate(buyers, lot, results, tiers) if buyers else None
-    return Computed(lot, results, rows, alloc, errors)
+    return Computed(lot, results, rows, alloc, errors, mode, haul_mode, outlets)
 
 
 def payload_hash(c: Computed) -> str:
@@ -137,7 +187,11 @@ def payload_hash(c: Computed) -> str:
 
 
 def context(c: Computed, session: Session) -> dict[str, Any]:
-    sources, outlets, _ = load_data()
+    sources = load_data()[0]
+    outlets = c.outlets
+    snap = market_snapshot()
+    history = [q for q in load_hull_history_cached()
+               if q.region == LOCAL_REGION and q.delivered]
     top = c.results.iloc[0]
     local_total = c.results.loc[c.results["is_baseline"], "total_expected"].iloc[0]
     return {
@@ -162,6 +216,16 @@ def context(c: Computed, session: Session) -> dict[str, Any]:
         "haul_range": HAUL_RATE_RANGE,
         "haul_source": HAUL_RATE_SOURCE,
         "fiber_max": CRUDE_FIBER_MAX,
+        "mode": c.mode,
+        "haul_mode": c.haul_mode,
+        "snap": snap,
+        "truck_payload": TRUCK_PAYLOAD_SHORT_TONS,
+        "history_chart": (Markup(p.history_chart_svg(
+            [(q.report_date, q.average) for q in history],
+            title=f"{LOCAL_REGION} delivered almond hull price, weekly average"))
+            if len(history) > 1 else None),
+        "history_span": (history[0].report_date, history[-1].report_date) if history else None,
+        "history_count": len(history),
         "cited_by": {
             s: [o.name for o in outlets.values()
                 if s in o.source_ids or any(s in cp.source_ids for cp in o.coproducts)]
@@ -195,9 +259,9 @@ def report_html(markdown_text: str, unmatched: list[NumberMatch]) -> Markup:
 
 
 @app.get("/", response_class=HTMLResponse)
-def index(request: Request) -> Response:
+def index(request: Request, data: str | None = None) -> Response:
     sid, session = get_session(request)
-    c = compute(None)
+    c = compute(None, mode=data)
     resp = templates.TemplateResponse(request, "index.html", context(c, session))
     return with_cookie(resp, sid)
 

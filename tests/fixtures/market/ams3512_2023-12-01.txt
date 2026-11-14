@@ -1,0 +1,53 @@
+Grain By-Products
+  Wheat Middlings
+Region
+Mast
+  Almond Hulls
+Region
+Sale Type
+Basis
+Basis Change
+Price ($/Ton)
+Price Change
+Average
+Year Ago
+Freight
+CA-San Joaquin Valley
+Trade
+110.00-115.00
+No Comp
+112.50
+FOB-T/R
+CA-San Joaquin Valley
+Ask
+125.00-140.00
+UP 5.00-UNCH
+131.00
+284.17
+DLVD-T
+CA-South
+Trade
+119.00
+No Comp
+119.00
+FOB-T/R
+CA-South
+Ask
+135.00-160.00
+UNCH
+145.00
+300.00
+DLVD-T
+Page 2 of 3
+  Rice Bran
+Region
+Sale Type
+Price ($/Ton)
+Freight
+CA-Sacramento Valley
+Ask
+120.00-160.00
+UNCH
+143.75
+135.00
+FOB-T/R

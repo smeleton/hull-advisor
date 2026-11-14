@@ -28,16 +28,42 @@
     <h2 id="lot-h">Your lot</h2>
     <p class="lede">What's the best thing to do with this lot of almond hulls, and how much more would it earn than selling to the local dairy?</p>
 
+    <input type="hidden" name="data_mode" value="{{ mode }}">
+    <div class="field">
+      <span class="field-label" id="mode-l">Prices from</span>
+      <div class="segmented segmented-links" role="group" aria-labelledby="mode-l">
+        {% if snap %}<a href="/?data=market" class="{{ 'on' if mode == 'market' }}" {% if mode == 'market' %}aria-current="true"{% endif %}>USDA market</a>{% endif %}
+        <a href="/?data=demo" class="{{ 'on' if mode == 'demo' }}" {% if mode == 'demo' %}aria-current="true"{% endif %}>Demo values</a>
+      </div>
+      {% if mode == "market" %}
+      <span class="hint">Dairy prices from the {{ snap.label }} [ams_3512]. Switching resets your edits.</span>
+      {% elif snap %}
+      <span class="hint">Made-up demo values. Switch to USDA market data for real prices.</span>
+      {% else %}
+      <span class="hint">No market data yet. Run <code>python -m biocycle.refresh</code>.</span>
+      {% endif %}
+    </div>
+
     <label class="field">
       <span class="field-label">Tons of hulls</span>
       <span class="input-unit"><input type="number" name="tons" value="{{ '%g'|format(lot.tons) }}" min="1" step="any" inputmode="decimal"><span>tons</span></span>
     </label>
 
-    <label class="field">
-      <span class="field-label">Hauling rate</span>
-      <span class="input-unit"><span>$</span><input type="number" name="haul_rate" value="{{ '%.2f'|format(lot.haul_rate) }}" min="0" step="0.01" inputmode="decimal"><span>per ton-mile</span></span>
-      <span class="hint">Default ${{ '%.2f'|format(default_haul) }}. Published range ${{ '%.2f'|format(haul_range[0]) }}–{{ '%.2f'|format(haul_range[1]) }} [{{ haul_source }}].</span>
-    </label>
+    <div class="field">
+      <span class="field-label" id="haul-l">Hauling cost</span>
+      {% if snap and snap.truck_rates %}
+      <div class="segmented" role="radiogroup" aria-labelledby="haul-l">
+        <label><input type="radio" name="haul_mode" value="usda" {{ "checked" if haul_mode == "usda" }}><span>USDA by distance</span></label>
+        <label><input type="radio" name="haul_mode" value="flat" {{ "checked" if haul_mode == "flat" }}><span>Flat rate</span></label>
+      </div>
+      <span class="hint haul-usda" {% if haul_mode != "usda" %}hidden{% endif %}>USDA {{ snap.truck_quarter }} truck rates for a {{ '%g'|format(truck_payload) }}-ton load:
+        {% for m, r in snap.truck_rates %}${{ '%.2f'|format(r) }} at {{ '%g'|format(m) }} mi{% if not loop.last %}, {% endif %}{% endfor %} per ton-mile [usda_gtor]. Longer hauls cost less per mile.</span>
+      {% endif %}
+      <label class="haul-flat" {% if haul_mode == "usda" %}hidden{% endif %}>
+        <span class="input-unit"><span>$</span><input type="number" name="haul_rate" value="{{ '%.2f'|format(lot.haul_rate) }}" min="0" step="0.01" inputmode="decimal" aria-label="Flat hauling rate, $ per ton-mile"><span>per ton-mile</span></span>
+        <span class="hint">Default ${{ '%.2f'|format(default_haul) }}. Published range ${{ '%.2f'|format(haul_range[0]) }}–{{ '%.2f'|format(haul_range[1]) }} [{{ haul_source }}].</span>
+      </label>
+    </div>
 
     <fieldset class="group">
       <legend>Quality <span class="muted">(optional)</span></legend>
@@ -161,6 +187,39 @@
 
     <!-- Sources -->
     <section class="panel" id="panel-sources" role="tabpanel" aria-labelledby="tab-sources">
+      {% if snap %}
+      <section class="block market" aria-labelledby="market-h">
+        <h3 class="block-h" id="market-h">Market data</h3>
+        <p class="block-sub">Pulled from public USDA and EIA sources on {{ snap.retrieved_at[:10] }}. Refresh with <code>python -m biocycle.refresh</code>.</p>
+        <div class="table-wrap">
+        <table class="data">
+          <caption class="sr-only">Almond hull asking prices in the latest USDA report</caption>
+          <thead><tr><th scope="col">Almond hulls, {{ snap.hull_report_date.strftime('%b %-d, %Y') }}</th><th scope="col">Basis</th>
+            <th scope="col" class="num">Range<br><span class="th-unit">$/ton</span></th><th scope="col" class="num">Average<br><span class="th-unit">$/ton</span></th><th scope="col" class="num">Year ago<br><span class="th-unit">$/ton</span></th></tr></thead>
+          <tbody>
+          {% for q in snap.hull_quotes %}
+            <tr><td class="opt">{{ q.region }}</td><td>{{ "Delivered by truck" if q.basis == "DLVD-T" else ("At the seller" if q.basis.startswith("FOB") else q.basis) }} <span class="muted">({{ q.basis }})</span></td>
+              <td class="num">{{ money(q.price_low) }}{% if q.price_high != q.price_low %}–{{ money(q.price_high) }}{% endif %}</td>
+              <td class="num strong">{{ money(q.average, decimals=2) }}</td>
+              <td class="num">{{ money(q.year_ago, decimals=2) if q.year_ago is not none else "—" }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        </div>
+        <dl class="facts">
+          {% if snap.truck_rates %}<div><dt>Truck rates, {{ snap.truck_quarter }} [usda_gtor]</dt><dd>{% for m, r in snap.truck_rates %}${{ '%.2f'|format(r) }}/ton-mile at {{ '%g'|format(m) }} mi{% if not loop.last %} · {% endif %}{% endfor %}</dd></div>{% endif %}
+          {% if snap.diesel %}<div><dt>California diesel [eia_ca_diesel]</dt><dd>${{ '%.3f'|format(snap.diesel[1]) }}/gal, week of {{ snap.diesel[0].strftime('%b %-d, %Y') }}</dd></div>{% endif %}
+          {% if snap.almond_price %}<div><dt>Shelled almonds, all grades [nass_ncit]</dt><dd>${{ '%.2f'|format(snap.almond_price[1]) }}/lb in {{ snap.almond_price[0] }} (recovered kernels sell for less)</dd></div>{% endif %}
+        </dl>
+        {% if history_chart %}
+        <figure class="chart-figure">
+          {{ history_chart }}
+          <figcaption>San Joaquin Valley delivered almond hull price, weekly average from {{ history_count }} USDA reports, {{ history_span[0].strftime('%b %Y') }}–{{ history_span[1].strftime('%b %Y') }} [ams_3512]. Hover a point for its value.</figcaption>
+        </figure>
+        {% endif %}
+      </section>
+      <h3 class="block-h">Sources</h3>
+      {% endif %}
       <p class="block-sub">Every {{ tier("sourced") }} number traces to one of these. {{ tier("placeholder") }} numbers are made up for the demo; {{ tier("user") }} numbers are what you entered.</p>
       <ol class="sources">
       {% for s in sources.values() %}

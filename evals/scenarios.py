@@ -13,6 +13,7 @@ class Scenario:
     description: str
     lot: Lot
     overrides: dict[str, Override] = field(default_factory=dict)
+    market: bool = False  # use the refreshed USDA market snapshot instead of demo values
 
 
 ALL_USER_INPUTS = {
@@ -40,4 +41,6 @@ SCENARIOS: tuple[Scenario, ...] = (
              Lot(tons=40, haul_rate=0.60, haul_rate_tier="user")),
     Scenario("all_user_inputs", "Every placeholder replaced by an entered value.",
              Lot(tons=1200, aflatoxin_tested="yes"), ALL_USER_INPUTS),
+    Scenario("market_default", "Default lot on real USDA prices and truck rates.",
+             Lot(tons=1000), market=True),
 )
