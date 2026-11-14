@@ -56,7 +56,7 @@
         <label><input type="radio" name="haul_mode" value="usda" {{ "checked" if haul_mode == "usda" }}><span>USDA by distance</span></label>
         <label><input type="radio" name="haul_mode" value="flat" {{ "checked" if haul_mode == "flat" }}><span>Flat rate</span></label>
       </div>
-      <span class="hint haul-usda" {% if haul_mode != "usda" %}hidden{% endif %}>USDA {{ snap.truck_quarter }} truck rates for a {{ '%g'|format(truck_payload) }}-ton load:
+      <span class="hint haul-usda" {% if haul_mode != "usda" %}hidden{% endif %}>USDA {{ snap.truck_quarter }} truck rates, assuming a {{ '%g'|format(truck_payload) }}-ton load:
         {% for m, r in snap.truck_rates %}${{ '%.2f'|format(r) }} at {{ '%g'|format(m) }} mi{% if not loop.last %}, {% endif %}{% endfor %} per ton-mile [usda_gtor]. Longer hauls cost less per mile.</span>
       {% endif %}
       <label class="haul-flat" {% if haul_mode == "usda" %}hidden{% endif %}>
@@ -102,7 +102,9 @@
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button type="button" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="true">Compare options</button>
       <button type="button" role="tab" id="tab-buyers" aria-controls="panel-buyers" aria-selected="false">Split across buyers</button>
+      <button type="button" role="tab" id="tab-directory" aria-controls="panel-directory" aria-selected="false">Find buyers</button>
       <button type="button" role="tab" id="tab-report" aria-controls="panel-report" aria-selected="false">Written report</button>
+      <button type="button" role="tab" id="tab-sustainability" aria-controls="panel-sustainability" aria-selected="false">Sustainability</button>
       <button type="button" role="tab" id="tab-sources" aria-controls="panel-sources" aria-selected="false">Sources</button>
       <span class="status" id="status" aria-live="polite"></span>
     </nav>
@@ -178,11 +180,37 @@
       <div id="buyer-results">{% include "partials/buyer_results.html" %}</div>
     </section>
 
+    <!-- Directory -->
+    <section class="panel" id="panel-directory" role="tabpanel" aria-labelledby="tab-directory">
+      <div class="callout dir-intro">
+        <p><strong>Real companies that work with almond hulls in California.</strong> We list only public business information from each company's own website or news coverage, with the page we checked. BioCycle has no relationship with these companies; a listing is not an endorsement and doesn't mean they will buy your lot. Nothing is sent from this app: quote requests are drafts you send yourself.</p>
+      </div>
+      <div id="directory-results">{% include "partials/directory.html" %}</div>
+    </section>
+
     <!-- Report -->
     <section class="panel" id="panel-report" role="tabpanel" aria-labelledby="tab-report">
       <p class="block-sub">Claude writes a plain-English summary of the results on the Compare tab. It may only use numbers from those results; any number it can't trace back is highlighted.</p>
       <p><button type="button" class="button" id="generate-report">Write the report</button></p>
       <div id="report-output"></div>
+    </section>
+
+    <!-- Sustainability -->
+    <section class="panel" id="panel-sustainability" role="tabpanel" aria-labelledby="tab-sustainability">
+      <p class="block-sub">A summary you can hand to a dairy, food company or lender asking about Scope 3 and circularity. Every factor is cited; anything we can't support with a published number is left out and listed below.</p>
+      <div class="sus-controls">
+        <label class="field field-inline">
+          <span class="field-label">Summarize</span>
+          <select class="cell fb-select" name="sus_outlet" aria-label="Option to summarize">
+            {% for r in results %}<option value="{{ r.outlet_id }}" {{ "selected" if r.outlet_id == sus_outlet }}>{{ r.name }}{{ " (best priced)" if loop.first }}</option>{% endfor %}
+          </select>
+        </label>
+        <span class="sus-downloads">
+          <button type="submit" class="button" formaction="/sustainability.pdf" formmethod="post" formtarget="_blank">Download PDF</button>
+          <button type="submit" class="button button-quiet" formaction="/sustainability.md" formmethod="post">Markdown</button>
+        </span>
+      </div>
+      <div id="sustainability-results">{% include "partials/sustainability.html" %}</div>
     </section>
 
     <!-- Sources -->

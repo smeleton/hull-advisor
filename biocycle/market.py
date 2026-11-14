@@ -334,6 +334,38 @@ def load_hull_history(path: Path = MARKET_DIR / "hull_prices.csv") -> list[HullQ
                 for r in csv.DictReader(f)]
 
 
+def merge_quotes(old: Iterable[HullQuote], new: Iterable[HullQuote]) -> list[HullQuote]:
+    """History plus newly fetched quotes, one per (date, region, sale type, basis); new wins.
+
+    The weekly report is overwritten every week and the public archive has stopped updating, so
+    the saved history is the only record of past weeks: a refresh must add to it, never replace it.
+    """
+    merged = {(q.report_date, q.region, q.sale_type, q.basis): q for q in old}
+    merged.update({(q.report_date, q.region, q.sale_type, q.basis): q for q in new})
+    return sorted(merged.values(), key=lambda q: (q.report_date, q.region, q.basis, q.sale_type))
+
+
+def load_truck_rate_history(path: Path = MARKET_DIR / "truck_rates.csv") -> dict[str, tuple]:
+    """{quarter: ((miles, $/short ton-mile), ...)} from the saved USDA truck rates."""
+    if not path.exists():
+        return {}
+    out: dict[str, list[tuple[float, float]]] = {}
+    with open(path, newline="") as f:
+        for r in csv.DictReader(f):
+            out.setdefault(r["quarter"], []).append(
+                (float(r["distance_mi"]), float(r["per_short_ton_mile"])))
+    return {q: tuple(sorted(v)) for q, v in out.items()}
+
+
+def rates_for(when: date, history: dict[str, tuple]) -> tuple | None:
+    """Truck rates for the quarter containing `when`, else the nearest earlier quarter."""
+    q = f"{when.year}Q{(when.month - 1) // 3 + 1}"
+    earlier = [k for k in history if k <= q]
+    if earlier:
+        return history[max(earlier)]
+    return history[min(history)] if history else None
+
+
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if not rows:

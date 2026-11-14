@@ -1,0 +1,24 @@
+# Emission factors for the sustainability report. Checked against the EPA GHG Emission
+# Factors Hub 2025 spreadsheet (epa_ghg_hub2025) on 2026-11-07.
+
+truck_freight:
+  # Table 8 (Scope 3 Category 4 / 9), "Medium- and Heavy-Duty Truck", per short ton-mile.
+  # The ton-mile factor already reflects typical loading, including empty return trips.
+  co2_kg_per_short_ton_mile: 0.186
+  ch4_g_per_short_ton_mile: 0.0016
+  n2o_g_per_short_ton_mile: 0.0054
+  gwp_ch4: 28    # IPCC AR5 100-year, as used by the Hub
+  gwp_n2o: 265
+  tier: sourced
+  source_id: epa_ghg_hub2025
+
+treatment_proxies:
+  # Table 9 (Scope 3 Category 5 / 12), metric tons CO2e per short ton of material.
+  # EPA has no almond-hull row; "Yard Trimmings" is the nearest plant material, so these are
+  # proxies and are tagged as demo values. They exclude avoided emissions (EPA's note).
+  material: Yard Trimmings
+  composted_t_co2e_per_short_ton: 0.14
+  combusted_t_co2e_per_short_ton: 0.05
+  landfilled_t_co2e_per_short_ton: 0.36
+  tier: placeholder
+  source_id: epa_ghg_hub2025

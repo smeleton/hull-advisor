@@ -167,8 +167,12 @@ def buyers_from_rows(
             continue  # blank row
         name = str(r.get("buyer") or "").strip()
         nums = [parse_number(r.get(c)) for c in ("price_per_ton", "max_tons", "miles")]
-        if not name or r.get("outlet_id") not in outlets or any(v is None for v in nums):
+        if not name or r.get("outlet_id") not in outlets:
             errors.append(f"Row {i}: needs a buyer name, an outlet, a price, max tons and miles.")
+            continue
+        if any(v is None for v in nums):
+            errors.append(f"Row {i} ({name}): enter their quote ($/ton), max tons and miles "
+                          "to include them.")
             continue
         price, max_tons, miles = nums
         if min(price, max_tons, miles) < 0:

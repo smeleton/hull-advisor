@@ -298,11 +298,11 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2023-12-01,CA-South,Trade,119.0,119.0,119.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/3f463q60j/0v839m19z/AMS_3512.PDF
 2023-12-08,CA-Sacramento Valley,Ask,100.0,100.0,100.0,230.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
 2023-12-08,CA-San Joaquin Valley,Ask,120.0,140.0,129.29,279.29,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
-2023-12-08,CA-San Joaquin Valley,Trade,105.0,112.0,108.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
 2023-12-08,CA-San Joaquin Valley,Ask,110.0,110.0,110.0,256.67,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
+2023-12-08,CA-San Joaquin Valley,Trade,105.0,112.0,108.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
 2023-12-08,CA-South,Ask,135.0,165.0,145.0,298.33,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
-2023-12-08,CA-South,Trade,118.0,118.0,118.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
 2023-12-08,CA-South,Ask,120.0,120.0,120.0,265.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
+2023-12-08,CA-South,Trade,118.0,118.0,118.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/qj72qs341/79409j250/AMS_3512.PDF
 2023-12-15,CA-Sacramento Valley,Ask,100.0,100.0,100.0,240.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/416894255/4f16dp33q/AMS_3512.PDF
 2023-12-15,CA-San Joaquin Valley,Ask,120.0,140.0,128.86,289.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/416894255/4f16dp33q/AMS_3512.PDF
 2023-12-15,CA-San Joaquin Valley,Ask,110.0,110.0,110.0,268.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/416894255/4f16dp33q/AMS_3512.PDF
@@ -320,11 +320,11 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2024-01-05,CA-South,Ask,120.0,120.0,120.0,280.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/h415qw71j/kp78j3889/AMS_3512.PDF
 2024-01-12,CA-Sacramento Valley,Ask,100.0,100.0,100.0,240.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
 2024-01-12,CA-San Joaquin Valley,Ask,115.0,138.0,128.29,291.43,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
-2024-01-12,CA-San Joaquin Valley,Trade,105.0,110.0,107.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
 2024-01-12,CA-San Joaquin Valley,Ask,110.0,110.0,110.0,268.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
+2024-01-12,CA-San Joaquin Valley,Trade,105.0,110.0,107.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
 2024-01-12,CA-South,Ask,135.0,180.0,148.33,307.5,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
-2024-01-12,CA-South,Trade,115.0,115.0,115.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
 2024-01-12,CA-South,Ask,120.0,120.0,120.0,280.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
+2024-01-12,CA-South,Trade,115.0,115.0,115.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5t34v570q/v118t208w/AMS_3512.PDF
 2024-01-19,CA-Sacramento Valley,Ask,100.0,100.0,100.0,240.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/8k71q440q/q524m893k/AMS_3512.PDF
 2024-01-19,CA-San Joaquin Valley,Ask,115.0,140.0,128.57,290.71,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/8k71q440q/q524m893k/AMS_3512.PDF
 2024-01-19,CA-San Joaquin Valley,Ask,110.0,110.0,110.0,268.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/8k71q440q/q524m893k/AMS_3512.PDF
@@ -364,11 +364,11 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2024-03-08,CA-Sacramento Valley,Ask,100.0,100.0,100.0,250.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
 2024-03-08,CA-San Joaquin Valley,Ask,90.0,130.0,110.0,283.57,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
 2024-03-08,CA-San Joaquin Valley,Trade,85.0,85.0,85.0,,FOB-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
-2024-03-08,CA-San Joaquin Valley,Trade,80.0,85.0,82.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
 2024-03-08,CA-San Joaquin Valley,Ask,110.0,115.0,113.33,281.67,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
+2024-03-08,CA-San Joaquin Valley,Trade,80.0,85.0,82.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
 2024-03-08,CA-South,Ask,120.0,135.0,127.0,306.67,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
-2024-03-08,CA-South,Trade,90.0,90.0,90.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
 2024-03-08,CA-South,Ask,120.0,120.0,120.0,290.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
+2024-03-08,CA-South,Trade,90.0,90.0,90.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ht24z629z/3r076h97t/AMS_3512.PDF
 2024-03-15,CA-Sacramento Valley,Ask,100.0,100.0,100.0,250.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/1j92hw81h/j6732s359/AMS_3512.PDF
 2024-03-15,CA-San Joaquin Valley,Ask,85.0,130.0,109.29,279.17,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/1j92hw81h/j6732s359/AMS_3512.PDF
 2024-03-15,CA-San Joaquin Valley,Ask,110.0,115.0,113.33,281.67,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/1j92hw81h/j6732s359/AMS_3512.PDF
@@ -434,18 +434,18 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2024-08-23,CA-South,Ask,75.0,75.0,75.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/8910mk25g/4f16dv37v/AMS_3512.PDF
 2024-08-30,CA-Sacramento Valley,Ask,55.0,55.0,55.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
 2024-08-30,CA-San Joaquin Valley,Ask,70.0,95.0,77.86,115.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
-2024-08-30,CA-San Joaquin Valley,Trade,65.0,65.0,65.0,106.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
 2024-08-30,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
+2024-08-30,CA-San Joaquin Valley,Trade,65.0,65.0,65.0,106.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
 2024-08-30,CA-South,Ask,85.0,105.0,92.5,130.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
-2024-08-30,CA-South,Trade,78.0,78.0,78.0,115.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
 2024-08-30,CA-South,Ask,75.0,75.0,75.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
+2024-08-30,CA-South,Trade,78.0,78.0,78.0,115.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gq67mh605/00001s059/AMS_3512.PDF
 2024-09-06,CA-Sacramento Valley,Ask,55.0,55.0,55.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
 2024-09-06,CA-San Joaquin Valley,Ask,70.0,95.0,79.29,115.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
-2024-09-06,CA-San Joaquin Valley,Trade,70.0,70.0,70.0,112.5,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
 2024-09-06,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
+2024-09-06,CA-San Joaquin Valley,Trade,70.0,70.0,70.0,112.5,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
 2024-09-06,CA-South,Ask,85.0,105.0,94.17,130.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
-2024-09-06,CA-South,Trade,90.0,90.0,90.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
 2024-09-06,CA-South,Ask,75.0,75.0,75.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
+2024-09-06,CA-South,Trade,90.0,90.0,90.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/c821jc66d/xk81mb032/AMS_3512.PDF
 2024-09-13,CA-Sacramento Valley,Ask,55.0,55.0,55.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gh93js346/m613pq302/AMS_3512.PDF
 2024-09-13,CA-San Joaquin Valley,Ask,70.0,95.0,79.29,115.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gh93js346/m613pq302/AMS_3512.PDF
 2024-09-13,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/gh93js346/m613pq302/AMS_3512.PDF
@@ -468,8 +468,8 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2024-10-04,CA-South,Ask,75.0,75.0,75.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/t148hb02m/h128q885g/AMS_3512.PDF
 2024-10-11,CA-Sacramento Valley,Ask,55.0,55.0,55.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/d504td15j/5d86qr95c/AMS_3512.PDF
 2024-10-11,CA-San Joaquin Valley,Ask,70.0,95.0,81.43,128.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/d504td15j/5d86qr95c/AMS_3512.PDF
-2024-10-11,CA-San Joaquin Valley,Trade,65.0,70.0,67.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/d504td15j/5d86qr95c/AMS_3512.PDF
 2024-10-11,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/d504td15j/5d86qr95c/AMS_3512.PDF
+2024-10-11,CA-San Joaquin Valley,Trade,65.0,70.0,67.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/d504td15j/5d86qr95c/AMS_3512.PDF
 2024-10-11,CA-South,Ask,85.0,105.0,96.67,138.75,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/d504td15j/5d86qr95c/AMS_3512.PDF
 2024-10-11,CA-South,Ask,75.0,75.0,75.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/d504td15j/5d86qr95c/AMS_3512.PDF
 2024-10-18,CA-Sacramento Valley,Ask,55.0,55.0,55.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/h702s0695/vt152b39x/AMS_3512.PDF
@@ -484,8 +484,8 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2024-10-25,CA-South,Ask,75.0,75.0,75.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/5712p228k/00001t41c/AMS_3512.PDF
 2024-11-01,CA-Sacramento Valley,Ask,55.0,55.0,55.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/hh63vm360/3b593387j/AMS_3512.PDF
 2024-11-01,CA-San Joaquin Valley,Ask,70.0,95.0,81.43,127.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/hh63vm360/3b593387j/AMS_3512.PDF
-2024-11-01,CA-San Joaquin Valley,Trade,75.0,80.0,77.5,112.5,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/hh63vm360/3b593387j/AMS_3512.PDF
 2024-11-01,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/hh63vm360/3b593387j/AMS_3512.PDF
+2024-11-01,CA-San Joaquin Valley,Trade,75.0,80.0,77.5,112.5,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/hh63vm360/3b593387j/AMS_3512.PDF
 2024-11-01,CA-South,Ask,85.0,105.0,96.67,142.5,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/hh63vm360/3b593387j/AMS_3512.PDF
 2024-11-01,CA-South,Ask,75.0,75.0,75.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/hh63vm360/3b593387j/AMS_3512.PDF
 2024-11-08,CA-Sacramento Valley,Ask,55.0,55.0,55.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/v692w1757/br86cw896/AMS_3512.PDF
@@ -520,8 +520,8 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2024-12-20,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/kd17fp53w/vd66xt66v/AMS_3512.PDF
 2025-01-03,CA-Sacramento Valley,Ask,55.0,55.0,55.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/t148hc963/w37654256/AMS_3512.PDF
 2025-01-03,CA-San Joaquin Valley,Ask,70.0,100.0,84.29,128.29,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/t148hc963/w37654256/AMS_3512.PDF
-2025-01-03,CA-San Joaquin Valley,Trade,80.0,85.0,82.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/t148hc963/w37654256/AMS_3512.PDF
 2025-01-03,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,110.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/t148hc963/w37654256/AMS_3512.PDF
+2025-01-03,CA-San Joaquin Valley,Trade,80.0,85.0,82.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/t148hc963/w37654256/AMS_3512.PDF
 2025-01-03,CA-South,Ask,85.0,110.0,101.67,148.33,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/t148hc963/w37654256/AMS_3512.PDF
 2025-01-03,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/t148hc963/w37654256/AMS_3512.PDF
 2025-01-10,CA-Sacramento Valley,Ask,55.0,55.0,55.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/8049j227h/zc77vm60w/AMS_3512.PDF
@@ -531,8 +531,8 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2025-01-10,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/8049j227h/zc77vm60w/AMS_3512.PDF
 2025-01-17,CA-Sacramento Valley,Ask,55.0,55.0,55.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/cc08k9753/ff3671724/AMS_3512.PDF
 2025-01-17,CA-San Joaquin Valley,Ask,70.0,105.0,87.14,128.57,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/cc08k9753/ff3671724/AMS_3512.PDF
-2025-01-17,CA-San Joaquin Valley,Trade,80.0,85.0,82.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/cc08k9753/ff3671724/AMS_3512.PDF
 2025-01-17,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,110.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/cc08k9753/ff3671724/AMS_3512.PDF
+2025-01-17,CA-San Joaquin Valley,Trade,80.0,85.0,82.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/cc08k9753/ff3671724/AMS_3512.PDF
 2025-01-17,CA-South,Ask,85.0,135.0,107.5,143.33,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/cc08k9753/ff3671724/AMS_3512.PDF
 2025-01-17,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/cc08k9753/ff3671724/AMS_3512.PDF
 2025-01-24,CA-Sacramento Valley,Ask,55.0,55.0,55.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/xd07jn82w/g445f909f/AMS_3512.PDF
@@ -547,62 +547,62 @@ report_date,region,sale_type,price_low,price_high,average,year_ago,basis,source_
 2025-01-31,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/bk12b6456/8336jw92g/AMS_3512.PDF
 2025-02-07,CA-Sacramento Valley,Ask,55.0,55.0,55.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ms35w607v/9k4218841/AMS_3512.PDF
 2025-02-07,CA-San Joaquin Valley,Ask,70.0,105.0,87.14,122.86,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ms35w607v/9k4218841/AMS_3512.PDF
-2025-02-07,CA-San Joaquin Valley,Trade,85.0,85.0,85.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ms35w607v/9k4218841/AMS_3512.PDF
 2025-02-07,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,113.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ms35w607v/9k4218841/AMS_3512.PDF
+2025-02-07,CA-San Joaquin Valley,Trade,85.0,85.0,85.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ms35w607v/9k4218841/AMS_3512.PDF
 2025-02-07,CA-South,Ask,85.0,120.0,105.0,135.83,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ms35w607v/9k4218841/AMS_3512.PDF
 2025-02-07,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/ms35w607v/9k4218841/AMS_3512.PDF
 2025-02-14,CA-Sacramento Valley,Ask,55.0,55.0,55.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/4m90gr90f/8k71qd18v/AMS_3512.PDF
 2025-02-14,CA-San Joaquin Valley,Ask,70.0,110.0,88.29,118.57,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/4m90gr90f/8k71qd18v/AMS_3512.PDF
-2025-02-14,CA-San Joaquin Valley,Trade,95.0,95.0,95.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/4m90gr90f/8k71qd18v/AMS_3512.PDF
 2025-02-14,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,113.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/4m90gr90f/8k71qd18v/AMS_3512.PDF
+2025-02-14,CA-San Joaquin Valley,Trade,95.0,95.0,95.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/4m90gr90f/8k71qd18v/AMS_3512.PDF
 2025-02-14,CA-South,Ask,85.0,125.0,105.83,131.67,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/4m90gr90f/8k71qd18v/AMS_3512.PDF
 2025-02-14,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/4m90gr90f/8k71qd18v/AMS_3512.PDF
 2025-02-21,CA-Sacramento Valley,Ask,55.0,55.0,55.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/mk61td625/h128qc47p/AMS_3512.PDF
 2025-02-21,CA-San Joaquin Valley,Ask,70.0,110.0,89.71,117.86,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/mk61td625/h128qc47p/AMS_3512.PDF
-2025-02-21,CA-San Joaquin Valley,Trade,95.0,95.0,95.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/mk61td625/h128qc47p/AMS_3512.PDF
 2025-02-21,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,113.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/mk61td625/h128qc47p/AMS_3512.PDF
+2025-02-21,CA-San Joaquin Valley,Trade,95.0,95.0,95.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/mk61td625/h128qc47p/AMS_3512.PDF
 2025-02-21,CA-South,Ask,85.0,125.0,105.83,133.33,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/mk61td625/h128qc47p/AMS_3512.PDF
 2025-02-21,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/mk61td625/h128qc47p/AMS_3512.PDF
 2025-02-28,CA-Sacramento Valley,Ask,55.0,55.0,55.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dr270s901/vd66xv87t/AMS_3512.PDF
 2025-02-28,CA-San Joaquin Valley,Ask,70.0,110.0,90.0,115.71,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dr270s901/vd66xv87t/AMS_3512.PDF
-2025-02-28,CA-San Joaquin Valley,Trade,85.0,90.0,87.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dr270s901/vd66xv87t/AMS_3512.PDF
 2025-02-28,CA-San Joaquin Valley,Ask,60.0,65.0,63.33,113.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dr270s901/vd66xv87t/AMS_3512.PDF
+2025-02-28,CA-San Joaquin Valley,Trade,85.0,90.0,87.5,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dr270s901/vd66xv87t/AMS_3512.PDF
 2025-02-28,CA-South,Ask,85.0,125.0,105.83,128.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dr270s901/vd66xv87t/AMS_3512.PDF
 2025-02-28,CA-South,Ask,75.0,75.0,75.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dr270s901/vd66xv87t/AMS_3512.PDF
 2025-03-07,CA-Sacramento Valley,Ask,70.0,70.0,70.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/v692w3598/8w32t2448/AMS_3512.PDF
 2025-03-07,CA-San Joaquin Valley,Ask,70.0,110.0,96.14,110.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/v692w3598/8w32t2448/AMS_3512.PDF
-2025-03-07,CA-San Joaquin Valley,Trade,85.0,90.0,87.5,82.5,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/v692w3598/8w32t2448/AMS_3512.PDF
 2025-03-07,CA-San Joaquin Valley,Ask,85.0,95.0,91.67,113.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/v692w3598/8w32t2448/AMS_3512.PDF
+2025-03-07,CA-San Joaquin Valley,Trade,85.0,90.0,87.5,82.5,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/v692w3598/8w32t2448/AMS_3512.PDF
 2025-03-07,CA-South,Ask,105.0,125.0,115.0,127.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/v692w3598/8w32t2448/AMS_3512.PDF
 2025-03-07,CA-South,Ask,100.0,100.0,100.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/v692w3598/8w32t2448/AMS_3512.PDF
 2025-03-14,CA-Sacramento Valley,Ask,70.0,70.0,70.0,100.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
 2025-03-14,CA-San Joaquin Valley,Ask,85.0,110.0,100.0,109.29,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
-2025-03-14,CA-San Joaquin Valley,Trade,90.0,90.0,90.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
 2025-03-14,CA-San Joaquin Valley,Ask,85.0,95.0,91.67,113.33,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
+2025-03-14,CA-San Joaquin Valley,Trade,90.0,90.0,90.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
 2025-03-14,CA-South,Ask,110.0,130.0,116.67,126.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
-2025-03-14,CA-South,Trade,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
 2025-03-14,CA-South,Ask,100.0,100.0,100.0,120.0,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
+2025-03-14,CA-South,Trade,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/dz012k744/5999q1322/AMS_3512.PDF
 2025-03-28,CA-Sacramento Valley,Ask,70.0,70.0,70.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
 2025-03-28,CA-San Joaquin Valley,Ask,83.0,110.0,96.86,88.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
-2025-03-28,CA-San Joaquin Valley,Trade,90.0,90.0,90.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
 2025-03-28,CA-San Joaquin Valley,Ask,85.0,95.0,91.67,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
+2025-03-28,CA-San Joaquin Valley,Trade,90.0,90.0,90.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
 2025-03-28,CA-South,Ask,105.0,125.0,115.83,106.25,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
-2025-03-28,CA-South,Trade,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
 2025-03-28,CA-South,Ask,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
+2025-03-28,CA-South,Trade,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/m039n242c/mc87rm62p/AMS_3512.PDF
 2025-04-04,CA-Sacramento Valley,Ask,70.0,70.0,70.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
 2025-04-04,CA-San Joaquin Valley,Ask,83.0,110.0,96.86,87.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
-2025-04-04,CA-San Joaquin Valley,Trade,90.0,90.0,90.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
 2025-04-04,CA-San Joaquin Valley,Ask,85.0,95.0,91.67,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
+2025-04-04,CA-San Joaquin Valley,Trade,90.0,90.0,90.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
 2025-04-04,CA-South,Ask,98.0,125.0,113.0,112.5,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
-2025-04-04,CA-South,Trade,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
 2025-04-04,CA-South,Ask,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
+2025-04-04,CA-South,Trade,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/7m01dh47p/jw829890t/AMS_3512.PDF
 2025-04-11,CA-Sacramento Valley,Ask,70.0,70.0,70.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
 2025-04-11,CA-San Joaquin Valley,Ask,83.0,110.0,96.14,88.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
-2025-04-11,CA-San Joaquin Valley,Trade,80.0,90.0,86.67,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
 2025-04-11,CA-San Joaquin Valley,Ask,85.0,95.0,91.67,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
+2025-04-11,CA-San Joaquin Valley,Trade,80.0,90.0,86.67,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
 2025-04-11,CA-South,Ask,98.0,130.0,113.83,112.5,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
-2025-04-11,CA-South,Trade,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
 2025-04-11,CA-South,Ask,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
+2025-04-11,CA-South,Trade,100.0,100.0,100.0,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/6w926784q/gb19h343h/AMS_3512.PDF
 2025-04-18,CA-San Joaquin Valley,Ask,83.0,110.0,96.6,84.4,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/h702s370j/d504th48q/AMS_3512.PDF
 2025-04-18,CA-San Joaquin Valley,Trade,80.0,90.0,86.67,,FOB-T/R,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/h702s370j/d504th48q/AMS_3512.PDF
 2025-04-18,CA-South,Ask,98.0,130.0,112.0,105.0,DLVD-T,https://esmis.nal.usda.gov/sites/default/release-files/h128pj43f/h702s370j/d504th48q/AMS_3512.PDF

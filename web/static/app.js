@@ -74,11 +74,17 @@
       }
     }, 250);
   }
-  // Feedback fields (fb_*) don't change the results, so they don't trigger a recalculation.
-  const isFeedback = (e) => (e.target.name || "").startsWith("fb_");
+  // Feedback fields (fb_*) and unnamed fields (e.g. quote-request drafts) don't change the
+  // results, so they don't trigger a recalculation (which would also wipe what was typed).
+  const isFeedback = (e) => !e.target.name || e.target.name.startsWith("fb_");
   form.addEventListener("input", (e) => { if (!isFeedback(e)) recalc(); });
   form.addEventListener("change", (e) => { if (!isFeedback(e)) recalc(); });
-  form.addEventListener("submit", (e) => { e.preventDefault(); recalc(); });
+  form.addEventListener("submit", (e) => {
+    // Download buttons post the whole form to their own URL; everything else recalculates.
+    if (e.submitter && e.submitter.hasAttribute("formaction")) return;
+    e.preventDefault();
+    recalc();
+  });
 
   // ---------- hauling mode ----------
   form.querySelectorAll('input[name="haul_mode"]').forEach((r) => r.addEventListener("change", () => {
@@ -99,6 +105,36 @@
     if (!btn) return;
     btn.closest("tr").remove();
     recalc();
+  });
+
+  // ---------- buyer directory ----------
+  document.getElementById("directory-results").addEventListener("click", async (e) => {
+    const copy = e.target.closest(".copy-request");
+    if (copy) {
+      const box = copy.closest(".dir-quote");
+      const text = box.querySelector(".dir-subject").value + "\n\n" + box.querySelector(".dir-body").value;
+      const status = box.querySelector(".copy-status");
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = "Copied. Paste it into the company's contact form or an email.";
+      } catch (err) {
+        box.querySelector(".dir-body").select();
+        status.textContent = "Select-all is on: press Ctrl+C / ⌘C to copy.";
+      }
+      return;
+    }
+    const add = e.target.closest(".add-to-buyers");
+    if (add) {
+      const tpl = document.getElementById("buyer-row-template");
+      buyerBody.appendChild(tpl.content.cloneNode(true));
+      const row = buyerBody.lastElementChild;
+      row.querySelector('[name="b_buyer"]').value = add.dataset.name;
+      row.querySelector('[name="b_outlet_id"]').value = add.dataset.outlet;
+      row.querySelector('[name="b_notes"]').value = "From the directory: enter their quote";
+      add.textContent = "Added: enter their quote";
+      add.disabled = true;
+      recalc();
+    }
   });
 
   // ---------- feedback ----------

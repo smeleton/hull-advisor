@@ -203,21 +203,35 @@ def test_feedback_entry_snapshot_and_validation(results):
 
 def test_feedback_summary_compares_outcomes(results):
     lot = Lot(tons=1000)
+    def entry(form, sid, mode):
+        return feedback.build_entry(form, lot, results, sid, "h", data_mode=mode)
+
     entries = [
-        feedback.build_entry({"fb_useful": "yes", "fb_intent": "follow",
-                              "fb_outcome_outlet": "local_dairy", "fb_outcome_price": "95"},
-                             lot, results, "a", "h"),
-        feedback.build_entry({"fb_useful": "no", "fb_comment": "Price too high",
-                              "fb_outcome_outlet": "local_dairy", "fb_outcome_price": "70"},
-                             lot, results, "b", "h"),
+        entry({"fb_useful": "yes", "fb_intent": "follow",
+               "fb_outcome_outlet": "local_dairy", "fb_outcome_price": "95"}, "a", "market"),
+        entry({"fb_useful": "no", "fb_comment": "Price too high",
+               "fb_outcome_outlet": "local_dairy", "fb_outcome_price": "70"}, "b", "market"),
+        entry({"fb_outcome_outlet": "local_dairy", "fb_outcome_price": "200"}, "c", "demo"),
     ]
     s = summarize(entries)
     assert s["useful_rate"] == 0.5
-    assert s["price_within_predicted_range"] == 0.5  # 95 inside 76-106, 70 below
+    # Headline uses market-mode outcomes only: 95 inside 76-106, 70 below.
+    assert s["price_within_predicted_range"] == 0.5
     assert s["price_error_vs_mid"]["mean"] == pytest.approx(-8.5)  # (+4 - 21) / 2
+    assert s["by_mode"]["demo"]["within_range"] == 0.0  # the demo sale is scored separately
     assert s["followed_top_rate"] == 0.0
     md = to_markdown(s)
-    assert "Price too high" in md and "| local_dairy | $70 | $76–106 | no |" in md
+    assert "Price too high" in md
+    assert "| local_dairy | USDA market data | $70 | $76–106 | no |" in md
+    assert "Predicted with demo values: 1 sale(s)" in md
+
+
+def test_feedback_summary_without_market_outcomes(results):
+    e = feedback.build_entry({"fb_outcome_outlet": "local_dairy", "fb_outcome_price": "95"},
+                             Lot(tons=1000), results, "a", "h")  # mode not recorded
+    s = summarize([e])
+    assert s["price_within_predicted_range"] is None and "unknown" in s["by_mode"]
+    assert "no accuracy figure for the market numbers" in to_markdown(s)
 
 
 def test_feedback_route_saves_and_validates(tmp_path, monkeypatch):

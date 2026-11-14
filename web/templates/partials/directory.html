@@ -1,0 +1,46 @@
+{% for g in directory_groups %}
+<section class="dir-group" aria-labelledby="dir-{{ g.key }}">
+  <h3 class="block-h" id="dir-{{ g.key }}">{{ g.title }}
+    {% if g.is_best %}<span class="pill pill-best">Best option for this lot</span>{% endif %}</h3>
+  <p class="block-sub">{{ g.blurb }}</p>
+  {% if not g.companies %}
+  <p class="callout">{{ g.empty }}</p>
+  {% endif %}
+  <div class="dir-cards">
+  {% for item in g.companies %}{% set co = item.company %}
+    <article class="dir-card">
+      <header>
+        <h4>{{ co.name }}</h4>
+        <span class="co-status co-status-{{ co.status }}">{{ co.status_label }}</span>
+      </header>
+      <p class="dir-what">{{ co.what }}</p>
+      <p class="dir-loc">{{ co.location }}</p>
+      {% if co.notes %}<p class="dir-note">{{ co.notes }}</p>{% endif %}
+      <ul class="dir-evidence">
+        {% for e in co.evidence %}
+        <li>“{{ e.quote }}” <a href="{{ e.url }}" target="_blank" rel="noopener">source</a></li>
+        {% endfor %}
+      </ul>
+      <p class="dir-checked">Checked {{ co.checked.strftime('%b %-d, %Y') }}</p>
+      <div class="dir-actions">
+        {% if co.website %}<a class="button button-quiet" href="{{ co.website }}" target="_blank" rel="noopener">Website</a>{% endif %}
+        {% if co.contact_url %}<a class="button button-quiet" href="{{ co.contact_url }}" target="_blank" rel="noopener">Contact page</a>{% endif %}
+        <button type="button" class="button button-quiet add-to-buyers" data-name="{{ co.name }}" data-outlet="{{ g.outlet_id }}">Add to my buyer list</button>
+      </div>
+      <details class="dir-quote">
+        <summary>Draft a quote request</summary>
+        <label class="field"><span class="field-label">Subject</span>
+          <input class="cell cell-text dir-subject" id="dq-subject-{{ g.key }}-{{ co.id }}" type="text" value="{{ item.subject }}" readonly aria-label="Email subject"></label>
+        <label class="field"><span class="field-label">Message (edit the [brackets] before sending)</span>
+          <textarea class="fb-comment dir-body" id="dq-body-{{ g.key }}-{{ co.id }}" rows="12" aria-label="Email message">{{ item.body }}</textarea></label>
+        <div class="dir-actions">
+          <button type="button" class="button copy-request">Copy message</button>
+          <a class="button button-quiet" href="{{ item.mailto }}">Open in my email app</a>
+          <span class="copy-status muted" role="status" aria-live="polite"></span>
+        </div>
+      </details>
+    </article>
+  {% endfor %}
+  </div>
+</section>
+{% endfor %}

@@ -46,7 +46,8 @@ def _num(raw: Any) -> float | None:
 
 
 def build_entry(form: Mapping[str, Any], lot: Lot, results: pd.DataFrame, session_id: str,
-                payload_hash: str, now: datetime | None = None) -> dict[str, Any]:
+                payload_hash: str, now: datetime | None = None,
+                data_mode: str | None = None, haul_mode: str | None = None) -> dict[str, Any]:
     """Validate the fb_* fields and attach a snapshot of the prediction."""
     useful = str(form.get("fb_useful") or "").strip().lower()
     intent = str(form.get("fb_intent") or "").strip()
@@ -70,6 +71,10 @@ def build_entry(form: Mapping[str, Any], lot: Lot, results: pd.DataFrame, sessio
         raise FeedbackError("Answer at least one question before sending.")
 
     snapshot = {
+        # Which prices the prediction used: "market" (USDA) or "demo"; outcomes are scored
+        # per mode, so a real sale is never judged against a demo range.
+        "data_mode": data_mode,
+        "haul_mode": haul_mode,
         "lot": {"tons": lot.tons, "haul_rate": lot.haul_rate,
                 "moisture_pct": lot.moisture_pct, "crude_fiber_pct": lot.crude_fiber_pct,
                 "aflatoxin_tested": lot.aflatoxin_tested},

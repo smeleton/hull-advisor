@@ -35,7 +35,7 @@ from biocycle.config import (
     HAUL_RATE_SOURCE,
     PLACEHOLDER_BANNER,
 )
-from biocycle import feedback
+from biocycle import directory, feedback, sustainability
 from biocycle.data import Buyer, Outlet, Source, load_buyers, load_outlets, load_sources
 from biocycle.llm import LLMError, LLMResult
 from biocycle.market import (
@@ -124,6 +124,7 @@ class Computed:
     mode: str  # "market" (USDA data) or "demo" (outlets.yaml values)
     haul_mode: str  # "usda" (rates by distance) or "flat"
     outlets: dict[str, Outlet]
+    sus_outlet: str  # option shown on the Sustainability tab
 
     @property
     def show_banner(self) -> bool:
@@ -178,12 +179,58 @@ def compute(form: Any | None, mode: str | None = None, haul_mode: str | None = N
     rows = p.buyer_rows_from_form(form) if hasattr(form, "getlist") else sample_buyer_rows()
     buyers, tiers, errors = p.buyers_from_rows(rows, outlets, list(sample))
     alloc = allocate(buyers, lot, results, tiers) if buyers else None
-    return Computed(lot, results, rows, alloc, errors, mode, haul_mode, outlets)
+    sus = str(form.get("sus_outlet") or "")
+    sus = sus if sus in outlets else str(results.iloc[0]["outlet_id"])
+    return Computed(lot, results, rows, alloc, errors, mode, haul_mode, outlets, sus)
 
 
 def payload_hash(c: Computed) -> str:
     payload = build_payload(c.lot, c.results, load_data()[0])
     return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
+
+
+DIRECTORY_GROUPS = (
+    # key, title, outlet the quote request is for, outlets that point here, blurb, empty note
+    ("feed", "Dairy feed buyers and traders", "local_dairy", ("local_dairy", "clean_and_recover"),
+     "Buy or trade almond hulls for dairy and livestock rations. Cleaned hulls go to the same "
+     "buyers.", "No verified feed buyers listed yet."),
+    ("distant", "Out-of-state and export shippers", "distant_dairy", ("distant_dairy",),
+     "Move hulls beyond the local market by truck, rail or export.",
+     "No verified long-haul shippers listed yet."),
+    ("food", "Food ingredient", "food_ingredient", ("food_ingredient",),
+     "Almond hull powder was recognized as safe for food in 2026 [abc_gras2026]; the market "
+     "is still at the research stage.", "No verified food buyers listed yet."),
+    ("soil", "Compost and soil amendment", "compost_soil", ("compost_soil",),
+     "Composters and soil-amendment makers.",
+     "We couldn't find a California composter that publicly says it accepts almond hulls "
+     "(checked Nov 7, 2026). Local composters may still take them: call and ask."),
+    ("energy", "Bioenergy and biochar", "bioenergy", ("bioenergy",),
+     "Biomass and biochar plants. The ones we could verify take almond shells; ask whether "
+     "they take hulls.", "No verified bioenergy buyers listed yet."),
+)
+
+
+@lru_cache
+def load_directory_cached() -> tuple:
+    return tuple(directory.load_directory(load_data()[1]))
+
+
+def directory_groups(c: Computed) -> list[dict[str, Any]]:
+    best = str(c.results.iloc[0]["outlet_id"])
+    groups = []
+    for key, title, outlet_id, points_here, blurb, empty in DIRECTORY_GROUPS:
+        outlet = c.outlets[outlet_id]
+        items = []
+        for co in load_directory_cached():
+            if outlet_id not in co.outlets:
+                continue
+            subject, body = directory.quote_request(c.lot, co, outlet)
+            items.append({"company": co, "subject": subject, "body": body,
+                          "mailto": directory.mailto(subject, body)})
+        groups.append({"key": key, "title": title, "outlet_id": outlet_id, "blurb": blurb,
+                       "empty": empty, "companies": items, "is_best": best in points_here})
+    groups.sort(key=lambda g: not g["is_best"])
+    return groups
 
 
 def context(c: Computed, session: Session) -> dict[str, Any]:
@@ -226,6 +273,12 @@ def context(c: Computed, session: Session) -> dict[str, Any]:
             if len(history) > 1 else None),
         "history_span": (history[0].report_date, history[-1].report_date) if history else None,
         "history_count": len(history),
+        "directory_groups": directory_groups(c),
+        "sus": sustainability.report_data(c.lot, c.results, outlets, c.sus_outlet, sources),
+        "sus_rows": list(sustainability.assess(c.lot, c.results, outlets).values()),
+        "sus_alloc": (sustainability.assess_allocation(c.alloc.table, outlets)
+                      if c.alloc is not None else []),
+        "sus_outlet": c.sus_outlet,
         "cited_by": {
             s: [o.name for o in outlets.values()
                 if s in o.source_ids or any(s in cp.source_ids for cp in o.coproducts)]
@@ -301,7 +354,8 @@ async def send_feedback(request: Request) -> Response:
     form = await request.form()
     c = compute(form)
     try:
-        entry = feedback.build_entry(form, c.lot, c.results, sid, payload_hash(c))
+        entry = feedback.build_entry(form, c.lot, c.results, sid, payload_hash(c),
+                                     data_mode=c.mode, haul_mode=c.haul_mode)
         feedback.record(entry)
     except feedback.FeedbackError as e:
         resp = HTMLResponse(f'<span class="fb-error">{escape(str(e))}</span>', status_code=422)
@@ -311,6 +365,21 @@ async def send_feedback(request: Request) -> Response:
     else:
         resp = HTMLResponse('<span class="fb-ok">Thanks — your feedback was saved.</span>')
     return with_cookie(resp, sid)
+
+
+@app.post("/sustainability.{fmt}")
+async def sustainability_download(fmt: str, request: Request) -> Response:
+    """The Sustainability tab as a PDF or Markdown file, for the option chosen there."""
+    if fmt not in ("pdf", "md"):
+        return PlainTextResponse("Unknown format.", status_code=404)
+    c = compute(await request.form())
+    data = sustainability.report_data(c.lot, c.results, c.outlets, c.sus_outlet, load_data()[0])
+    name = f"hull_sustainability_{c.sus_outlet}.{fmt}"
+    if fmt == "pdf":
+        return Response(sustainability.to_pdf(data), media_type="application/pdf",
+                        headers={"Content-Disposition": f'inline; filename="{name}"'})
+    return PlainTextResponse(sustainability.to_markdown(data), media_type="text/markdown",
+                             headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
 @app.get("/report/{rid}.md")

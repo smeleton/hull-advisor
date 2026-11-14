@@ -31,14 +31,16 @@ The command exits non-zero if any check fails, so it can gate a release.
   This is a robustness check, not proof the advice was right; real outcomes (layer 3) are.
 - **Real weekly backtest** (after `python -m biocycle.refresh`): replay every week of USDA
   almond hull prices since 2022 (local = San Joaquin Valley delivered, south = southern
-  California delivered, USDA truck rates by distance) and report how often each option wins.
-  The first run (181 weeks, Feb 2022 – Nov 2026) found that shipping to southern California beat
-  selling locally in 55 weeks, where the demo values said it always lost by about $29/ton.
+  California delivered, and that quarter's USDA truck rates by distance, assuming a 27.5-ton
+  load) and report how often each option wins. On 181 weeks (Feb 2022 – Nov 2026), shipping to
+  southern California beat selling locally in 23 weeks (median −$14/ton), where the demo values
+  said it always lost by about $29/ton. Distances are still demo values (20 and 250 miles).
 
 ## 2. AI report eval (`evals/report_graders.py`, `evals/judge.py`, `evals/scenarios.py`)
 
-Seven scenarios (default lot, high fiber, a food buyer quote, worthless kernels, a tested wet lot,
-a small lot with expensive hauling, and a lot with no demo values) are each run through the real
+Eight scenarios (default lot, high fiber, a food buyer quote, worthless kernels, a tested wet lot,
+a small lot with expensive hauling, a lot with no demo values, and the default lot on real USDA
+market data) are each run through the real
 report prompt. The raw model output is graded two ways:
 
 **Code graders** (exact, free):
@@ -81,7 +83,9 @@ as a one-way hash. `logs/` is gitignored: feedback is user data and is never com
 
 - usefulness rate and intended next steps;
 - for every reported sale, the price received against the predicted price range for that option:
-  share inside the range, and mean / median / mean absolute error against the midpoint;
+  share inside the range, and mean / median / mean absolute error against the midpoint. Each
+  snapshot records whether the prediction used USDA market data or demo values; outcomes are
+  scored separately per mode, and the headline figures use market-mode sales only;
 - whether people went with the top option, and recent comments.
 
 **This is the real validation.** Layers 1–2 show the app does what we designed. Only reported
