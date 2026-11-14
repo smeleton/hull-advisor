@@ -15,7 +15,7 @@ def test_lp_two_buyer_known_optimum():
     # One more ton of A's capacity displaces a B ton: +10 - 5 = +5. B has slack: 0.
     assert sol.capacity_marginals == pytest.approx([5, 0])
     # One more ton of hulls goes to B: +5.
-    assert sol.hull_marginal == pytest.approx(5)
+    assert sol.lot_marginal == pytest.approx(5)
 
 
 def test_lp_capacity_binding_when_lot_is_large():
@@ -23,7 +23,7 @@ def test_lp_capacity_binding_when_lot_is_large():
     assert sol.tons == pytest.approx([60, 100])
     assert sol.value == pytest.approx(1_100)
     assert sol.capacity_marginals == pytest.approx([10, 5])
-    assert sol.hull_marginal == pytest.approx(0)
+    assert sol.lot_marginal == pytest.approx(0)
 
 
 def test_lp_skips_negative_margin_buyers():
@@ -61,7 +61,7 @@ def test_allocate_sample_buyers(outlets):
     assert alloc.total_value == pytest.approx(150 * 90 + 400 * 86.5 + 450 * 85.5)
     assert alloc.tons_unallocated == pytest.approx(0)
     # Dairy A has spare capacity, so an extra ton of hulls (or of D/B capacity) displaces A.
-    assert alloc.hull_marginal == pytest.approx(85.5)
+    assert alloc.lot_marginal == pytest.approx(85.5)
     assert t.loc["Example Food Processor D", "capacity_marginal"] == pytest.approx(4.5)
     assert t.loc["Example Dairy B", "capacity_marginal"] == pytest.approx(1.0)
     assert t.loc["Example Dairy A", "capacity_marginal"] == pytest.approx(0)
@@ -114,4 +114,4 @@ def test_unallocated_when_capacity_short(outlets):
     alloc = allocate(buyers, lot, evaluate(lot, outlets))
     assert alloc.tons_unallocated == pytest.approx(700)
     assert alloc.table.iloc[0]["capacity_marginal"] == pytest.approx(85.5)
-    assert alloc.hull_marginal == pytest.approx(0)
+    assert alloc.lot_marginal == pytest.approx(0)

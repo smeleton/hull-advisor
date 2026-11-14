@@ -1,7 +1,64 @@
-# Outlets for a lot of almond hulls. All prices $/ton of hulls as delivered; miles one-way.
-# Every number has a tier: sourced (see sources.yaml), user, or placeholder (made up for the demo).
+# Almond hulls: profile and outlets.
+# All prices $/short ton of hulls as delivered; miles one-way. Every number has a tier:
+# sourced (see sources.yaml), user, or placeholder (made up for the demo).
 # price_from: inherit another outlet's price range (and its tier); price_premium is added on top.
 
+id: almond_hulls
+name: Almond hulls
+noun: hulls
+producers: Almond hullers and shellers
+unit_label: short tons of hulls as delivered
+season: August–November (harvest and hulling)
+summary: >-
+  The soft outer hull around the almond shell. About 97% goes into dairy rations today
+  [farmprogress_low]; the hull price is reported weekly by USDA [ams_3512].
+baseline: local_dairy
+market_data: true
+must_place: false
+default_tons: 1000
+moisture_default: 10.5
+ef_material: yard_trimmings
+rules:
+  moisture_typical: [9, 12]
+  moisture_note: "(88–91% dry matter) [wcngg2022]"
+  moisture_markets: [feed]
+  crude_fiber_max: 15
+  crude_fiber_source: wcngg2022
+  mycotoxin: aflatoxin
+  mycotoxin_markets: [feed, food]
+quality_notes:
+  - "Feed hulls must meet the CDFA standard of crude fiber below 15% [wcngg2022]."
+  - "Test for aflatoxin before selling for feed or food."
+source_ids: [giannini2026, wcngg2022, farmprogress_low]
+directory_groups:
+  - key: feed
+    title: Dairy feed buyers and traders
+    outlet: local_dairy
+    outlets: [local_dairy, clean_and_recover]
+    blurb: Buy or trade almond hulls for dairy and livestock rations. Cleaned hulls go to the same buyers.
+    empty: No verified feed buyers listed yet.
+  - key: distant
+    title: Out-of-state and export shippers
+    outlet: distant_dairy
+    blurb: Move hulls beyond the local market by truck, rail or export.
+    empty: No verified long-haul shippers listed yet.
+  - key: food
+    title: Food ingredient
+    outlet: food_ingredient
+    blurb: "Almond hull powder was recognized as safe for food in 2026 [abc_gras2026]; the market is still at the research stage."
+    empty: No verified food buyers listed yet.
+  - key: soil
+    title: Compost and soil amendment
+    outlet: compost_soil
+    blurb: Composters and soil-amendment makers.
+    empty: "We couldn't find a California composter that publicly says it accepts almond hulls (checked Nov 7, 2026). Local composters may still take them: call and ask."
+  - key: energy
+    title: Bioenergy and biochar
+    outlet: bioenergy
+    blurb: "Biomass and biochar plants. The ones we could verify take almond shells; ask whether they take hulls."
+    empty: No verified bioenergy buyers listed yet.
+
+outlets:
 - id: local_dairy
   name: Sell to local dairy
   description: Baseline. Sell the hulls as-is into a nearby dairy ration.

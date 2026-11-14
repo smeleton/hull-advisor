@@ -1,9 +1,12 @@
-"""Deterministic net-value-per-ton math for each outlet, compared to the local dairy baseline.
+"""Deterministic net-value-per-ton math for each outlet, compared to the biomass's baseline
+(today's usual route, e.g. selling almond hulls to the local dairy).
 
-Formula per outlet (all $/ton of hulls, r = haul rate $/ton-mile):
-    net = price - processing_cost - r * miles + sum(coproduct value per ton)
-Low/high come from the price and coproduct ranges; expected is the midpoint.
-Haul rate, miles, and processing cost are point values.
+Formula per outlet (all $/ton of input material, r = haul rate $/ton-mile, y = mass yield,
+tons of product sold per ton of input; h = tons hauled per ton of input, y or 1):
+    net = price * y - processing_cost - r * miles * h + sum(coproduct value per ton)
+A negative price is a fee the producer pays (disposal, tipping). Low/high come from the price
+and coproduct ranges; expected is the midpoint. Haul rate, miles, processing cost and mass
+yield are point values.
 
 Recovered-kernel mass (1-1.3% of the pile) is NOT subtracted from the hull tons sold;
 the effect is negligible for a demo estimate.
@@ -17,14 +20,8 @@ from typing import Any
 
 import pandas as pd
 
-from biocycle.config import (
-    BASELINE_ID,
-    CRUDE_FIBER_MAX,
-    DEFAULT_HAUL_RATE,
-    LB_PER_TON,
-    MOISTURE_TYPICAL_RANGE,
-)
-from biocycle.data import Outlet, worst_tier
+from biocycle.config import BASELINE_ID, DEFAULT_HAUL_RATE, LB_PER_TON
+from biocycle.data import HULL_RULES, Outlet, QualityRules, worst_tier
 
 NAN = float("nan")
 
@@ -54,7 +51,7 @@ class Lot:
         return pts[-1][1]
 
     def haul_cost(self, miles: float) -> float:
-        """$ per ton of hulls to haul them `miles` one way."""
+        """$ per ton hauled `miles` one way."""
         return self.haul_rate_at(miles) * miles
 
 
@@ -110,30 +107,39 @@ def coproduct_range(outlet: Outlet, ov: Override = Override()) -> tuple[float, f
     return low, high
 
 
-def quality_flags(outlet: Outlet, lot: Lot) -> tuple[list[str], bool]:
+def quality_flags(outlet: Outlet, lot: Lot,
+                  rules: QualityRules = HULL_RULES) -> tuple[list[str], bool]:
     """(flags, eligible). Only a failed feed standard makes an outlet ineligible."""
     flags: list[str] = []
     eligible = True
-    if outlet.market == "feed":
-        if lot.crude_fiber_pct is not None and lot.crude_fiber_pct >= CRUDE_FIBER_MAX:
-            eligible = False
+    fiber_max = rules.crude_fiber_max
+    if (outlet.market == "feed" and fiber_max is not None and lot.crude_fiber_pct is not None
+            and lot.crude_fiber_pct >= fiber_max):
+        eligible = False
+        src = f" [{rules.crude_fiber_source}]" if rules.crude_fiber_source else ""
+        flags.append(
+            f"Ineligible as feed: crude fiber {lot.crude_fiber_pct:g}% is at or above "
+            f"the {fiber_max:g}% standard{src}."
+        )
+    if (rules.moisture_typical and outlet.market in rules.moisture_markets
+            and lot.moisture_pct is not None):
+        lo, hi = rules.moisture_typical
+        if not lo <= lot.moisture_pct <= hi:
+            note = f" {rules.moisture_note}" if rules.moisture_note else ""
             flags.append(
-                f"Ineligible as feed: crude fiber {lot.crude_fiber_pct:g}% is at or above "
-                f"the {CRUDE_FIBER_MAX:g}% standard [wcngg2022]."
+                f"Info: moisture {lot.moisture_pct:g}% is outside the typical {lo:g}–{hi:g}%"
+                f"{note}."
             )
-        lo, hi = MOISTURE_TYPICAL_RANGE
-        if lot.moisture_pct is not None and not lo <= lot.moisture_pct <= hi:
-            flags.append(
-                f"Info: moisture {lot.moisture_pct:g}% is outside the typical {lo:g}–{hi:g}% "
-                f"(88–91% dry matter) [wcngg2022]."
-            )
-    if outlet.market in ("feed", "food") and lot.aflatoxin_tested != "yes":
-        flags.append("Warning: aflatoxin not tested. Test before selling for feed or food.")
+    if (rules.mycotoxin and outlet.market in rules.mycotoxin_markets
+            and lot.aflatoxin_tested != "yes"):
+        uses = " or ".join(rules.mycotoxin_markets)
+        flags.append(f"Warning: {rules.mycotoxin} not tested. Test before selling for {uses}.")
     return flags, eligible
 
 
 def _value_outlet(
-    outlet: Outlet, lot: Lot, outlets: dict[str, Outlet], overrides: dict[str, Override]
+    outlet: Outlet, lot: Lot, outlets: dict[str, Outlet], overrides: dict[str, Override],
+    rules: QualityRules = HULL_RULES,
 ) -> dict[str, Any]:
     ov = overrides.get(outlet.id, Override())
     price = resolve_price(outlet, outlets, overrides)
@@ -141,7 +147,8 @@ def _value_outlet(
     processing = (
         ov.processing_cost if ov.processing_cost is not None else outlet.processing_cost_per_ton
     )
-    haul_cost = lot.haul_cost(miles)
+    y, h = outlet.mass_yield, outlet.haul_tons_per_ton
+    haul_cost = lot.haul_cost(miles) * h  # $ per ton of input
     cp_low, cp_high = coproduct_range(outlet, ov)
 
     input_tiers = {
@@ -154,13 +161,13 @@ def _value_outlet(
         price_tier = "user" if c.name in ov.coproduct_prices else c.unit_price_tier
         input_tiers[f"coproduct: {c.name}"] = worst_tier(c.yield_tier, price_tier)
 
-    flags, eligible = quality_flags(outlet, lot)
+    flags, eligible = quality_flags(outlet, lot, rules)
     if price.missing:
         flags.insert(0, "needs quote")
         net_low = net_high = NAN
     else:
-        net_low = price.low - processing - haul_cost + cp_low
-        net_high = price.high - processing - haul_cost + cp_high
+        net_low = price.low * y - processing - haul_cost + cp_low
+        net_high = price.high * y - processing - haul_cost + cp_high
 
     source_ids = sorted(
         set(outlet.source_ids)
@@ -172,12 +179,15 @@ def _value_outlet(
         "name": outlet.name,
         "status": outlet.status,
         "market": outlet.market,
+        "end_use": outlet.end_use,
         "needs_quote": price.missing,
         "eligible": eligible,
         "price_low": NAN if price.missing else price.low,
         "price_high": NAN if price.missing else price.high,
         "processing_cost": processing,
         "miles": miles,
+        "mass_yield": y,
+        "haul_tons_per_ton": h,
         "haul_cost": haul_cost,
         "coproduct_low": cp_low,
         "coproduct_high": cp_high,
@@ -202,12 +212,13 @@ def evaluate(
     outlets: dict[str, Outlet],
     overrides: dict[str, Override] | None = None,
     baseline_id: str = BASELINE_ID,
+    rules: QualityRules = HULL_RULES,
 ) -> pd.DataFrame:
     """One row per outlet, ranked: eligible by expected net, then ineligible, then needs-quote."""
     overrides = overrides or {}
     if baseline_id not in outlets:
         raise ValueError(f"baseline outlet {baseline_id!r} not found")
-    rows = [_value_outlet(o, lot, outlets, overrides) for o in outlets.values()]
+    rows = [_value_outlet(o, lot, outlets, overrides, rules) for o in outlets.values()]
     df = pd.DataFrame(rows)
 
     base = df.loc[df.outlet_id == baseline_id].iloc[0]
@@ -224,8 +235,10 @@ def evaluate(
     df["total_high"] = df.net_high * lot.tons
     df["vs_baseline_per_ton"] = df.net_expected - base_net
     df["vs_baseline_total"] = df.vs_baseline_per_ton * lot.tons
-    # Price at which expected net equals the baseline; defined even when a quote is missing.
-    df["break_even_price"] = base_net + df.processing_cost + df.haul_cost - df.coproduct_expected
+    # Price per ton of product at which expected net equals the baseline; defined even when a
+    # quote is missing.
+    df["break_even_price"] = (base_net + df.processing_cost + df.haul_cost
+                              - df.coproduct_expected) / df.mass_yield
 
     df["_sort_net"] = df.net_expected.fillna(-math.inf)
     df = df.sort_values(
