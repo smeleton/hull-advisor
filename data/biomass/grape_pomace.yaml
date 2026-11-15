@@ -176,8 +176,9 @@ outlets:
   risks:
   - Slow because phenols resist composting [grape_palatepress]
   - Compost stockpiles seasonal glut (Aug-Nov) [grape_wastedive_napa]
-  - 2026 California gate fees for green waste run about $35–115/ton [calrecycle_stanislaus_fees_2026];
-    wet fruit residues may cost more. Get a quote from your composter.
+  - Central Valley compost gate fees for food and yard waste are $47.12/ton for Modesto residents and $93.01/ton
+    for non-residents [modesto_compost_rates]; Sacramento County's Kiefer landfill charges $115.65/ton for green
+    waste (2026) [sacco_kiefer_fees_2026]. Farm-residue composters may charge less. Get a quote from your composter.
   source_ids:
   - grape_wastedive_napa
   - grape_napagreen_2022

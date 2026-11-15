@@ -31,8 +31,9 @@ nutrients_pct_dry:
     tier: sourced
     source_id: shells_chen2010
   P:
-    value: 0.03
-    tier: placeholder
+    value: 0.019
+    tier: sourced
+    source_id: ucdavis_byproduct_db
   K:
     value: 1.7
     tier: sourced

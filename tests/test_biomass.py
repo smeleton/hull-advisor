@@ -183,5 +183,5 @@ def test_sources_cited_inside_risk_text_reach_the_payload(bms, sources):
     df = evaluate_biomass(Lot(tons=1000), bm)
     payload = build_payload(Lot(tons=1000), df, sources, Material.of(bm))
     ids = {s["id"] for s in payload["sources"]}
-    assert "calrecycle_stanislaus_fees_2026" in ids  # cited only in the compost outlet's risks
+    assert "sacco_kiefer_fees_2026" in ids  # cited only in the compost outlet's risks
     assert payload["lot"]["measurements_tier"] == "user"

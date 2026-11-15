@@ -132,9 +132,9 @@ outlets:
   status: established
   market: soil
   pathway: compost
-  price_low: -90
-  price_high: -35
-  price_tier: placeholder
+  price_low: -93
+  price_high: -47
+  price_tier: sourced
   processing_cost_per_ton: 0
   processing_tier: placeholder
   default_miles: 30
@@ -145,10 +145,11 @@ outlets:
   requirements:
   - Local environmental law governs peel/seed disposal [mango_ufifas_hs1443]
   risks:
-  - Fees are 2015 median / vendor assumption, not a 2026 survey [ca_anaergia]
-  - 2026 California gate fees for green waste run about $35–115/ton [calrecycle_stanislaus_fees_2026];
-    wet fruit residues may cost more. Get a quote from your composter.
+  - Central Valley compost gate fees for food and yard waste are $47.12/ton for Modesto residents and $93.01/ton
+    for non-residents [modesto_compost_rates]; Sacramento County's Kiefer landfill charges $115.65/ton for green
+    waste (2026) [sacco_kiefer_fees_2026]. Get a quote from your composter.
   source_ids:
+  - modesto_compost_rates
   - ca_anaergia
   - ca_calrecycle_slcp
   - mango_ufifas_hs1443
@@ -158,9 +159,9 @@ outlets:
   status: emerging
   market: energy
   pathway: digestion
-  price_low: -55
+  price_low: -100
   price_high: -30
-  price_tier: placeholder
+  price_tier: sourced
   processing_cost_per_ton: 0
   processing_tier: placeholder
   default_miles: 20
@@ -171,8 +172,11 @@ outlets:
   requirements:
   - Packaging-free, sorted stream
   risks:
+  - 'Gate fee range is EBMUD''s FY2027 rate for solid organic material ($30–100/ton) [ebmud_r2_rates_fy2027]; Central
+    Valley digesters may differ.'
   - Small volumes; hauler may bundle with other organics
   source_ids:
+  - ebmud_r2_rates_fy2027
   - ca_anaergia
 - id: mango_peel_flour
   name: Dry and mill into peel flour (food ingredient)

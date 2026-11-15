@@ -8,7 +8,8 @@ noun: pomace
 producers: Tomato processors
 unit_label: short tons of tomato pomace as delivered
 season: July-Oct (harvest began first week of July in 2025 [tomato_tomatonews2025]; end month placeholder)
-ca_volume: Not published; roughly 3–5% of the processing-tomato crop.
+ca_volume: About 102,000 tonnes (roughly 113,000 short tons) of processing pomace a year; the year is not stated
+  [ucdavis_byproduct_db].
 summary: Peels and seeds from processing tomatoes, sold wet at about 65% moisture [tomato_morningstar_pomace_brochure];
   spoils in under two days [tomato_feedipedia_689].
 baseline: tomato_feed_wet
@@ -286,8 +287,9 @@ outlets:
   risks:
   - Urban sites pay landfill/discharge fees [both_biocycle_foodres]
   - Wet, odorous in summer heat
-  - 2026 California gate fees for green waste run about $35–115/ton [calrecycle_stanislaus_fees_2026];
-    wet fruit residues may cost more. Get a quote from your composter.
+  - Central Valley compost gate fees for food and yard waste are $47.12/ton for Modesto residents and $93.01/ton
+    for non-residents [modesto_compost_rates]; Sacramento County's Kiefer landfill charges $115.65/ton for green
+    waste (2026) [sacco_kiefer_fees_2026]. Farm-residue composters may charge less. Get a quote from your composter.
   source_ids:
   - both_biocycle_foodres
   - tomato_ucdavis_allison2017
