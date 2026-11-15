@@ -12,7 +12,6 @@
   <div>
     <dt>Best total value</dt>
     <dd><span class="fig">{{ money(alloc.total_value) }}</span></dd>
-    <dd class="fig-note">{{ tier(alloc.result_tier) }}</dd>
   </div>
   <div>
     <dt>Tons allocated</dt>
@@ -41,7 +40,7 @@
     <th scope="col" class="num">Allocated<br><span class="th-unit">tons</span></th>
     <th scope="col" class="num">Value</th>
     <th scope="col" class="num">+1 ton capacity<br><span class="th-unit">worth</span></th>
-    <th scope="col">Data</th><th scope="col">Note</th>
+    <th scope="col">Note</th>
   </tr></thead>
   <tbody>
   {% for r in alloc_rows %}
@@ -54,7 +53,6 @@
       <td class="num strong">{{ tons(r.tons) }}</td>
       <td class="num">{{ money(r.value) }}</td>
       <td class="num">{{ money(r.capacity_marginal, decimals=2) }}</td>
-      <td>{{ tier(r.buyer_tier) }}</td>
       <td class="muted">{{ "Fails quality check" if not r.eligible }}</td>
     </tr>
   {% endfor %}

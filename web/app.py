@@ -71,6 +71,7 @@ from biocycle.valuation import Lot, any_placeholder, evaluate_biomass
 
 WEB_DIR = Path(__file__).resolve().parent
 SESSION_COOKIE = "hva_session"
+SHOW_DEMO_BANNER = False  # the "Demo data" banner, hidden alongside the tier tags
 
 app = FastAPI(title="Byproduct Value Advisor")
 app.mount("/static", StaticFiles(directory=WEB_DIR / "static"), name="static")
@@ -175,7 +176,7 @@ class Computed:
     buyer_rows: list[dict[str, Any]]
     alloc: Allocation | None
     buyer_errors: list[str]
-    mode: str  # "market" (USDA data) or "demo" (outlets.yaml values)
+    mode: str  # "market" (USDA data) or "demo" (reference values from outlets.yaml)
     haul_mode: str  # "usda" (rates by distance) or "flat"
     outlets: dict[str, Outlet]
     sus_outlet: str  # option shown on the Sustainability tab
@@ -184,8 +185,8 @@ class Computed:
 
     @property
     def show_banner(self) -> bool:
-        return any_placeholder(self.results) or (
-            self.alloc is not None and self.alloc.result_tier == "placeholder")
+        return SHOW_DEMO_BANNER and (any_placeholder(self.results) or (
+            self.alloc is not None and self.alloc.result_tier == "placeholder"))
 
 
 def market_snapshot() -> MarketSnapshot | None:
@@ -200,9 +201,15 @@ def _cached_snapshot() -> MarketSnapshot | None:
 
 def resolve_modes(mode: str | None, haul_mode: str | None,
                   market_data: bool = True) -> tuple[str, str]:
-    """Price source (USDA market data exists for almond hulls only) and hauling mode."""
+    """Price source and hauling mode.
+
+    Prices default to the reference values ("demo": outlets.yaml, from cited research);
+    USDA market data (almond hulls only) is opt-in. Hauling defaults to USDA rates by
+    distance with market prices, or for materials without market data; reference prices
+    on almond hulls keep the flat cited rate.
+    """
     snap = market_snapshot()
-    mode = mode if mode in ("market", "demo") else ("market" if snap else "demo")
+    mode = mode if mode in ("market", "demo") else "demo"
     if mode == "market" and (snap is None or not market_data):
         mode = "demo"
     can_usda = snap is not None and bool(snap.truck_rates)

@@ -31,8 +31,9 @@ nutrients_pct_dry:
     tier: sourced
     source_id: shells_chen2010
   P:
-    value: 0.03
-    tier: placeholder
+    value: 0.019
+    tier: sourced
+    source_id: ucdavis_byproduct_db
   K:
     value: 1.7
     tier: sourced
@@ -215,7 +216,7 @@ outlets:
   risks:
   - Wholesale biochar prices are from 2018 and wide ($250-2,000+/BDT) [shells_westbio2018]
   - Project capacity (~24,000 t/yr) is ~3% of CA shells [shells_giannini2026]
-  - Pyrolysis operating cost is a demo value ($60 per ton of shells); get an operator's quote.
+  - Pyrolysis operating cost is an estimate ($60 per ton of shells); get an operator's quote.
   source_ids:
   - shells_biochartoday_sitos
   - shells_abc_emerging

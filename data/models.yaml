@@ -31,7 +31,7 @@ conversion_models:
         price_high: 12.0
         price_unit: usd/GJ
         price_tier: placeholder
-        price_note: "Demo value. Raw bio-oil needs upgrading before sale; priced below crude oil per GJ."
+        price_note: "Our estimate. Raw bio-oil needs upgrading before sale; priced below crude oil per GJ."
       - name: Hydro-char
         amount: [htt_char_yield, htt_char_hhv]
         convert: [tonne_char/t_char]
@@ -39,10 +39,10 @@ conversion_models:
         price_high: 4.0
         price_unit: usd/GJ
         price_tier: placeholder
-        price_note: "Demo value, in the range of solid biomass fuel per GJ."
+        price_note: "Our estimate, in the range of solid biomass fuel per GJ."
     conversion_cost_per_dry_ton: 150
     conversion_cost_tier: placeholder
-    conversion_cost_note: "Demo value. No published almond-hull hydrothermal cost study; plants are pre-commercial."
+    conversion_cost_note: "Our estimate. No published almond-hull hydrothermal cost study; plants are pre-commercial."
 
   - id: yeast_protein
     name: Fermentation to high-protein yeast
@@ -60,7 +60,7 @@ conversion_models:
         price_note: "Soybean meal price ÷ its protein share: what the same protein costs as soybean meal. Specialty feed yeast can sell higher."
     conversion_cost_per_dry_ton: 30
     conversion_cost_tier: placeholder
-    conversion_cost_note: "Demo value for enzyme, nitrogen, fermentation and drying. The paper has no cost analysis."
+    conversion_cost_note: "Our estimate for enzyme, nitrogen, fermentation and drying. The paper has no cost analysis."
 
   - id: ethanol_biogas
     name: Sugar extraction to ethanol, with biogas from the leftovers
@@ -75,7 +75,7 @@ conversion_models:
         price_high: 0.60
         price_unit: usd/L_ethanol
         price_tier: placeholder
-        price_note: "Demo value, about $1.70–2.27 per gallon."
+        price_note: "Our estimate, about $1.70–2.27 per gallon."
       - name: Methane from stillage
         amount: [stillage_methane_yield]
         convert: [tonne_dry/t_dry]
@@ -83,10 +83,10 @@ conversion_models:
         price_high: 0.25
         price_unit: usd/m3_methane
         price_tier: placeholder
-        price_note: "Demo value; renewable-gas credits can move this a lot."
+        price_note: "Our estimate; renewable-gas credits can move this a lot."
     conversion_cost_per_dry_ton: 70
     conversion_cost_tier: placeholder
-    conversion_cost_note: "Demo value. The researchers judged a stand-alone hull ethanol plant hard to justify on capital cost."
+    conversion_cost_note: "Our estimate. The researchers judged a stand-alone hull ethanol plant hard to justify on capital cost."
 
 feed_value:
   method_source: stpierre2004
@@ -131,4 +131,4 @@ material_models:
     product_unit: t_char
     conversion_cost_per_dry_ton: 120
     conversion_cost_tier: placeholder
-    conversion_cost_note: "Demo value for an HTC reactor, dewatering and drying. No almond-hull cost study found."
+    conversion_cost_note: "Our estimate for an HTC reactor, dewatering and drying. No almond-hull cost study found."

@@ -1,8 +1,8 @@
 {% from "macros.html" import tier %}
 {% if feed %}
 <p class="calc">
-  At {{ money(feed.corn_price_low) }}{% if feed.corn_price_high != feed.corn_price_low %}–{{ money(feed.corn_price_high) }}{% endif %}/ton corn {{ tier(feed.corn_price_tier) }}
-  and {{ money(feed.sbm_price_low) }}{% if feed.sbm_price_high != feed.sbm_price_low %}–{{ money(feed.sbm_price_high) }}{% endif %}/ton soybean meal {{ tier(feed.sbm_price_tier) }},
+  At {{ money(feed.corn_price_low) }}{% if feed.corn_price_high != feed.corn_price_low %}–{{ money(feed.corn_price_high) }}{% endif %}/ton corn
+  and {{ money(feed.sbm_price_low) }}{% if feed.sbm_price_high != feed.sbm_price_low %}–{{ money(feed.sbm_price_high) }}{% endif %}/ton soybean meal,
   the energy and protein in a ton of hulls would cost <strong>{{ money(feed.low) }}–{{ money(feed.high) }}</strong> to replace.
   The local dairy price used above is {{ money(base_price[0]) }}–{{ money(base_price[1]) }}/ton.
 </p>

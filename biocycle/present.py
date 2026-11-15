@@ -19,11 +19,11 @@ from biocycle.config import DEFAULT_HAUL_RATE
 from biocycle.data import Buyer, Outlet
 from biocycle.valuation import Lot, Override
 
-TIER_LABEL = {"sourced": "Sourced", "user": "Your entry", "placeholder": "Demo value"}
+TIER_LABEL = {"sourced": "Sourced", "user": "Your entry", "placeholder": "Estimate"}
 TIER_HELP = {
     "sourced": "From a cited public source (see Sources).",
     "user": "A number you entered.",
-    "placeholder": "Made up for this demo. Replace it with a real quote or measurement.",
+    "placeholder": "An assumed value, not yet sourced or quoted. Replace it with a real quote or measurement.",
 }
 STATUS_LABEL = {"established": "Established", "emerging": "Emerging",
                 "experimental": "Experimental"}

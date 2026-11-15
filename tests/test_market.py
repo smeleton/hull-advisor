@@ -180,8 +180,12 @@ def market_client(snap, monkeypatch):
     return TestClient(webapp.app)
 
 
-def test_market_mode_is_default_when_data_exists(market_client):
-    html = market_client.get("/").text
+def test_reference_values_are_default_and_market_is_opt_in(market_client):
+    default = market_client.get("/").text
+    assert 'name="data_mode" value="demo"' in default
+    assert 'aria-current="true">Reference values</a>' in default
+
+    html = market_client.get("/?data=market").text
     assert 'name="data_mode" value="market"' in html
     assert "USDA market report of Nov 6, 2026" in html
     assert "Ship to southern California dairies" in html

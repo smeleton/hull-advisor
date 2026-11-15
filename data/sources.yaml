@@ -593,3 +593,30 @@
   title: "\"Hydrothermal carbonization of biomass waste and application of produced hydrochar in organic pollutants removal\", Journal of Cleaner Production (2024)"
   url: https://doi.org/10.1016/j.jclepro.2024.142386
   what_it_supports: "Wild almond SHELL hydrochar (200 °C, 8 h) adsorbed up to 85–153 mg/g of test pollutants; activated carbon made from it, 265–556 mg/g (shells, not hulls)."
+
+# ---- Added 2026-11-14: replacing estimates with checked values ----
+
+- id: ucdavis_byproduct_db
+  title: "UC Davis AIFS Byproduct Database (almond, pistachio, pomegranate and tomato byproducts)"
+  url: https://byproductdatabase.com/
+  what_it_supports: "CA mass flows (tonnes/yr, year not stated): pistachio hulls 250.1k; tomato pomace 102.2k (95.1k conventional + 7.1k organic). Almond shell phosphorus 0.19 mg/g (0.019%, one data point; dry vs as-received basis not stated). Data CC BY-NC 4.0; extracted 2026-11-14."
+
+- id: modesto_compost_rates
+  title: "City of Modesto, \"Compost Rates\" (Modesto Compost Facility)"
+  url: https://www.modestogov.com/2244/Compost-Rates
+  what_it_supports: "Tipping fee for brush, yard waste, paper and food waste: $47.12/ton for Modesto residents, $93.01/ton for non-residents. No effective date shown; page checked 2026-11-14."
+
+- id: sacco_kiefer_fees_2026
+  title: "Sacramento County, Kiefer Landfill facility fees (effective Jan. 1, 2026)"
+  url: https://wmr.saccounty.gov/content/wmr/us/en/county-facilities/kiefer-landfill/fees.html
+  what_it_supports: "Green waste, clean wood waste and tree stumps: $115.65 per ton."
+
+- id: ebmud_r2_rates_fy2027
+  title: "EBMUD, \"FY 2027 Rates for Resource Recovery Material Treatment\""
+  url: https://www.ebmud.com/download_file/view/58539/646
+  what_it_supports: "Solid Organic Material $30/ton – $100/ton at EBMUD's co-digestion wastewater plant (Oakland)."
+
+- id: ecsa_dlimonene_2023
+  title: "Alliance Chemical, \"Florida Orange Crop 10M Boxes: What It Means for D-Limonene\" (Oct 2026), citing ECSA Chemicals' July 2023 market update"
+  url: https://alliancechemical.com/blogs/news/florida-orange-forecast-2026-d-limonene-supply
+  what_it_supports: "d-limonene and orange terpenes 'below 5.5–6.0 USD/kg' in July 2023 (about $2.49–2.72/lb); orange oil above $18/kg."

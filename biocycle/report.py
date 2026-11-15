@@ -50,7 +50,7 @@ input material), except price_low/high_per_ton, which are per ton of the product
 (see mass_yield). A negative price or net is money the producer pays, such as a disposal or \
 gate fee. You may round to whole dollars and use thousands separators (e.g. $98,000).
 - Every number has a data tier: "sourced" (from a cited source), "user" (entered by the user), \
-or "placeholder" (made up for this demo). Clearly separate sourced facts from placeholder \
+or "placeholder" (an assumed value, not yet sourced or quoted). Clearly separate sourced facts from placeholder \
 assumptions; say plainly when a result depends on placeholder values.
 - The baseline is today's usual route ({baseline}); vs_baseline values compare with it.
 - An outlet with needs_quote true has no price, so it is listed last and must not be \

@@ -221,14 +221,14 @@ def _kg(x: float) -> str:
     return f"{x / 1000:,.1f} t" if abs(x) >= 1000 else f"{x:,.0f} kg"
 
 
-TIER_WORD = {"sourced": "Sourced", "user": "Your entry", "placeholder": "Demo value"}
+TIER_WORD = {"sourced": "Sourced", "user": "Your entry", "placeholder": "Estimate"}
 
 
 def to_markdown(d: dict[str, Any]) -> str:
     c, b = d["chosen"], d["baseline"]
     lines = []
     if d["demo"]:
-        lines += [f"> **{PLACEHOLDER_BANNER}** Some inputs below are demo values.", ""]
+        lines += [f"> **{PLACEHOLDER_BANNER}** Some inputs below are estimates.", ""]
     m = d.get("material") or DEFAULT_MATERIAL
     name, noun = m["name"], m["noun"]
     lower = name[0].lower() + name[1:]
@@ -266,7 +266,7 @@ def to_markdown(d: dict[str, Any]) -> str:
     else:
         lines.append(f"{c['use']}: {_kg(c['treatment_kg'])} CO2e, using EPA's factor for "
                      f"{d['proxy']['material'].lower()} as a stand-in ({noun} are not "
-                     f"{d['proxy']['material'].lower()}). Data: Demo value.")
+                     f"{d['proxy']['material'].lower()}). Data: Estimate.")
     hull_goal = (" Every use in this summary keeps the hulls out of landfill, in line with the "
                  "Almond Board's goal of zero waste in orchards.") if name == "Almond hulls" else ""
     lines += ["", f"On EPA's Wasted Food Scale: {d['scale_position']}. (The scale is written for "

@@ -44,6 +44,7 @@ code { font-size: 12px; background: #efece3; padding: 1px 5px; border-radius: 4p
 h2, h3, h4 { margin: 0; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
 .muted { color: var(--ink-3); }
 .small { font-size: 13px; }
 .pos { color: var(--pos); }

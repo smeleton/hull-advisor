@@ -41,18 +41,18 @@
       <span class="field-label" id="mode-l">Prices from</span>
       <div class="segmented segmented-links" role="group" aria-labelledby="mode-l">
         {% if snap %}<a href="/?data=market" class="{{ 'on' if mode == 'market' }}" {% if mode == 'market' %}aria-current="true"{% endif %}>USDA market</a>{% endif %}
-        <a href="/?data=demo" class="{{ 'on' if mode == 'demo' }}" {% if mode == 'demo' %}aria-current="true"{% endif %}>Demo values</a>
+        <a href="/?data=demo" class="{{ 'on' if mode == 'demo' }}" {% if mode == 'demo' %}aria-current="true"{% endif %}>Reference values</a>
       </div>
       {% if mode == "market" %}
       <span class="hint">Dairy prices from the {{ snap.label }} [ams_3512]. Switching resets your edits.</span>
       {% elif snap %}
-      <span class="hint">Made-up demo values. Switch to USDA market data for real prices.</span>
+      <span class="hint">Prices from the cited studies and reports (see Material and sources). Switch to USDA market for live dairy prices.</span>
       {% else %}
       <span class="hint">No market data yet. Run <code>python -m biocycle.refresh</code>.</span>
       {% endif %}
     </div>
     {% else %}
-    <p class="hint">No public market price is reported for {{ biomass.name|lower }}; prices are from cited sources where we found them, otherwise demo values.</p>
+    <p class="hint">No public market price is reported for {{ biomass.name|lower }}; prices are reference values from the cited studies and reports (see Material and sources).</p>
     {% endif %}
 
     <label class="field">
@@ -103,15 +103,6 @@
     </fieldset>
 
     <p class="units">US short tons (2,000 lb) as delivered · prices in $/ton (negative = a fee you pay) · one-way miles</p>
-    <div class="legend-box">
-      <p class="legend-title">Where numbers come from</p>
-      <ul class="legend">
-        <li>{{ tier("sourced") }} cited public source</li>
-        <li>{{ tier("user") }} entered by you</li>
-        <li>{{ tier("placeholder") }} made up for the demo</li>
-      </ul>
-      <p class="muted small">A result is only as strong as its weakest input.</p>
-    </div>
   </aside>
 
   <main class="main">
@@ -131,7 +122,7 @@
 
       <section class="block">
         <h3 class="block-h">Adjust prices, distances and costs</h3>
-        <p class="block-sub">Type a buyer quote to replace the default price (a negative quote is a fee you pay). Anything you change counts as {{ tier("user") }}.</p>
+        <p class="block-sub">Type a buyer quote to replace the default price (a negative quote is a fee you pay).</p>
         <div class="table-wrap">
         <table class="data editor">
           <thead><tr>
@@ -145,12 +136,10 @@
           {% for o in outlets.values() %}
             <tr>
               <td class="opt">{{ o.name }}<div class="sub">{{ STATUS_LABEL[o.status] }}</div></td>
-              <td>{{ default_price_text(o) }} {% if o.price_low is not none or o.price_from %}{{ tier(default_price_tier(o)) }}{% endif %}</td>
+              <td>{{ default_price_text(o) }} </td>
               <td class="num"><input class="cell" type="number" name="price__{{ o.id }}" step="any" placeholder="{{ 'needed' if o.price_low is none and not o.price_from else 'default' }}" aria-label="Your quote for {{ o.name }}, $ per ton"></td>
-              <td class="num"><input class="cell" type="number" name="miles__{{ o.id }}" value="{{ '%g'|format(o.default_miles) }}" min="0" step="any" aria-label="One-way miles for {{ o.name }}">
-                <div class="cell-tier">{{ tier(o.miles_tier) }}</div></td>
-              <td class="num"><input class="cell" type="number" name="processing__{{ o.id }}" value="{{ '%g'|format(o.processing_cost_per_ton) }}" min="0" step="any" aria-label="Processing cost for {{ o.name }}, $ per ton">
-                <div class="cell-tier">{{ tier(o.processing_tier) }}</div></td>
+              <td class="num"><input class="cell" type="number" name="miles__{{ o.id }}" value="{{ '%g'|format(o.default_miles) }}" min="0" step="any" aria-label="One-way miles for {{ o.name }}"></td>
+              <td class="num"><input class="cell" type="number" name="processing__{{ o.id }}" value="{{ '%g'|format(o.processing_cost_per_ton) }}" min="0" step="any" aria-label="Processing cost for {{ o.name }}, $ per ton"></td>
             </tr>
           {% endfor %}
           </tbody>
@@ -160,8 +149,7 @@
         <label class="field field-inline">
           <span class="field-label">{{ name }} price</span>
           <span class="input-unit"><span>$</span><input type="number" name="coproduct__{{ slug(name) }}" value="{{ '%.2f'|format(c.unit_price_per_lb) }}" min="0" step="0.05" inputmode="decimal"><span>per lb</span></span>
-          {{ tier(c.unit_price_tier) }}
-          <span class="hint">Yield {{ '%g'|format(c.yield_low * 100) }}–{{ '%g'|format(c.yield_high * 100) }}% of the input weight {{ tier(c.yield_tier) }}{% if c.source_ids %} [{{ c.source_ids|join(", ") }}]{% endif %}.{% if c.name == "Recovered kernel" %} Recovered kernels may grade lower than standard kernels.{% endif %}</span>
+          <span class="hint">Yield {{ '%g'|format(c.yield_low * 100) }}–{{ '%g'|format(c.yield_high * 100) }}% of the input weight{% if c.source_ids %} [{{ c.source_ids|join(", ") }}]{% endif %}.{% if c.name == "Recovered kernel" %} Recovered kernels may grade lower than standard kernels.{% endif %}</span>
         </label>
         {% endfor %}
       </section>
@@ -194,7 +182,7 @@
 
     <!-- Buyers -->
     <section class="panel" id="panel-buyers" role="tabpanel" aria-labelledby="tab-buyers">
-      <p class="block-sub">Split this lot across specific buyers to earn the most in total. The sample buyers are <strong>fictional</strong> and their quotes are {{ tier("placeholder") }}. Edit, add or remove rows; changed rows count as {{ tier("user") }}.</p>
+      <p class="block-sub">Split this lot across specific buyers to earn the most in total. The sample buyers are <strong>fictional</strong>. Edit, add or remove rows.</p>
       <div class="table-wrap">
       <table class="data editor" id="buyer-table">
         <thead><tr>
@@ -297,7 +285,7 @@
       </section>
       {% endif %}
       <h3 class="block-h">Sources</h3>
-      <p class="block-sub">Every {{ tier("sourced") }} number traces to one of these. {{ tier("placeholder") }} numbers are made up for the demo; {{ tier("user") }} numbers are what you entered.</p>
+      <p class="block-sub">The reference values trace to these sources.</p>
       <ol class="sources">
       {% for s in sources.values() %}
         <li>
