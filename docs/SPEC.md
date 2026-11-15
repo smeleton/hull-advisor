@@ -1,4 +1,8 @@
-# BioCycle Hull Value Advisor — Prototype Spec (ship tonight)
+# Original prototype spec (historical)
+
+> Written before the build started; kept for context. The shipped app differs (FastAPI instead of Streamlit, eight materials instead of almond hulls only). See the [README](../README.md).
+
+# BioCycle Hull Value Advisor — Prototype Spec
 
 ## Context
 BioCycle AI helps whoever controls a lot of almond hulls (a huller/sheller, a grower co-op, or a
