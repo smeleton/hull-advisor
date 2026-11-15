@@ -8,8 +8,8 @@ noun: pomace
 producers: Tomato processors
 unit_label: short tons of tomato pomace as delivered
 season: July-Oct (harvest began first week of July in 2025 [tomato_tomatonews2025]; end month placeholder)
-ca_volume: About 102,000 tonnes (roughly 113,000 short tons) of processing pomace a year; the year is not stated
-  [ucdavis_byproduct_db].
+ca_volume: About 102,000 tonnes (roughly 113,000 short tons) of processing pomace a year (UC Davis count; year and wet/dry basis not stated, so likely
+  not the whole stream) [ucdavis_byproduct_db].
 summary: Peels and seeds from processing tomatoes, sold wet at about 65% moisture [tomato_morningstar_pomace_brochure];
   spoils in under two days [tomato_feedipedia_689].
 baseline: tomato_feed_wet
