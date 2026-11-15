@@ -2,6 +2,7 @@
 <section class="summary" aria-labelledby="summary-h">
   <p class="eyebrow" id="summary-h">Best priced option for {{ tons(lot.tons) }} tons</p>
   <h2 class="answer">{{ top["name"] }}</h2>
+  <p><a href="#directory" class="to-buyers" data-outlet="{{ top["outlet_id"] }}">Find buyers for this option →</a></p>
   {% if not top["eligible"] %}
   <p class="alert alert-bad">No priced option passes the quality checks for this lot. Every priced outlet fails a requirement — see the quality notes below.</p>
   {% endif %}
@@ -51,7 +52,7 @@
   {% for r in results %}
     <tr class="{{ 'is-baseline' if r.is_baseline }} {{ 'is-muted' if r.needs_quote or not r.eligible }}">
       <td class="num rank">{{ r["rank"] }}</td>
-      <td class="opt">{{ r.name }}
+      <td class="opt"><a href="#directory" class="to-buyers" data-outlet="{{ r.outlet_id }}" title="See companies that could buy for this option">{{ r.name }}</a>
         <div class="sub">{{ STATUS_LABEL[r.status] }}</div></td>
       <td class="num"><span class="strong">{{ r.expected_text }}</span>{% if r.range_text %}<div class="sub">{{ r.range_text }}</div>{% endif %}</td>
       <td class="num">{{ r.total_text }}</td>

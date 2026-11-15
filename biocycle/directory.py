@@ -54,6 +54,7 @@ class Company:
     evidence: tuple[Evidence, ...]
     checked: date
     notes: str = ""
+    fit: str = ""  # "possible" = handles similar material but does not name this residue
 
     @property
     def status_label(self) -> str:
@@ -86,6 +87,7 @@ def parse_company(raw: dict[str, Any], outlets: dict[str, Outlet]) -> Company:
         checked=raw["checked"] if isinstance(raw["checked"], date)
         else date.fromisoformat(str(raw["checked"])),
         notes=raw.get("notes") or "",
+        fit=str(raw.get("fit") or ""),
     )
     if c.status not in STATUSES:
         raise ValueError(f"{owner}: unknown status {c.status!r}")

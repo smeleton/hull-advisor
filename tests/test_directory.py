@@ -101,3 +101,24 @@ def test_find_buyers_tab_renders():
     assert "couldn&#39;t find a California composter" in html or \
         "couldn't find a California composter" in html
     assert "@" not in html.split('id="panel-directory"')[1].split("<!-- Report -->")[0]
+
+
+@pytest.mark.parametrize("bid", ["almond_hulls", "tomato_pomace"])
+def test_every_option_links_to_its_own_buyer_list(bid):
+    import re
+
+    from fastapi.testclient import TestClient
+
+    from web.app import app
+
+    html = TestClient(app).get(f"/?biomass={bid}").text
+    links = set(re.findall(r'class="to-buyers" data-outlet="([^"]+)"', html))
+    sections = set(re.findall(r'class="dir-focus" data-outlet="([^"]+)"', html))
+    assert links and links <= sections
+    assert 'class="dir-all"' in html
+
+
+def test_possible_fit_is_labelled_and_sorted_after_strong(outlets):
+    companies = {c.id: c for c in load_directory(outlets)}
+    assert companies["carbonzero_eco"].fit == "strong"
+    assert companies["anaergia_rialto"].fit == "possible"

@@ -43,7 +43,40 @@
       document.getElementById("current-hash").dataset.currentHash = hash.dataset.currentHash;
     }
     markStaleReport();
+    applyBuyerFocus();
   }
+
+  // ---------- option -> its buyers ----------
+  // Clicking an option on Compare opens Find buyers filtered to that option. The filter
+  // lives here (not in the HTML) so it survives a recalculation swapping the directory.
+  let buyerFocus = null;
+  function applyBuyerFocus() {
+    const box = document.getElementById("directory-results");
+    let found = false;
+    box.querySelectorAll(".dir-focus").forEach((s) => {
+      const on = s.dataset.outlet === buyerFocus;
+      s.hidden = !on;
+      found = found || on;
+    });
+    if (!found) buyerFocus = null;
+    const all = box.querySelector(".dir-all");
+    if (all) all.hidden = found;
+  }
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest(".to-buyers");
+    if (link) {
+      e.preventDefault();
+      buyerFocus = link.dataset.outlet;
+      applyBuyerFocus();
+      showTab("directory");
+      document.getElementById("panel-directory").scrollIntoView({ block: "start" });
+      return;
+    }
+    if (e.target.closest(".show-all-buyers")) {
+      buyerFocus = null;
+      applyBuyerFocus();
+    }
+  });
 
   function markStaleReport() {
     const rep = document.querySelector("[data-report-hash]");

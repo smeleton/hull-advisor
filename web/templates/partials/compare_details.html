@@ -35,6 +35,7 @@
     {% if r.detail_flags %}
     <ul class="flags">{% for f in r.detail_flags %}<li>{{ f }}</li>{% endfor %}</ul>
     {% endif %}
+    <p><a href="#directory" class="to-buyers" data-outlet="{{ r.outlet_id }}">Find buyers for this option →</a></p>
     <div class="cols">
       <div><h4>Requirements</h4><ul>{% for x in r.requirements %}<li>{{ x }}</li>{% endfor %}</ul></div>
       <div><h4>Risks</h4><ul>{% for x in r.risks %}<li>{{ x }}</li>{% endfor %}</ul></div>
