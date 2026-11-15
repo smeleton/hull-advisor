@@ -319,6 +319,21 @@ def biomass_sources(bm: Biomass, outlets: dict[str, Outlet], sources: dict[str, 
     return {k: v for k, v in sources.items() if k in ids}
 
 
+def outlet_buyers(c: Computed) -> list[dict[str, Any]]:
+    """Per option: the listed companies that could take the lot for it (Compare -> Find buyers)."""
+    out = []
+    for oid, outlet in c.outlets.items():
+        items = []
+        for co in load_directory_cached():
+            if oid in co.outlets:
+                subject, body = directory.quote_request(c.lot, co, outlet, c.biomass)
+                items.append({"company": co, "subject": subject, "body": body,
+                              "mailto": directory.mailto(subject, body)})
+        items.sort(key=lambda i: i["company"].fit == "possible")
+        out.append({"outlet_id": oid, "name": outlet.name, "companies": items})
+    return out
+
+
 def context(c: Computed, session: Session) -> dict[str, Any]:
     all_sources = load_sources_cached()
     outlets = c.outlets
@@ -372,6 +387,7 @@ def context(c: Computed, session: Session) -> dict[str, Any]:
         "history_span": (history[0].report_date, history[-1].report_date) if history else None,
         "history_count": len(history),
         "directory_groups": directory_groups(c),
+        "outlet_buyers": outlet_buyers(c),
         "sus": sustainability.report_data(c.lot, c.results, outlets, c.sus_outlet, all_sources,
                                           biomass=bm),
         "sus_rows": list(sustainability.assess(c.lot, c.results, outlets, biomass=bm).values()),
