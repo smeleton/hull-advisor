@@ -1,4 +1,4 @@
-# BioCycle Byproduct Value Advisor (demo prototype)
+# BioCycle Byproduct Value Advisor (prototype)
 
 Answers one question for whoever controls a lot of a crop residue:
 
@@ -19,7 +19,7 @@ Materials (pick one at the top of "Your lot"; each lives in `data/biomass/<id>.y
 | Kiwi peels | Kiwifruit processors | Compost (small California volume) |
 
 Each profile has composition, N-P-K-Mg content, quality rules, 5–7 outlets and verified
-companies. Outside almond hulls most prices are **Demo values**: no public market exists, so
+companies. Outside almond hulls many prices are **estimates**: no public market exists, so
 enter real quotes. Wet residues are perishable, so the buyer split always places the whole lot
 (even where a buyer charges a gate fee, entered as a negative price). Outlets that dry or
 extract on site use `mass_yield` (tons of product per ton of input): the price is per ton of
@@ -36,10 +36,11 @@ or digester's gate fee already reflects it.
 baseline a price, cite sources by id from `data/sources.yaml`, and add fictional sample
 buyers to `data/buyers_sample.csv` (with the `biomass` column). The loader validates all of it.
 
-All calculations are deterministic Python (`biocycle/valuation.py`). Every number is tagged
-**Sourced** (`data/sources.yaml`), **Your entry** (entered in the UI), or **Demo value**
-(a placeholder made up for the demo). If any placeholder affects a result, the app shows a banner:
-*Demo data — verify with real buyer quotes before acting.* Sample buyers are fictional.
+All calculations are deterministic Python (`biocycle/valuation.py`). Internally every number is
+tracked as **Sourced** (`data/sources.yaml`), **Your entry** (entered in the UI), or an
+**estimate** (no public figure found). The tags are hidden in the UI to keep it clean; if any
+estimate affects a result, the app shows a banner: *Some figures are estimates — verify with
+real buyer quotes before acting.* Sample buyers are fictional.
 
 ## Setup
 
@@ -105,10 +106,16 @@ no LLM (`biocycle/sustainability.py`, factors in `data/emission_factors.yaml`):
 
 ## Buyer directory (Find buyers tab)
 
-Real California companies that buy, trade or work with almond hulls (`data/buyers_directory.yaml`),
+Real California companies that buy, trade or work with each material (`data/buyers_directory.yaml`),
 grouped by kind of buyer, with the group matching your best option first. Each entry has only
-public business information: what the company does with hulls, location, website and contact
-page, plus the evidence page, a short quote and the date checked. The loader rejects anything that
+public business information: what the company does with the material, location, website and
+contact page, plus the evidence page, a short quote and the date checked. Entries carry a `fit`:
+**strong** (the page names this residue) or **possible** (handles similar material; shown as
+"Possible fit", ask first).
+
+**Option → buyers:** on Compare, click an option's name (or "Find buyers for this option →") to
+open Find buyers filtered to the companies that could take the lot for that option; "← All
+buyers" returns to the full list. The filter survives recalculation. The loader rejects anything that
 looks like an email address or phone number. Categories we couldn't verify (e.g. composters that
 publicly accept hulls) say so instead of guessing.
 
@@ -209,6 +216,8 @@ step), designed desktop-first for huller and sheller managers:
   with low–high whiskers and the local-dairy line, editable price/miles/processing per outlet,
   and per-outlet details, risks and sources.
 - **Split across buyers**: editable buyer rows (add/remove) and the allocation LP.
+- **Find buyers**: real companies per option, quote-request drafts (click an option on
+  Compare to jump here).
 - **Written report**: the Claude report with the number guardrail and Markdown download.
 - **Sources**: every cited source.
 
