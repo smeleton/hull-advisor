@@ -323,3 +323,178 @@
     quote: organic waste recycling facility on 70 acres in Santa Paula
   checked: '2026-11-14'
   notes: Announced April 2026; not yet operating as far as the page shows.
+
+# ---- More buyers (checked 2026-11-14). fit: strong = the page names this kind of residue; possible = similar material, ask first. ----
+
+- id: hyfe_foods
+  name: Hyfé Foods
+  outlets:
+  - tomato_extraction
+  - grape_ingredients
+  - food_ingredient
+  - mango_pectin_polyphenol_extraction
+  - pistachio_extraction
+  what: Refines solid crop and food-processing side streams into fibers, bioactives and fermentable sugars;
+    a co-located licensing model at processors, so it could take pomace, peels or hulls for ingredient
+    extraction.
+  location: San Francisco, CA
+  website: https://hyfe.tech/
+  status: research
+  fit: possible
+  evidence:
+  - url: https://agfundernews.com/waste-to-value-hyfe-expands-refinery-model-to-extract-fibers-and-bioactives-from-food-side-streams
+    quote: side streams including grapes, pomegranates, tomatoes, onions, garlic, almonds, olives, mangoes
+      and avocados
+  - url: https://hyfe.tech/
+    quote: We are the best at controlling wet & variable feedstocks.
+  checked: '2026-11-14'
+  notes: Pilot stage, kg-scale; first commercial partner under negotiation. Model is a licensed plant
+    at a processor, not a spot buyer. Named side streams are grapes, tomatoes, almonds, mangoes; the match
+    to hulls, pomace or peels is our inference. Not the cough-monitoring Hyfe at hyfe.com.
+- id: oleo_berkeley
+  name: Oleo
+  outlets:
+  - fermentation_ethanol
+  - fermentation_yeast_protein
+  what: Berkeley startup that turns waste biomass into cellulosic sugars and palm-oil-like lipids by fermentation,
+    so could use sugar-rich almond hulls as feedstock.
+  location: Berkeley, CA
+  website: https://oleo.earth
+  status: research
+  fit: possible
+  evidence:
+  - url: https://oleo.earth
+    quote: We transform biomass waste into feedstocks for the production of advanced fuels.
+  - url: https://www.activate.org/oleo-sustainable-palm-oil-solutions
+    quote: extract fermentable sugars from recalcitrant biomass using microwave technology
+  checked: '2026-11-14'
+  notes: A search summary said current feedstocks are soy hulls and almond orchard waste, but no page
+    I loaded names almonds; treat that as unconfirmed. Oleo sells fuel feedstocks, and the palm-oil-alternative
+    framing is on the Activate page. Almond hulls link is our inference. Early stage.
+- id: supercarb
+  name: Supercarb
+  outlets:
+  - orange_pectin_fiber
+  - kiwi_polyphenol_fiber_extraction
+  - mango_pectin_polyphenol_extraction
+  what: California startup making biodegradable textile fibers from carbohydrate biomass including fruit
+    waste, so could want pectin- or fiber-rich peels.
+  location: California, USA
+  website: https://supercarb.tech
+  status: research
+  fit: possible
+  evidence:
+  - url: https://supercarb.tech
+    quote: We use proprietary blend of brown seaweed, red seaweed, fruit waste, and plant walls
+  - url: https://techcrunch.com/startup-battlefield/company/supercarb-inc/
+    quote: transforms carbohydrate biomass into tunable, high-performance, biodegradable fibers
+  checked: '2026-11-14'
+  notes: Fruit waste is not specified; peel link is our inference. Seaweed appears to be the main feedstock.
+    City not confirmed. Very early stage.
+- id: verde_biomaterials
+  name: VERDE Biomaterials
+  outlets:
+  - shells_polymers
+  - biomaterial_hydrochar
+  what: Develops materials from agricultural residue biomass, now piloting, so could use almond shells
+    or hulls as a feedstock for plastic-replacement materials.
+  location: unknown (works with Lawrence Berkeley National Laboratory)
+  website: https://www.verdebiomaterials.com
+  status: research
+  fit: possible
+  evidence:
+  - url: https://renewable-carbon.eu/news/wp-json/wp/v2/posts/180522
+    quote: Verde Biomaterials develops materials from agricultural residue biomass.
+  checked: '2026-11-14'
+  notes: 'Weak: the residue type is not named and the website loaded only a title (plastic replacement).
+    Location not confirmed. The link to almond shells or hulls is our inference. Do not confuse with Verde
+    Bioresins or VERDE Nanomaterials.'
+- id: carbonzero_eco
+  name: CarbonZero.Eco
+  outlets:
+  - shells_biochar
+  what: Runs a commercial biochar plant that converts almond shells from local orchards and hullers into
+    soil amendment.
+  location: Colusa County, CA
+  website: https://carbonzero.eco
+  status: active
+  fit: strong
+  evidence:
+  - url: https://biochartoday.com/news/carbonzero-eco-launches-production-facility-in-california-and-secures-carbon-credit-agreement-with-climeworks/
+    quote: commissioned a biochar plant in California, converting almond shells into soil amendments
+  checked: '2026-11-14'
+  notes: County and shell-stockpile sourcing come from search-result summaries of trade press (not directly
+    loaded); confirm before contacting.
+- id: artefact_berkeley
+  name: Artefact
+  outlets:
+  - shells_polymers
+  what: Materials company making California almond shell composite materials for consumer and home products,
+    working with the Almond Board of California.
+  location: Berkeley, CA
+  status: planned
+  fit: strong
+  evidence:
+  - url: https://www.almonds.org/about-us/press-room/artefact-and-almond-board-california-announce-partnership-advancing-new-era-us
+    quote: announced the launch of California almond shell composite materials for use in consumer and
+      home products
+  checked: '2026-11-14'
+  notes: Official Artefact site was not loaded; the website field is the Almond Board press release. Pilot
+    production facility being sited in the Central Valley.
+- id: griffo_distillery
+  name: Griffo Distillery
+  outlets:
+  - grape_distill_tartrate
+  what: Distils grappa from Pinot Noir pomace collected from wineries.
+  location: Petaluma, CA
+  website: https://www.griffodistillery.com
+  status: listed
+  fit: strong
+  evidence:
+  - url: https://www.sonomamag.com/three-great-grappas-from-sonoma-county-to-try-for-the-holidays/
+    quote: Griffo Distillery in Petaluma uses Pinot Noir pomace to produce their grappa.
+  checked: '2026-11-14'
+  notes: Location confirmed on distillery site (Scott Street, Petaluma). Small volumes; pomace suppliers
+    not named.
+- id: greenwaste_z_best
+  name: GreenWaste Z-Best Composting Facility
+  outlets:
+  - grape_compost
+  - tomato_compost
+  - kiwi_compost
+  - mango_compost_greenbin
+  - orange_compost
+  - pistachio_compost
+  what: Commercial windrow composting of food scraps and yard trimmings near the Salinas/Santa Clara produce
+    regions.
+  location: Gilroy, CA
+  website: https://www.greenwaste.com/z-best
+  status: research
+  fit: possible
+  evidence:
+  - url: https://www.greenwaste.com/z-best
+    quote: Transforming food scraps and yard trimmings into high-quality compost.
+  checked: '2026-11-14'
+  notes: Page does not name processing residues; confirm whether they accept commercial agricultural or
+    food-processing loads.
+- id: anaergia_rialto
+  name: Anaergia (Rialto Bioenergy Facility)
+  outlets:
+  - grape_ad_biogas
+  - tomato_ad_biogas
+  - kiwi_anaerobic_digestion
+  - mango_anaerobic_digestion
+  - orange_anaerobic_digestion
+  - pistachio_biogas
+  what: Builds and runs digesters that turn municipal solid waste, agricultural and food processing waste
+    into renewable fuel.
+  location: Rialto, CA
+  website: https://www.anaergia.com
+  status: research
+  fit: possible
+  evidence:
+  - url: https://www.anaergia.com
+    quote: transform wastewater, municipal solid waste, agricultural and food processing waste into carbon-negative
+      renewable fuel
+  checked: '2026-11-14'
+  notes: Rialto site is Southern California; intake of outside food-processing loads not confirmed.

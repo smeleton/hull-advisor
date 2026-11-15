@@ -1,17 +1,9 @@
-{% for g in directory_groups %}
-<section class="dir-group" aria-labelledby="dir-{{ g.key }}">
-  <h3 class="block-h" id="dir-{{ g.key }}">{{ g.title }}
-    {% if g.is_best %}<span class="pill pill-best">Best option for this lot</span>{% endif %}</h3>
-  <p class="block-sub">{{ g.blurb }}</p>
-  {% if not g.companies %}
-  <p class="callout">{{ g.empty }}</p>
-  {% endif %}
-  <div class="dir-cards">
-  {% for item in g.companies %}{% set co = item.company %}
+{% macro card(item, key, outlet_id) %}{% set co = item.company %}
     <article class="dir-card">
       <header>
         <h4>{{ co.name }}</h4>
         <span class="co-status co-status-{{ co.status }}">{{ co.status_label }}</span>
+        {% if co.fit == "possible" %}<span class="pill" title="Handles similar material; its pages don't name this residue. Ask first.">Possible fit</span>{% endif %}
       </header>
       <p class="dir-what">{{ co.what }}</p>
       <p class="dir-loc">{{ co.location }}</p>
@@ -25,14 +17,14 @@
       <div class="dir-actions">
         {% if co.website %}<a class="button button-quiet" href="{{ co.website }}" target="_blank" rel="noopener">Website</a>{% endif %}
         {% if co.contact_url %}<a class="button button-quiet" href="{{ co.contact_url }}" target="_blank" rel="noopener">Contact page</a>{% endif %}
-        <button type="button" class="button button-quiet add-to-buyers" data-name="{{ co.name }}" data-outlet="{{ g.outlet_id }}">Add to my buyer list</button>
+        <button type="button" class="button button-quiet add-to-buyers" data-name="{{ co.name }}" data-outlet="{{ outlet_id }}">Add to my buyer list</button>
       </div>
       <details class="dir-quote">
         <summary>Draft a quote request</summary>
         <label class="field"><span class="field-label">Subject</span>
-          <input class="cell cell-text dir-subject" id="dq-subject-{{ g.key }}-{{ co.id }}" type="text" value="{{ item.subject }}" readonly aria-label="Email subject"></label>
+          <input class="cell cell-text dir-subject" id="dq-subject-{{ key }}-{{ co.id }}" type="text" value="{{ item.subject }}" readonly aria-label="Email subject"></label>
         <label class="field"><span class="field-label">Message (edit the [brackets] before sending)</span>
-          <textarea class="fb-comment dir-body" id="dq-body-{{ g.key }}-{{ co.id }}" rows="12" aria-label="Email message">{{ item.body }}</textarea></label>
+          <textarea class="fb-comment dir-body" id="dq-body-{{ key }}-{{ co.id }}" rows="12" aria-label="Email message">{{ item.body }}</textarea></label>
         <div class="dir-actions">
           <button type="button" class="button copy-request">Copy message</button>
           <a class="button button-quiet" href="{{ item.mailto }}">Open in my email app</a>
@@ -40,7 +32,35 @@
         </div>
       </details>
     </article>
-  {% endfor %}
+{% endmacro %}
+
+{% for ob in outlet_buyers %}
+<section class="dir-focus" data-outlet="{{ ob.outlet_id }}" aria-labelledby="dirf-{{ ob.outlet_id }}" hidden>
+  <p><button type="button" class="button button-quiet show-all-buyers">← All buyers</button></p>
+  <h3 class="block-h" id="dirf-{{ ob.outlet_id }}">Potential buyers for: {{ ob.name }}</h3>
+  {% if ob.companies %}
+  <p class="block-sub">{{ ob.companies|length }} listed {{ "company" if ob.companies|length == 1 else "companies" }} that could take {{ biomass.name|lower }} for this option. "Possible fit" means they handle similar material: ask before you ship.</p>
+  <div class="dir-cards">
+  {% for item in ob.companies %}{{ card(item, "f-" ~ ob.outlet_id, ob.outlet_id) }}{% endfor %}
+  </div>
+  {% else %}
+  <p class="callout">We haven't verified a company for this option yet (checked Nov 14, 2026). Ask local operators, or see all buyers for {{ biomass.name|lower }}.</p>
+  {% endif %}
+</section>
+{% endfor %}
+
+<div class="dir-all">
+{% for g in directory_groups %}
+<section class="dir-group" aria-labelledby="dir-{{ g.key }}">
+  <h3 class="block-h" id="dir-{{ g.key }}">{{ g.title }}
+    {% if g.is_best %}<span class="pill pill-best">Best option for this lot</span>{% endif %}</h3>
+  <p class="block-sub">{{ g.blurb }}</p>
+  {% if not g.companies %}
+  <p class="callout">{{ g.empty }}</p>
+  {% endif %}
+  <div class="dir-cards">
+  {% for item in g.companies %}{{ card(item, g.key, g.outlet_id) }}{% endfor %}
   </div>
 </section>
 {% endfor %}
+</div>

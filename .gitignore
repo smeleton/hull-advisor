@@ -6,3 +6,7 @@ __pycache__/
 logs/
 .DS_Store
 data/market/cache/
+
+# Local Claude Code tooling
+.claude/
+.mcp.json
